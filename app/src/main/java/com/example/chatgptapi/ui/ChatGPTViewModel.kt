@@ -1,4 +1,4 @@
-package com.example.chatgptapi
+package com.example.chatgptapi.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,6 +14,9 @@ class ChatGPTViewModel : ViewModel() {
 
     private val _mutableStateFlow = MutableStateFlow(emptyList<AiModel>())
     val stateFlow = _mutableStateFlow.asStateFlow()
+    private val _mutableStateFlowUiAiModel= MutableStateFlow(emptyList<UiAiModel>())
+    val stateFlowUiAiModel = _mutableStateFlowUiAiModel.asStateFlow()
+
 
     fun loadAiModels() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -24,7 +27,9 @@ class ChatGPTViewModel : ViewModel() {
         }
     }
 
-    fun getUiAiModel(): List<UiAiModel> {
-        return ChatGptRepository.getUiAiModels()
+    fun loadUiAiModels() {
+        viewModelScope.launch(Dispatchers.IO) {
+                _mutableStateFlowUiAiModel.emit(ChatGptRepository.getUiAiModels())
+        }
     }
 }

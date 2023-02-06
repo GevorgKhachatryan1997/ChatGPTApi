@@ -7,7 +7,7 @@
     android:background="@color/teal_700">
 
     <ImageView
-        android:id="@+id/aiModelImageView"
+        android:id="@+id/ivAiModel"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_margin="2dp"
@@ -25,7 +25,7 @@
         android:hint="@string/info"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/aiModelImageView"
+        app:layout_constraintStart_toEndOf="@+id/ivAiModel"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -36,7 +36,7 @@
         android:background="@color/white"
         android:hint="@string/name"
         android:textAlignment="center"
-        app:layout_constraintEnd_toEndOf="@+id/aiModelImageView"
+        app:layout_constraintEnd_toEndOf="@+id/ivAiModel"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/aiModelImageView" />
+        app:layout_constraintTop_toBottomOf="@+id/ivAiModel" />
 </androidx.constraintlayout.widget.ConstraintLayout>

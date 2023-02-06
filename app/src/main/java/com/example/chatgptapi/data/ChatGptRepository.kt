@@ -12,6 +12,6 @@ object ChatGptRepository {
     }
 
     fun getUiAiModels(): List<UiAiModel>{
-        return remoteDataSource.getUiAiModels()
+        return remoteDataSource.uiAiModelList
     }
 }
