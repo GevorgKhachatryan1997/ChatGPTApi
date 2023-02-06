@@ -1,6 +1,7 @@
 package com.example.chatgptapi.data
 
 import com.example.chatgptapi.model.AiModels
+import com.example.chatgptapi.model.UiAiModel
 
 object ChatGptRepository {
 
@@ -8,5 +9,9 @@ object ChatGptRepository {
 
     suspend fun getModels(): AiModels?{
         return remoteDataSource.getModels()
+    }
+
+    fun getUiAiModels(): List<UiAiModel>{
+        return remoteDataSource.getUiAiModels()
     }
 }

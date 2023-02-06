@@ -9,7 +9,7 @@ interface ChatGPTApi {
 
     companion object{
         const val BASE_URL = "https://api.openai.com/v1/"
-        private const val TOKEN_KAY = "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"
+        private const val TOKEN_KAY = "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"
     }
 
     @Headers("Authorization: Bearer $TOKEN_KAY")
