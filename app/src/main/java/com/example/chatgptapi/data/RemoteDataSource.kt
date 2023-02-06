@@ -23,15 +23,11 @@ class RemoteDataSource {
         .build()
         .create(ChatGPTApi::class.java)
 
-    private val uiAiModelList = buildList {
+    val uiAiModelList = buildList {
         add(UiAiModel(DAVINSI_ID, R.string.davinci, R.string.davinci_info, R.mipmap.ic_launcher))
         add(UiAiModel(CURIE_ID, R.string.curie, R.string.curie_info, R.mipmap.ic_launcher))
         add(UiAiModel(BABBAGE_ID, R.string.babbage, R.string.babbage_info, R.mipmap.ic_launcher))
         add(UiAiModel(ADA_ID, R.string.ada, R.string.ada_info, R.mipmap.ic_launcher))
-    }
-
-    fun getUiAiModels(): List<UiAiModel> {
-        return uiAiModelList
     }
 
     suspend fun getModels(): AiModels? {
