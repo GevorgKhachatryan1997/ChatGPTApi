@@ -7,11 +7,13 @@ object ChatGptRepository {
 
     private val remoteDataSource = RemoteDataSource()
 
-    suspend fun getModels(): AiModels?{
+    fun getModels(): AiModels?{
         return remoteDataSource.getModels()
     }
 
     fun getUiAiModels(): List<UiAiModel>{
         return remoteDataSource.uiAiModelList
     }
+
+    fun findUiAiModel(modelId: String): UiAiModel? = remoteDataSource.findUiAIModel(modelId)
 }

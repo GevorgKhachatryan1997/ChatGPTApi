@@ -30,7 +30,7 @@ class RemoteDataSource {
         add(UiAiModel(ADA_ID, R.string.ada, R.string.ada_info, R.mipmap.ic_launcher))
     }
 
-    suspend fun getModels(): AiModels? {
+    fun getModels(): AiModels? {
         val response = chatGPTService.getModels().execute()
         if (response.isSuccessful) {
             val aiModels = response.body()
@@ -39,5 +39,7 @@ class RemoteDataSource {
         //TODO trow exeption for fail case
         return null
     }
+
+    fun findUiAIModel(modelId: String): UiAiModel? = uiAiModelList.find { it.id == modelId }
 
 }

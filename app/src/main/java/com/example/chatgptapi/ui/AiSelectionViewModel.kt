@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class ChatGPTViewModel : ViewModel() {
+class AiSelectionViewModel : ViewModel() {
 
     private val _mutableStateFlowUiAiModels = MutableStateFlow(emptyList<UiAiModel>())
     val stateFlowUiAiModels = _mutableStateFlowUiAiModels.asStateFlow()

@@ -1,27 +1,29 @@
-package com.example.chatgptapi.ui
+package com.example.chatgptapi.ui.screen_fragment
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.chatgptapi.MainViewModel
 import com.example.chatgptapi.R
 import com.example.chatgptapi.adapter.ChatGPTAdapter
 import com.example.chatgptapi.adapter.OnAiModelClickListener
+import com.example.chatgptapi.model.UiAiModel
+import com.example.chatgptapi.ui.AiSelectionViewModel
 
-class AiModelSelectionFragment : Fragment(R.layout.ai_model_fragment) {
+class AiModelSelectionFragment : ScreenFragment(R.layout.ai_model_fragment) {
 
-    private val chatGPTViewModel: ChatGPTViewModel by lazy { ViewModelProvider(this)[ChatGPTViewModel::class.java] }
+    private val mainViewModel: MainViewModel by viewModels(ownerProducer = { requireActivity() })
+    private val chatGPTViewModel: AiSelectionViewModel by viewModels()
     private val chatGptAdapter = ChatGPTAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         chatGptAdapter.itemClickListener = OnAiModelClickListener { uIaIModel ->
-            showFragment(uIaIModel.name)
+            showAiChatScreen(uIaIModel)
         }
 
         initRecycleView(view)
@@ -34,14 +36,17 @@ class AiModelSelectionFragment : Fragment(R.layout.ai_model_fragment) {
         }
     }
 
-    private fun showFragment(modelName: Int) {
-        Toast.makeText(context, getString(modelName), Toast.LENGTH_SHORT).show()
-    }
+    override val screen: MainViewModel.Screen
+        get() = MainViewModel.AiModelSelection
 
     private fun initRecycleView(view: View) {
         view.findViewById<RecyclerView>(R.id.recyclerViewUiModels).apply {
             adapter = chatGptAdapter
             layoutManager = GridLayoutManager(context, 1, GridLayoutManager.VERTICAL, false)
         }
+    }
+
+    private fun showAiChatScreen(model: UiAiModel) {
+        mainViewModel.showScreen(MainViewModel.AiChatScreen(model))
     }
 }
