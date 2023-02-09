@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/teal_700">
+    android:background="@color/white"
+    android:id="@+id/container">
 
     <ImageView
         android:id="@+id/ivAiModel"
@@ -23,6 +24,7 @@
         android:layout_margin="2dp"
         android:background="@color/white"
         android:hint="@string/info"
+        android:textStyle="italic"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/ivAiModel"
@@ -35,6 +37,7 @@
         android:layout_margin="2dp"
         android:background="@color/white"
         android:hint="@string/name"
+        android:textStyle="italic"
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="@+id/ivAiModel"
         app:layout_constraintStart_toStartOf="parent"
