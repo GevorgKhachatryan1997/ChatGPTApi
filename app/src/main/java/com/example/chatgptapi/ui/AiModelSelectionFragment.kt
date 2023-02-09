@@ -2,6 +2,7 @@ package com.example.chatgptapi.ui
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -9,8 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatgptapi.R
 import com.example.chatgptapi.adapter.ChatGPTAdapter
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.example.chatgptapi.adapter.OnAiModelClickListener
 
 class AiModelSelectionFragment : Fragment(R.layout.ai_model_fragment) {
 
@@ -20,15 +20,22 @@ class AiModelSelectionFragment : Fragment(R.layout.ai_model_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        chatGptAdapter.itemClickListener = OnAiModelClickListener { uIaIModel ->
+            showFragment(uIaIModel.name)
+        }
+
         initRecycleView(view)
         chatGPTViewModel.loadUiAiModels()
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            chatGPTViewModel.stateFlowUiAiModel.collect { uiAiModels ->
+        lifecycleScope.launchWhenCreated {
+            chatGPTViewModel.stateFlowUiAiModels.collect { uiAiModels ->
                 chatGptAdapter.update(uiAiModels)
             }
         }
+    }
 
+    private fun showFragment(modelName: Int) {
+        Toast.makeText(context, getString(modelName), Toast.LENGTH_SHORT).show()
     }
 
     private fun initRecycleView(view: View) {
