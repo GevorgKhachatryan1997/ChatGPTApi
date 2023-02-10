@@ -38,7 +38,7 @@ object ChatRepository {
     fun findUiAiModel(modelId: String): UiAiModel? = localDataSource.findUiAIModel(modelId)
 
     suspend fun createSession(name: String): SessionEntity {
-        val session = SessionEntity(UUID.randomUUID().toString(), name, UserInfo.userId)
+        val session = SessionEntity(UUID.randomUUID().toString(), name, UserRepository.getUser()?.userId!!)
         localDataSource.insertSession(session)
         return session
     }

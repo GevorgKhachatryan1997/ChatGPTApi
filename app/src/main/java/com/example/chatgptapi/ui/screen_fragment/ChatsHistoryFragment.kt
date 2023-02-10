@@ -50,6 +50,10 @@ class ChatsHistoryFragment : ScreenFragment(R.layout.chats_history_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        view.findViewById<Button>(R.id.btnSetting)?.setOnClickListener {
+            mainViewModel.showScreen(MainViewModel.SettingScreen)
+        }
+
         btnCreateNewChat = view.findViewById<Button>(R.id.btn_create_new_chat).also {
             it.setOnClickListener {
                 mainViewModel.showScreen(MainViewModel.AiChatScreen())

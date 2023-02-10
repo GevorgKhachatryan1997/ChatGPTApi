@@ -46,7 +46,7 @@ class ChatViewModel : ViewModel() {
     private fun sendMessage(text: String) {
         session?.let {
             viewModelScope.launch {
-                val completion = CompletionRequest(UserInfo.userId, model.id, text, 100, 0.3F)
+                val completion = CompletionRequest(UserRepository.getUser()?.userId!!, model.id, text, 100, 0.3F)
                 val question = UserMessage(text)
                 updateConversation(question)
                 updateConversation(AiThinking("Wait a second )"))
@@ -66,7 +66,7 @@ class ChatViewModel : ViewModel() {
                 val question = UserMessage(description)
                 updateConversation(question)
                 updateConversation(AiThinking("Wait a second )"))
-                val imageDescription = ImageGenerationRequest(UserInfo.userId, description, IMAGE_SIZE_512, 1)
+                val imageDescription = ImageGenerationRequest(UserRepository.getUser()?.userId!!, description, IMAGE_SIZE_512, 1)
                 val result = ChatRepository.generateImage(imageDescription)
                 val answer = AiImage(result!!)
                 replaceLastConversationItem(answer)

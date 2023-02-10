@@ -6,27 +6,26 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.chatgptapi.model.databaseModels.MessageEntity
 import com.example.chatgptapi.model.databaseModels.SessionEntity
-import com.example.chatgptapi.ui.ChatViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.example.chatgptapi.model.databaseModels.UserEntity
 
-@Database(entities = [SessionEntity::class, MessageEntity::class], version = 1)
-abstract class ConversationDatabase : RoomDatabase() {
+@Database(entities = [SessionEntity::class, MessageEntity::class, UserEntity::class], version = 1)
+abstract class AppDatabase : RoomDatabase() {
+    abstract fun userDao(): UserDao
     abstract fun conversationDao(): ConversationDao
 
     companion object {
-        private var instance: ConversationDatabase? = null
+        private var instance: AppDatabase? = null
 
         @Synchronized
         fun initDatabase(context: Context) {
             instance = Room.databaseBuilder(
                 context.applicationContext,
-                ConversationDatabase::class.java,
+                AppDatabase::class.java,
                 "conversation-db"
             ).build()
         }
 
-        fun getInstance(): ConversationDatabase {
+        fun getInstance(): AppDatabase {
             return instance!!
         }
     }
