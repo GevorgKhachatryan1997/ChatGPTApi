@@ -59,34 +59,39 @@ object GoogleAuthenticationHelper {
     }
 
     fun loadGoogleAuthentication(requestCode: Int, dataIntent: Intent?) {
-        try {
-            val credential = oneTapClient?.getSignInCredentialFromIntent(dataIntent)
-            val idToken = credential?.googleIdToken
-            when {
-                idToken != null -> {
-                    Log.d(ContentValues.TAG, "Got ID token.")
-                }
-                else -> {
-                    // Shouldn't happen.
-                    Log.d(ContentValues.TAG, "No ID token or password!")
-                }
-            }
-        } catch (e: ApiException) {
-            when (e.statusCode) {
-                CommonStatusCodes.CANCELED -> {
-                    Log.d(ContentValues.TAG, "One-tap dialog was closed.")
-                    // Don't re-prompt the user.
-                    showOneTapUI = false
-                }
-                CommonStatusCodes.NETWORK_ERROR -> {
-                    Log.d(ContentValues.TAG, "One-tap encountered a network error.")
-                    // Try again or just ignore.
-                }
-                else -> {
-                    Log.d(
-                        ContentValues.TAG, "Couldn't get credential from result." +
-                                " (${e.localizedMessage})"
-                    )
+        when(requestCode){
+
+            REQ_ONE_TAP ->{
+                try {
+                    val credential = oneTapClient?.getSignInCredentialFromIntent(dataIntent)
+                    val idToken = credential?.googleIdToken
+                    when {
+                        idToken != null -> {
+                            Log.d(ContentValues.TAG, "Got ID token.")
+                        }
+                        else -> {
+                            // Shouldn't happen.
+                            Log.d(ContentValues.TAG, "No ID token or password!")
+                        }
+                    }
+                } catch (e: ApiException) {
+                    when (e.statusCode) {
+                        CommonStatusCodes.CANCELED -> {
+                            Log.d(ContentValues.TAG, "One-tap dialog was closed.")
+                            // Don't re-prompt the user.
+                            showOneTapUI = false
+                        }
+                        CommonStatusCodes.NETWORK_ERROR -> {
+                            Log.d(ContentValues.TAG, "One-tap encountered a network error.")
+                            // Try again or just ignore.
+                        }
+                        else -> {
+                            Log.d(
+                                ContentValues.TAG, "Couldn't get credential from result." +
+                                        " (${e.localizedMessage})"
+                            )
+                        }
+                    }
                 }
             }
         }
