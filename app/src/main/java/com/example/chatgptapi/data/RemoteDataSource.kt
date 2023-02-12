@@ -1,9 +1,10 @@
 package com.example.chatgptapi.data
 
-import com.example.chatgptapi.R
 import com.example.chatgptapi.data.ChatGPTApi.Companion.BASE_URL
 import com.example.chatgptapi.model.AiModels
-import com.example.chatgptapi.model.UiAiModel
+import com.example.chatgptapi.model.CompletionRequest
+import com.example.chatgptapi.model.TextCompletion
+import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -23,13 +24,6 @@ class RemoteDataSource {
         .build()
         .create(ChatGPTApi::class.java)
 
-    val uiAiModelList = buildList {
-        add(UiAiModel(DAVINSI_ID, R.string.davinci, R.string.davinci_info, R.mipmap.ic_launcher))
-        add(UiAiModel(CURIE_ID, R.string.curie, R.string.curie_info, R.mipmap.ic_launcher))
-        add(UiAiModel(BABBAGE_ID, R.string.babbage, R.string.babbage_info, R.mipmap.ic_launcher))
-        add(UiAiModel(ADA_ID, R.string.ada, R.string.ada_info, R.mipmap.ic_launcher))
-    }
-
     fun getModels(): AiModels? {
         val response = chatGPTService.getModels().execute()
         if (response.isSuccessful) {
@@ -40,6 +34,12 @@ class RemoteDataSource {
         return null
     }
 
-    fun findUiAIModel(modelId: String): UiAiModel? = uiAiModelList.find { it.id == modelId }
+    fun getCompletion(completion: CompletionRequest): TextCompletion? {
+        val response = chatGPTService.requestCompletion(completion).execute()
+        if (response.isSuccessful) {
+            return response.body()
+        }
 
+        return null
+    }
 }

@@ -1,10 +1,16 @@
 package com.example.chatgptapi.data
 
 import com.example.chatgptapi.model.AiModels
+import com.example.chatgptapi.model.CompletionRequest
+import com.example.chatgptapi.model.TextCompletion
 import retrofit2.Call
+import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.POST
 
+// TODO Set authorization header in one place
+// TODO Implement general exception handler
 interface ChatGPTApi {
 
     companion object{
@@ -14,5 +20,9 @@ interface ChatGPTApi {
 
     @Headers("Authorization: Bearer $TOKEN_KAY")
     @GET("models")
-    fun getModels(): Call<AiModels>
+    fun getModels(): Call<AiModels> // TODO replace Call with Result
+
+    @Headers("Authorization: Bearer $TOKEN_KAY")
+    @POST("completions")
+    fun requestCompletion(@Body competition: CompletionRequest): Call<TextCompletion>
 }
