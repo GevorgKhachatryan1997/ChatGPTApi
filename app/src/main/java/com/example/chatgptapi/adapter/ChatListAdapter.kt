@@ -3,28 +3,28 @@ package com.example.chatgptapi.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.chatgptapi.R
+import com.example.chatgptapi.ui.ChatViewModel
 
-class ChatModel
-
-class ChatListAdapter : ListAdapter<ChatModel, ChatListAdapter.ChatViewHolder>(ChatDiffUtilCallback()) {
+class ChatListAdapter : ListAdapter<ChatViewModel.Conversation, ChatListAdapter.QuestionViewHolder>(ChatDiffUtilCallback()) {
 
     companion object {
         private const val VIEW_TYPE_USER = 1000
         private const val VIEW_TYPE_AI = 1001
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QuestionViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(getItemLayout(viewType), parent, false)
-        return ChatViewHolder(view)
+        return QuestionViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ChatViewHolder, position: Int) {
-        holder.bind()
+    override fun onBindViewHolder(holder: QuestionViewHolder, position: Int) {
+        holder.bind(getItem(position))
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -39,18 +39,23 @@ class ChatListAdapter : ListAdapter<ChatModel, ChatListAdapter.ChatViewHolder>(C
         else -> throw IllegalArgumentException("View type not supported: $viewType")
     }
 
-    class ChatDiffUtilCallback : DiffUtil.ItemCallback<ChatModel>() {
-        override fun areItemsTheSame(oldItem: ChatModel, newItem: ChatModel): Boolean {
-            TODO("Not yet implemented")
+    class ChatDiffUtilCallback : DiffUtil.ItemCallback<ChatViewModel.Conversation>() {
+        override fun areItemsTheSame(oldItem: ChatViewModel.Conversation, newItem: ChatViewModel.Conversation): Boolean {
+            return oldItem === newItem
         }
 
-        override fun areContentsTheSame(oldItem: ChatModel, newItem: ChatModel): Boolean {
-            TODO("Not yet implemented")
+        override fun areContentsTheSame(oldItem: ChatViewModel.Conversation, newItem: ChatViewModel.Conversation): Boolean {
+            return oldItem == newItem
         }
     }
 
-    class ChatViewHolder(view: View) : ViewHolder(view) {
+    // TODO create separate view holder for each type
+    class QuestionViewHolder(view: View) : ViewHolder(view) {
 
-        fun bind() {}
+        val tvText: TextView = view.findViewById(R.id.tvText)
+
+        fun bind(conversation: ChatViewModel.Conversation) {
+            tvText.text = conversation.completionRequest.prompt + "\n" + conversation.textCompletion?.choices?.first()?.text ?: ""
+        }
     }
 }
