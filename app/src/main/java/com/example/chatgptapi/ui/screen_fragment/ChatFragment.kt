@@ -2,8 +2,10 @@ package com.example.chatgptapi.ui.screen_fragment
 
 import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.ImageView
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -16,6 +18,7 @@ import com.example.chatgptapi.R
 import com.example.chatgptapi.adapter.ChatListAdapter
 import com.example.chatgptapi.data.ChatGptRepository
 import com.example.chatgptapi.ui.ChatViewModel
+import com.example.chatgptapi.utils.hideKeyboard
 import kotlinx.coroutines.launch
 
 class ChatFragment : ScreenFragment(R.layout.chat_fragment) {
@@ -53,7 +56,9 @@ class ChatFragment : ScreenFragment(R.layout.chat_fragment) {
             setOnClickListener {
                 val text = etChatInput.text.toString()
                 if (text.isNotBlank()) {
+                    etChatInput.setText("")
                     chatViewModel.sendMessage(text)
+                    etChatInput.hideKeyboard()
                 } // TODO handle blank case
             }
         }
@@ -65,7 +70,10 @@ class ChatFragment : ScreenFragment(R.layout.chat_fragment) {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
                 chatViewModel.updateConversation.collect {
-                    chatAdapter.submitList(chatViewModel.conversations)
+                    chatAdapter.submitList(it)
+                    chatAdapter.notifyDataSetChanged()
+                    rvChat.smoothScrollToPosition(it.size - 1)
+
                 }
             }
         }

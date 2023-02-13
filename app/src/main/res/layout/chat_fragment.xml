@@ -18,8 +18,9 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvChat"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:layout_marginTop="16dp"
+        android:background="@android:color/holo_orange_dark"
         app:layout_constraintVertical_bias="0"
         app:layout_constraintBottom_toTopOf="@id/etChatInput"
         app:layout_constraintTop_toBottomOf="@id/ivAiModel"
@@ -31,6 +32,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Ask your question"
+        android:background="@android:color/system_accent3_300"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@id/ivSend"
         app:layout_constraintBottom_toBottomOf="parent"/>

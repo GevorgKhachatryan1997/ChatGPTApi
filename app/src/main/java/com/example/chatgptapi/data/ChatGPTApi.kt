@@ -1,8 +1,6 @@
 package com.example.chatgptapi.data
 
-import com.example.chatgptapi.model.AiModels
-import com.example.chatgptapi.model.CompletionRequest
-import com.example.chatgptapi.model.TextCompletion
+import com.example.chatgptapi.model.*
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -25,4 +23,8 @@ interface ChatGPTApi {
     @Headers("Authorization: Bearer $TOKEN_KAY")
     @POST("completions")
     fun requestCompletion(@Body competition: CompletionRequest): Call<TextCompletion>
+
+    @Headers("Authorization: Bearer $TOKEN_KAY")
+    @POST("images/generations")
+    fun requestImageGeneration(@Body body: ImageGenerationRequest): Call<ImageModel>
 }
