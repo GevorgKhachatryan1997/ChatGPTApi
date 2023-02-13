@@ -1,13 +1,11 @@
 package com.example.chatgptapi.data
 
 import com.example.chatgptapi.data.ChatGPTApi.Companion.BASE_URL
-import com.example.chatgptapi.model.AiModels
-import com.example.chatgptapi.model.CompletionRequest
-import com.example.chatgptapi.model.TextCompletion
-import com.google.gson.GsonBuilder
+import com.example.chatgptapi.model.*
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+// TODO add error handling for api error codes
 class RemoteDataSource {
 
     companion object {
@@ -30,12 +28,21 @@ class RemoteDataSource {
             val aiModels = response.body()
             return aiModels
         }
-        //TODO trow exeption for fail case
+        //TODO trow exception for fail case
         return null
     }
 
     fun getCompletion(completion: CompletionRequest): TextCompletion? {
         val response = chatGPTService.requestCompletion(completion).execute()
+        if (response.isSuccessful) {
+            return response.body()
+        }
+
+        return null
+    }
+
+    fun generateImage(requestModel: ImageGenerationRequest): ImageModel? {
+        val response = chatGPTService.requestImageGeneration(requestModel).execute()
         if (response.isSuccessful) {
             return response.body()
         }

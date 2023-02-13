@@ -6,7 +6,7 @@ class TextCompletion(
     val id: String? = null,
     @SerializedName("object")
     val data: String? = null,
-    val created: Int? = null,
+    val created: Long? = null,
     val model: String? = null,
     val choices: List<Choice>? = null,
     val usage: Usage? = null

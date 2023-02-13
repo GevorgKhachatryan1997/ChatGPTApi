@@ -1,9 +1,6 @@
 package com.example.chatgptapi.data
 
-import com.example.chatgptapi.model.AiModels
-import com.example.chatgptapi.model.CompletionRequest
-import com.example.chatgptapi.model.TextCompletion
-import com.example.chatgptapi.model.UiAiModel
+import com.example.chatgptapi.model.*
 
 object ChatGptRepository {
 
@@ -17,6 +14,8 @@ object ChatGptRepository {
     fun askQuestion(completion: CompletionRequest): TextCompletion? {
         return remoteDataSource.getCompletion(completion)
     }
+
+    fun generateImage(imageParams: ImageGenerationRequest) = remoteDataSource.generateImage(imageParams)
 
     fun getUiAiModels(): List<UiAiModel>{
         return localDataSource.uiAiModelList
