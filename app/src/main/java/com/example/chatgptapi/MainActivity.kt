@@ -7,7 +7,7 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.example.chatgptapi.model.UiAiModel
+import com.example.chatgptapi.ui.model.UiAiModel
 import com.example.chatgptapi.ui.screen_fragment.AiModelSelectionFragment
 import com.example.chatgptapi.ui.screen_fragment.ChatFragment
 import kotlinx.coroutines.launch

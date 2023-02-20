@@ -1,4 +1,4 @@
-package com.example.chatgptapi.model
+package com.example.chatgptapi.model.remoteModelts
 
 class CompletionRequest(
     val user: String,

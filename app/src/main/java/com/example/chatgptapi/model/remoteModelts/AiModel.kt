@@ -1,4 +1,4 @@
-package com.example.chatgptapi.model
+package com.example.chatgptapi.model.remoteModelts
 
 import com.google.gson.annotations.SerializedName
 
@@ -11,9 +11,3 @@ data class AiModel(
     @SerializedName("permission")
     var permissions : List<Any>?
 )
-
-/*
-"id": "model-id-0",
-"object": "model",
-"owned_by": "organization-owner",
-"permission": [...]*/

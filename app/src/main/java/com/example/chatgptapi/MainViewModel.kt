@@ -2,7 +2,7 @@ package com.example.chatgptapi
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.chatgptapi.model.UiAiModel
+import com.example.chatgptapi.ui.model.UiAiModel
 import com.example.chatgptapi.utils.emit
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow

@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatgptapi.MainViewModel
 import com.example.chatgptapi.R
-import com.example.chatgptapi.adapter.ChatGPTAdapter
-import com.example.chatgptapi.adapter.OnAiModelClickListener
-import com.example.chatgptapi.model.UiAiModel
+import com.example.chatgptapi.ui.adapter.ChatGPTAdapter
+import com.example.chatgptapi.ui.adapter.OnAiModelClickListener
+import com.example.chatgptapi.ui.model.UiAiModel
 import com.example.chatgptapi.ui.AiSelectionViewModel
 
 class AiModelSelectionFragment : ScreenFragment(R.layout.ai_model_fragment) {
