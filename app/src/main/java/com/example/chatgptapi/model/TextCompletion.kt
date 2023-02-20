@@ -1,5 +1,7 @@
 package com.example.chatgptapi.model
 
+import com.example.chatgptapi.model.remoteModelts.Choice
+import com.example.chatgptapi.model.remoteModelts.Usage
 import com.google.gson.annotations.SerializedName
 
 class TextCompletion(

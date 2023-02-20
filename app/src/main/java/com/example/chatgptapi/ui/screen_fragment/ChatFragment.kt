@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatgptapi.MainViewModel
 import com.example.chatgptapi.R
-import com.example.chatgptapi.adapter.ChatListAdapter
+import com.example.chatgptapi.ui.adapter.ChatListAdapter
 import com.example.chatgptapi.data.ChatGptRepository
 import com.example.chatgptapi.ui.ChatViewModel
 import com.example.chatgptapi.utils.hideKeyboard
@@ -57,7 +57,7 @@ class ChatFragment : ScreenFragment(R.layout.chat_fragment) {
                 val text = etChatInput.text.toString()
                 if (text.isNotBlank()) {
                     etChatInput.setText("")
-                    chatViewModel.sendMessage(text)
+                    chatViewModel.onSendClick(text)
                     etChatInput.hideKeyboard()
                 } // TODO handle blank case
             }

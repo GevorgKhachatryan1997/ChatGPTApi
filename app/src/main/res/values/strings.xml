@@ -31,10 +31,12 @@ Good at: Complex intent, cause and effect, summarization for audience</string>
         Ada’s performance can often be improved by providing more context.
         Good at: Parsing text, simple classification, address correction, keywords
     </string>
+    <string name="image_generation_info">Create images you want</string>
     <string name="davinci">Davinci</string>
     <string name="curie">Curie</string>
     <string name="babbage">Babbage</string>
     <string name="ada">Ada</string>
+    <string name="image_generation">Generate image</string>
     <string name="info">info</string>
     <string name="name">name</string>
 

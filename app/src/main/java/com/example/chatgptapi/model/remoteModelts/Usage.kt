@@ -1,4 +1,4 @@
-package com.example.chatgptapi.model
+package com.example.chatgptapi.model.remoteModelts
 
 data class Usage(
     val prompt_tokens: Int?,

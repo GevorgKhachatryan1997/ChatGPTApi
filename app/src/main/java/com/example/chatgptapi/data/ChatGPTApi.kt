@@ -1,6 +1,8 @@
 package com.example.chatgptapi.data
 
 import com.example.chatgptapi.model.*
+import com.example.chatgptapi.model.remoteModelts.AiModels
+import com.example.chatgptapi.model.remoteModelts.CompletionRequest
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET

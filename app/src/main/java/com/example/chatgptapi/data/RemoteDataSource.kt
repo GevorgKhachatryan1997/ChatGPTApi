@@ -2,22 +2,29 @@ package com.example.chatgptapi.data
 
 import com.example.chatgptapi.data.ChatGPTApi.Companion.BASE_URL
 import com.example.chatgptapi.model.*
+import com.example.chatgptapi.model.remoteModelts.AiModels
+import com.example.chatgptapi.model.remoteModelts.CompletionRequest
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 // TODO add error handling for api error codes
 class RemoteDataSource {
 
     companion object {
-        const val DAVINSI_ID = "text-davinci-003"
-        const val CURIE_ID = "text-curie-001"
-        const val BABBAGE_ID = "text-babbage-001"
-        const val ADA_ID = "text-ada-001"
+        private const val CONNECTION_TIMEOUT = 60L
     }
+
+    private val defaultClient = OkHttpClient().newBuilder()
+        .connectTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)
+        .readTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)
+        .build()
 
     private val chatGPTService = Retrofit
         .Builder()
         .baseUrl(BASE_URL)
+        .client(defaultClient)
         .addConverterFactory(GsonConverterFactory.create())
         .build()
         .create(ChatGPTApi::class.java)

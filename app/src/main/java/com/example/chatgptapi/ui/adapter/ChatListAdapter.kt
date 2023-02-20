@@ -1,4 +1,4 @@
-package com.example.chatgptapi.adapter
+package com.example.chatgptapi.ui.adapter
 
 import android.net.Uri
 import android.view.LayoutInflater
@@ -12,12 +12,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.chatgptapi.R
+import com.example.chatgptapi.data.*
 import com.example.chatgptapi.ui.ChatViewModel
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import java.lang.Exception
 
-class ChatListAdapter : ListAdapter<ChatViewModel.ConversationItem, ChatListAdapter.ConversationViewHolder<ChatViewModel.ConversationItem>>(ChatDiffUtilCallback()) {
+class ChatListAdapter : ListAdapter<ConversationItem, ChatListAdapter.ConversationViewHolder<ConversationItem>>(ChatDiffUtilCallback()) {
 
     companion object {
         private const val VIEW_TYPE_USER = 1000
@@ -26,21 +27,21 @@ class ChatListAdapter : ListAdapter<ChatViewModel.ConversationItem, ChatListAdap
         private const val VIEW_TYPE_AI_IMAGE = 1003
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConversationViewHolder<ChatViewModel.ConversationItem> {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ConversationViewHolder<ConversationItem> {
         val view = LayoutInflater.from(parent.context).inflate(getItemLayout(viewType), parent, false)
-        return createViewHolder(viewType, view) as ConversationViewHolder<ChatViewModel.ConversationItem>
+        return createViewHolder(viewType, view) as ConversationViewHolder<ConversationItem>
     }
 
-    override fun onBindViewHolder(holder: ConversationViewHolder<ChatViewModel.ConversationItem> , position: Int) {
+    override fun onBindViewHolder(holder: ConversationViewHolder<ConversationItem>, position: Int) {
         holder.bind(getItem(position))
     }
 
     override fun getItemViewType(position: Int): Int {
         return when (getItem(position)) {
-            is ChatViewModel.UserMessage -> VIEW_TYPE_USER
-            is ChatViewModel.AiThinking -> VIEW_TYPE_AI_THINKING
-            is ChatViewModel.AiMessage -> VIEW_TYPE_AI_TEXT
-            is ChatViewModel.AiImage -> VIEW_TYPE_AI_IMAGE
+            is UserMessage -> VIEW_TYPE_USER
+            is AiThinking -> VIEW_TYPE_AI_THINKING
+            is AiMessage -> VIEW_TYPE_AI_TEXT
+            is AiImage -> VIEW_TYPE_AI_IMAGE
         }
     }
 
@@ -64,43 +65,43 @@ class ChatListAdapter : ListAdapter<ChatViewModel.ConversationItem, ChatListAdap
         }
     }
 
-    class ChatDiffUtilCallback : DiffUtil.ItemCallback<ChatViewModel.ConversationItem>() {
-        override fun areItemsTheSame(oldItem: ChatViewModel.ConversationItem, newItem: ChatViewModel.ConversationItem): Boolean {
+    class ChatDiffUtilCallback : DiffUtil.ItemCallback<ConversationItem>() {
+        override fun areItemsTheSame(oldItem: ConversationItem, newItem: ConversationItem): Boolean {
             return oldItem === newItem
         }
 
-        override fun areContentsTheSame(oldItem: ChatViewModel.ConversationItem, newItem: ChatViewModel.ConversationItem): Boolean {
+        override fun areContentsTheSame(oldItem: ConversationItem, newItem: ConversationItem): Boolean {
             return oldItem == newItem
         }
     }
 
-    abstract class ConversationViewHolder<in T: ChatViewModel.ConversationItem>(view: View): ViewHolder(view) {
+    abstract class ConversationViewHolder<in T: ConversationItem>(view: View): ViewHolder(view) {
 
         abstract fun bind(message: T)
     }
 
-    class UserMessageViewHolder(view: View) : ConversationViewHolder<ChatViewModel.UserMessage>(view) {
+    class UserMessageViewHolder(view: View) : ConversationViewHolder<UserMessage>(view) {
         private val tvText: TextView = view.findViewById(R.id.tvText)
 
-        override fun bind(message: ChatViewModel.UserMessage) {
+        override fun bind(message: UserMessage) {
             tvText.text = message.message
         }
     }
 
-    class AiThinkingViewHolder(view: View) : ConversationViewHolder<ChatViewModel.AiThinking>(view) {
+    class AiThinkingViewHolder(view: View) : ConversationViewHolder<AiThinking>(view) {
 
         private val tvText: TextView = view.findViewById(R.id.tvText)
 
-        override fun bind(message: ChatViewModel.AiThinking) {
+        override fun bind(message: AiThinking) {
             tvText.text = message.message
         }
     }
 
-    class AiMessageViewHolder(view: View) : ConversationViewHolder<ChatViewModel.AiMessage>(view) {
+    class AiMessageViewHolder(view: View) : ConversationViewHolder<AiMessage>(view) {
 
         private val tvText: TextView = view.findViewById(R.id.tvText)
 
-        override fun bind(message: ChatViewModel.AiMessage) {
+        override fun bind(message: AiMessage) {
             val text = StringBuilder()
             message.textCompletion?.choices?.forEach {
                 text.append(it.text)
@@ -111,12 +112,12 @@ class ChatListAdapter : ListAdapter<ChatViewModel.ConversationItem, ChatListAdap
     }
 
 
-    class AiImageViewHolder(view: View) : ConversationViewHolder<ChatViewModel.AiImage>(view) {
+    class AiImageViewHolder(view: View) : ConversationViewHolder<AiImage>(view) {
 
         private val ivImage: ImageView = view.findViewById(R.id.ivImage)
         private val pbLoading: ProgressBar = view.findViewById(R.id.pbLoading)
 
-        override fun bind(imageModel: ChatViewModel.AiImage) {
+        override fun bind(imageModel: AiImage) {
             pbLoading.visibility = View.VISIBLE
             val imageUri = imageModel.image.data?.first()
             // TODO Handle null case
