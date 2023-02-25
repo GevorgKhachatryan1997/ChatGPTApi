@@ -10,7 +10,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.example.chatgptapi.ui.model.UiAiModel
 import com.example.chatgptapi.ui.screen_fragment.AiModelSelectionFragment
 import com.example.chatgptapi.ui.screen_fragment.ChatFragment
-import com.example.chatgptapi.ui.screen_fragment.GoogleAuthenticationFragment
+import com.example.chatgptapi.ui.screen_fragment.LoginFragment
+import com.example.chatgptapi.ui.screen_fragment.SignInFragment
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -44,8 +45,11 @@ class MainActivity : AppCompatActivity() {
             is MainViewModel.AiChatScreen -> {
                 showAiChatFragment(screen.model)
             }
-            is MainViewModel.AuthenticationScreen -> {
-                showAuthenticationFragment()
+            is MainViewModel.SignInScreen -> {
+                showSignInFragment()
+            }
+            is MainViewModel.LoginScreen -> {
+                showLoginFragment()
             }
         }
     }
@@ -69,12 +73,21 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun showAuthenticationFragment() {
+    private fun showLoginFragment() {
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view)
-        if (currentFragment is GoogleAuthenticationFragment) return
+        if (currentFragment is LoginFragment) return
         supportFragmentManager.commit {
             setReorderingAllowed(true)
-            replace(R.id.fragment_container_view, GoogleAuthenticationFragment.newInstance())
+            replace(R.id.fragment_container_view, LoginFragment.newInstance())
+        }
+    }
+
+    private fun showSignInFragment() {
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view)
+        if (currentFragment is SignInFragment) return
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            replace(R.id.fragment_container_view, SignInFragment.newInstance())
         }
     }
 }

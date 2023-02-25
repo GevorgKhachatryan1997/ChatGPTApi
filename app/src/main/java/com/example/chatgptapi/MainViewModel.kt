@@ -16,7 +16,7 @@ class MainViewModel: ViewModel() {
 
     fun onActivityStart() {
         if (currentScreen == null) {
-            showScreen(AuthenticationScreen)
+            showScreen(LoginScreen)
         }
     }
 
@@ -27,7 +27,8 @@ class MainViewModel: ViewModel() {
 
     sealed class Screen
 
+    object LoginScreen: Screen()
+    object SignInScreen: Screen()
     object AiModelSelection: Screen()
-    object AuthenticationScreen: Screen()
     class AiChatScreen(val model: UiAiModel): Screen()
 }
