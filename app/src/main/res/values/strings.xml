@@ -39,5 +39,6 @@ Good at: Complex intent, cause and effect, summarization for audience</string>
     <string name="image_generation">Generate image</string>
     <string name="info">info</string>
     <string name="name">name</string>
+    <string name="name_is_empty">Name is empty</string>
 
 </resources>

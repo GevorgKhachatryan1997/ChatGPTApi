@@ -9,10 +9,12 @@ import com.example.chatgptapi.model.remoteModelts.CompletionRequest
 import com.example.chatgptapi.ui.model.UiAiModel
 import com.example.chatgptapi.utils.JsonUtil
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import java.util.*
 
-object ChatGptRepository {
+// TODO add suspend keyword for methods which should run on IO thread
+object ChatRepository {
 
     private val remoteDataSource = RemoteDataSource()
     private val localDataSource = LocalDataSource()
@@ -21,11 +23,13 @@ object ChatGptRepository {
         return remoteDataSource.getModels()
     }
 
-    fun askQuestion(completion: CompletionRequest): TextCompletion {
-        return remoteDataSource.getCompletion(completion)!! // TODO unsafe call
+    suspend fun askQuestion(completion: CompletionRequest): TextCompletion = withContext(Dispatchers.IO) {
+        remoteDataSource.getCompletion(completion)!! // TODO unsafe call
     }
 
-    fun generateImage(imageParams: ImageGenerationRequest) = remoteDataSource.generateImage(imageParams)
+    suspend fun generateImage(imageParams: ImageGenerationRequest) = withContext(Dispatchers.IO) {
+        remoteDataSource.generateImage(imageParams)
+    }
 
     fun getUiAiModels(): List<UiAiModel> {
         return localDataSource.uiAiModelList
@@ -55,5 +59,19 @@ object ChatGptRepository {
             is AiImage -> MessageEntity(sessionId, MessageType.AI_IMAGE_GENERATION, JsonUtil.toJson(image), currentTime)
             else -> throw IllegalStateException("Unknown conversation item: ${javaClass.simpleName}")
         }
+    }
+
+    fun getChatSessions(): Flow<List<SessionEntity>> = localDataSource.getAllSessions()
+
+    suspend fun getChatSession(id: String): SessionEntity? = withContext(Dispatchers.IO) {
+        localDataSource.getChatSession(id)
+    }
+
+    fun deleteSession(session: SessionEntity) {
+        localDataSource.deleteChatSession(session)
+    }
+
+    fun updateSessionName(session: SessionEntity, name: String) {
+        localDataSource.updateSessionName(session, name)
     }
 }

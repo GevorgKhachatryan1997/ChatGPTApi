@@ -2,12 +2,11 @@ package com.example.chatgptapi
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.chatgptapi.ui.model.UiAiModel
 import com.example.chatgptapi.utils.emit
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 
-class MainViewModel: ViewModel() {
+class MainViewModel : ViewModel() {
 
     var currentScreen: Screen? = null
 
@@ -16,7 +15,7 @@ class MainViewModel: ViewModel() {
 
     fun onActivityStart() {
         if (currentScreen == null) {
-            showScreen(AiModelSelection)
+            showScreen(ChatsHistory)
         }
     }
 
@@ -27,7 +26,7 @@ class MainViewModel: ViewModel() {
 
     sealed class Screen
 
-    object AiModelSelection: Screen()
+    object ChatsHistory : Screen()
 
-    class AiChatScreen(val model: UiAiModel): Screen()
+    class AiChatScreen(val sessionId: String? = null) : Screen()
 }

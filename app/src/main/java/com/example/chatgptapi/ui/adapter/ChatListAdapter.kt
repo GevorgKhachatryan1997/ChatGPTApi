@@ -103,7 +103,7 @@ class ChatListAdapter : ListAdapter<ConversationItem, ChatListAdapter.Conversati
 
         override fun bind(message: AiMessage) {
             val text = StringBuilder()
-            message.textCompletion?.choices?.forEach {
+            message.textCompletion.choices?.forEach {
                 text.append(it.text)
             }
 

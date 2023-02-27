@@ -7,9 +7,8 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.example.chatgptapi.ui.model.UiAiModel
-import com.example.chatgptapi.ui.screen_fragment.AiModelSelectionFragment
 import com.example.chatgptapi.ui.screen_fragment.ChatFragment
+import com.example.chatgptapi.ui.screen_fragment.ChatsHistoryFragment
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -37,30 +36,30 @@ class MainActivity : AppCompatActivity() {
 
     private fun navigateToScreen(screen: MainViewModel.Screen) {
         when (screen) {
-            is MainViewModel.AiModelSelection -> {
-                showAiModelSelectionFragment()
+            is MainViewModel.ChatsHistory -> {
+                showChatsHistory()
             }
             is MainViewModel.AiChatScreen -> {
-                showAiChatFragment(screen.model)
+                showAiChatFragment(screen.sessionId)
             }
         }
     }
 
-    private fun showAiModelSelectionFragment() {
+    private fun showChatsHistory() {
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view)
-        if (currentFragment is AiModelSelectionFragment) return
+        if (currentFragment is ChatsHistoryFragment) return
         supportFragmentManager.commit {
             setReorderingAllowed(true)
-            replace(R.id.fragment_container_view, AiModelSelectionFragment())
+            replace(R.id.fragment_container_view, ChatsHistoryFragment())
         }
     }
 
-    private fun showAiChatFragment(model: UiAiModel) {
+    private fun showAiChatFragment(sessionId: String?) {
         val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view)
         if (currentFragment is ChatFragment) return
         supportFragmentManager.commit {
             setReorderingAllowed(true)
-            replace(R.id.fragment_container_view, ChatFragment.newInstance(model.id))
+            replace(R.id.fragment_container_view, ChatFragment.newInstance(sessionId))
             addToBackStack(null)
         }
     }
