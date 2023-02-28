@@ -44,7 +44,6 @@ class RemoteDataSource {
         if (response.isSuccessful) {
             return response.body()
         }
-
         return null
     }
 

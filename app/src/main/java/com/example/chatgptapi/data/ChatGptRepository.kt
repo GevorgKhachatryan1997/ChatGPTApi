@@ -25,7 +25,8 @@ object ChatGptRepository {
         return remoteDataSource.getCompletion(completion)!! // TODO unsafe call
     }
 
-    fun generateImage(imageParams: ImageGenerationRequest) = remoteDataSource.generateImage(imageParams)
+    fun generateImage(imageParams: ImageGenerationRequest) =
+        remoteDataSource.generateImage(imageParams)
 
     fun getUiAiModels(): List<UiAiModel> {
         return localDataSource.uiAiModelList
@@ -39,7 +40,11 @@ object ChatGptRepository {
         return@withContext session
     }
 
-    suspend fun saveConversationItem(session: SessionEntity, questionItem: ConversationItem, answerItem: ConversationItem) =
+    suspend fun saveConversationItem(
+        session: SessionEntity,
+        questionItem: ConversationItem,
+        answerItem: ConversationItem
+    ) =
         withContext(Dispatchers.IO) {
             val question = questionItem.toMessageEntity(session.sessionId)
             val answer = answerItem.toMessageEntity(session.sessionId)
@@ -51,8 +56,18 @@ object ChatGptRepository {
         val currentTime = Calendar.getInstance().timeInMillis
         return when (this) {
             is UserMessage -> MessageEntity(sessionId, MessageType.USER_INPUT, message, currentTime)
-            is AiMessage -> MessageEntity(sessionId, MessageType.AI_COMPLETION, JsonUtil.toJson(textCompletion), currentTime)
-            is AiImage -> MessageEntity(sessionId, MessageType.AI_IMAGE_GENERATION, JsonUtil.toJson(image), currentTime)
+            is AiMessage -> MessageEntity(
+                sessionId,
+                MessageType.AI_COMPLETION,
+                JsonUtil.toJson(textCompletion),
+                currentTime
+            )
+            is AiImage -> MessageEntity(
+                sessionId,
+                MessageType.AI_IMAGE_GENERATION,
+                JsonUtil.toJson(image),
+                currentTime
+            )
             else -> throw IllegalStateException("Unknown conversation item: ${javaClass.simpleName}")
         }
     }

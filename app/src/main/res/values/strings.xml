@@ -46,5 +46,7 @@ Good at: Complex intent, cause and effect, summarization for audience</string>
     <string name="authentication">Authentication</string>
     <string name="create">Create</string>
     <string name="create_new_user">Create new user</string>
+    <string name="logout">Logout</string>
+    <string name="settings">Settings</string>
 
 </resources>

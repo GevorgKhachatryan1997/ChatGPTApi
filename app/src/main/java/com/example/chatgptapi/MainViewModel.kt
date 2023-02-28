@@ -2,12 +2,15 @@ package com.example.chatgptapi
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.chatgptapi.data.UserRepository
 import com.example.chatgptapi.ui.model.UiAiModel
 import com.example.chatgptapi.utils.emit
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.launch
 
-class MainViewModel: ViewModel() {
+class MainViewModel : ViewModel() {
 
     var currentScreen: Screen? = null
 
@@ -16,7 +19,13 @@ class MainViewModel: ViewModel() {
 
     fun onActivityStart() {
         if (currentScreen == null) {
-            showScreen(LoginScreen)
+            viewModelScope.launch(Dispatchers.IO) {
+                if (UserRepository.isUserAuthentication()) {
+                    showScreen(AiModelSelection)
+                } else {
+                    showScreen(LoginScreen)
+                }
+            }
         }
     }
 
@@ -27,8 +36,10 @@ class MainViewModel: ViewModel() {
 
     sealed class Screen
 
-    object LoginScreen: Screen()
-    object SignInScreen: Screen()
-    object AiModelSelection: Screen()
-    class AiChatScreen(val model: UiAiModel): Screen()
+    object LoginScreen : Screen()
+    object SignInScreen : Screen()
+    object AiModelSelection : Screen()
+    object SettingScreen : Screen()
+
+    class AiChatScreen(val model: UiAiModel) : Screen()
 }

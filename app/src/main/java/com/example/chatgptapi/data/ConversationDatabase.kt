@@ -6,9 +6,6 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.chatgptapi.model.databaseModels.MessageEntity
 import com.example.chatgptapi.model.databaseModels.SessionEntity
-import com.example.chatgptapi.ui.ChatViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 @Database(entities = [SessionEntity::class, MessageEntity::class], version = 1)
 abstract class ConversationDatabase : RoomDatabase() {

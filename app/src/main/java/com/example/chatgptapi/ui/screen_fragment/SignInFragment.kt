@@ -38,7 +38,6 @@ class SignInFragment : ScreenFragment(R.layout.sign_in_fragment) {
         etCreateLogin = view.findViewById(R.id.etCreateLogin)
         etPassword = view.findViewById(R.id.etCreatePassword)
         btnCreateUser = view.findViewById(R.id.btnCrateUser)
-        FirebaseApp.initializeApp(requireContext())
         mailAuthentication = FirebaseAuth.getInstance()
         btnCreateUser?.setOnClickListener {
             createUser(etCreateLogin?.text.toString(), etPassword?.text.toString())
