@@ -37,18 +37,17 @@ object ChatRepository {
 
     fun findUiAiModel(modelId: String): UiAiModel? = localDataSource.findUiAIModel(modelId)
 
-    suspend fun createSession(name: String): SessionEntity = withContext(Dispatchers.IO) {
+    suspend fun createSession(name: String): SessionEntity {
         val session = SessionEntity(UUID.randomUUID().toString(), name, UserInfo.userId)
         localDataSource.insertSession(session)
-        return@withContext session
+        return session
     }
 
-    suspend fun saveConversationItem(session: SessionEntity, questionItem: ConversationItem, answerItem: ConversationItem) =
-        withContext(Dispatchers.IO) {
-            val question = questionItem.toMessageEntity(session.sessionId)
-            val answer = answerItem.toMessageEntity(session.sessionId)
-            localDataSource.insertConversationItem(question, answer)
-        }
+    suspend fun saveConversationItem(session: SessionEntity, questionItem: ConversationItem, answerItem: ConversationItem) {
+        val question = questionItem.toMessageEntity(session.sessionId)
+        val answer = answerItem.toMessageEntity(session.sessionId)
+        localDataSource.insertConversationItem(question, answer)
+    }
 
     @Throws(IllegalStateException::class)
     private fun ConversationItem.toMessageEntity(sessionId: String): MessageEntity {
@@ -63,15 +62,13 @@ object ChatRepository {
 
     fun getChatSessions(): Flow<List<SessionEntity>> = localDataSource.getAllSessions()
 
-    suspend fun getChatSession(id: String): SessionEntity? = withContext(Dispatchers.IO) {
-        localDataSource.getChatSession(id)
-    }
+    suspend fun getChatSession(id: String): SessionEntity? = localDataSource.getChatSession(id)
 
-    fun deleteSession(session: SessionEntity) {
+    suspend fun deleteSession(session: SessionEntity) {
         localDataSource.deleteChatSession(session)
     }
 
-    fun updateSessionName(session: SessionEntity, name: String) {
+    suspend fun updateSessionName(session: SessionEntity, name: String) {
         localDataSource.updateSessionName(session, name)
     }
 }

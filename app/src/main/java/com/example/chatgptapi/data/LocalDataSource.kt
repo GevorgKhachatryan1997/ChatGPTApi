@@ -4,7 +4,9 @@ import com.example.chatgptapi.R
 import com.example.chatgptapi.model.databaseModels.MessageEntity
 import com.example.chatgptapi.model.databaseModels.SessionEntity
 import com.example.chatgptapi.ui.model.UiAiModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.withContext
 
 class LocalDataSource {
 
@@ -28,11 +30,11 @@ class LocalDataSource {
 
     fun findUiAIModel(modelId: String): UiAiModel? = uiAiModelList.find { it.id == modelId }
 
-    fun insertSession(session: SessionEntity) {
+    suspend fun insertSession(session: SessionEntity) = withContext(Dispatchers.IO) {
         conversationDb.conversationDao().insertSession(session)
     }
 
-    fun insertConversationItem(question: MessageEntity, answer: MessageEntity) {
+    suspend fun insertConversationItem(question: MessageEntity, answer: MessageEntity) = withContext(Dispatchers.IO) {
         with(conversationDb.conversationDao()) {
             insertMessage(question)
             insertMessage(answer)
@@ -41,13 +43,15 @@ class LocalDataSource {
 
     fun getAllSessions(): Flow<List<SessionEntity>> = conversationDb.conversationDao().getAllSessions()
 
-    fun getChatSession(id: String): SessionEntity? = conversationDb.conversationDao().getSession(id)
+    suspend fun getChatSession(id: String): SessionEntity? = withContext(Dispatchers.IO) {
+        conversationDb.conversationDao().getSession(id)
+    }
 
-    fun deleteChatSession(session: SessionEntity) {
+    suspend fun deleteChatSession(session: SessionEntity) = withContext(Dispatchers.IO) {
         conversationDb.conversationDao().deleteSession(session)
     }
 
-    fun updateSessionName(session: SessionEntity, name: String) {
+    suspend fun updateSessionName(session: SessionEntity, name: String) = withContext(Dispatchers.IO) {
         conversationDb.conversationDao().updateSession(session.copy(sessionName = name))
     }
 }

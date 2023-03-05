@@ -10,23 +10,23 @@ import kotlinx.coroutines.flow.Flow
 interface ConversationDao {
 
     @Insert
-    fun insertSession(session: SessionEntity)
+    suspend fun insertSession(session: SessionEntity)
 
     @Query("SELECT * FROM session_table WHERE sessionId = :id")
-    fun getSession(id: String): SessionEntity?
+    suspend fun getSession(id: String): SessionEntity?
 
     @Delete
-    fun deleteSession(session: SessionEntity)
+    suspend fun deleteSession(session: SessionEntity)
 
     @Update
-    fun updateSession(sessionEntity: SessionEntity)
+    suspend fun updateSession(sessionEntity: SessionEntity)
 
     @Query("SELECT * FROM session_table")
     fun getAllSessions(): Flow<List<SessionEntity>>
 
     @Query("SELECT * FROM session_table WHERE sessionId = :id")
-    fun getConversationBySessionId(id: String): Conversation
+    suspend fun getConversationBySessionId(id: String): Conversation
 
     @Insert
-    fun insertMessage(message: MessageEntity)
+    suspend fun insertMessage(message: MessageEntity)
 }
