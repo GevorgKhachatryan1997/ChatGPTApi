@@ -1,10 +1,10 @@
 package com.example.chatgptapi.data
 
 import com.example.chatgptapi.R
+import com.example.chatgptapi.model.*
 import com.example.chatgptapi.model.databaseModels.MessageEntity
 import com.example.chatgptapi.model.databaseModels.SessionEntity
 import com.example.chatgptapi.model.databaseModels.UserEntity
-import com.example.chatgptapi.ui.model.UiAiModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -12,24 +12,18 @@ import kotlinx.coroutines.withContext
 class LocalDataSource {
 
     companion object {
-        const val DAVINCI_ID = "text-davinci-003"
-        const val CURIE_ID = "text-curie-001"
-        const val BABBAGE_ID = "text-babbage-001"
-        const val ADA_ID = "text-ada-001"
-        const val IMAGE_GENERATION = "image_generation"
+        const val TEXT_DAVINCI_MODEL = "text-davinci-003"
+        const val CODE_DAVINCI_MODEL = "code-davinci-002"
     }
 
     private val appDb = AppDatabase.getInstance()
 
-    val uiAiModelList = buildList {
-        add(UiAiModel(DAVINCI_ID, R.string.davinci, R.string.davinci_info, R.mipmap.ic_launcher))
-        add(UiAiModel(CURIE_ID, R.string.curie, R.string.curie_info, R.mipmap.ic_launcher))
-        add(UiAiModel(BABBAGE_ID, R.string.babbage, R.string.babbage_info, R.mipmap.ic_launcher))
-        add(UiAiModel(ADA_ID, R.string.ada, R.string.ada_info, R.mipmap.ic_launcher))
-        add(UiAiModel(IMAGE_GENERATION, R.string.image_generation, R.string.image_generation_info, R.mipmap.ic_launcher))
-    }
+    val chatModes = listOf(
+        ChatMode(CHAT_MODE_TEXT_COMPLETION, R.string.text, R.drawable.icon_chat, TEXT_DAVINCI_MODEL),
+        ChatMode(CHAT_MODE_CODE_COMPLETION, R.string.code, R.drawable.icon_code, CODE_DAVINCI_MODEL),
+        ChatMode(CHAT_MODE_IMAGE_GENERATION, R.string.image, R.drawable.icon_image, "image generation")
+    )
 
-    fun findUiAIModel(modelId: String): UiAiModel? = uiAiModelList.find { it.id == modelId }
 
     suspend fun insertSession(session: SessionEntity) = withContext(Dispatchers.IO) {
         appDb.conversationDao().insertSession(session)

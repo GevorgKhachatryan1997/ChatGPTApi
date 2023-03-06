@@ -7,7 +7,7 @@ import androidx.fragment.app.viewModels
 import com.example.chatgptapi.MainViewModel
 import com.example.chatgptapi.R
 import com.example.chatgptapi.domain.GoogleAuthenticationHelper
-import com.example.chatgptapi.ui.SettingViewModel
+import com.example.chatgptapi.ui.viewModel.SettingViewModel
 
 class SettingFragment : ScreenFragment(R.layout.setting_fragment) {
 

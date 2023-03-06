@@ -9,7 +9,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.example.chatgptapi.ui.screen_fragment.ChatFragment
 import com.example.chatgptapi.ui.screen_fragment.ChatsHistoryFragment
-import com.example.chatgptapi.ui.model.UiAiModel
 import com.example.chatgptapi.ui.screen_fragment.*
 import kotlinx.coroutines.launch
 

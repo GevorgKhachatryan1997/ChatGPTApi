@@ -13,8 +13,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatgptapi.MainViewModel
 import com.example.chatgptapi.R
-import com.example.chatgptapi.ui.ChatViewModel
+import com.example.chatgptapi.ui.viewModel.ChatViewModel
 import com.example.chatgptapi.ui.adapter.ChatListAdapter
+import com.example.chatgptapi.ui.adapter.ChatModsAdapter
 import com.example.chatgptapi.utils.hideKeyboard
 import kotlinx.coroutines.launch
 
@@ -31,10 +32,16 @@ class ChatFragment : ScreenFragment(R.layout.chat_fragment) {
     private lateinit var ivSend: ImageView
     private lateinit var etChatInput: EditText
     private lateinit var rvChat: RecyclerView
+    private lateinit var rvChatModes: RecyclerView
 
     private val chatViewModel: ChatViewModel by viewModels()
 
     private val chatAdapter = ChatListAdapter()
+    private val chatModesAdapter = ChatModsAdapter().apply {
+        chatModeListener = ChatModsAdapter.OnChatModeListener {
+            chatViewModel.onChatModeSelected(it)
+        }
+    }
 
     override val screen: MainViewModel.Screen
         get() = MainViewModel.AiChatScreen(chatViewModel.session?.sessionId)
@@ -61,13 +68,23 @@ class ChatFragment : ScreenFragment(R.layout.chat_fragment) {
             adapter = chatAdapter
         }
 
+        rvChatModes = view.findViewById<RecyclerView>(R.id.rvChatModes).apply {
+            adapter  = chatModesAdapter
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
                 chatViewModel.updateConversation.collect {
                     chatAdapter.submitList(it)
-                    chatAdapter.notifyDataSetChanged()
-                    rvChat.smoothScrollToPosition(it.size - 1)
+                    rvChat.smoothScrollToPosition(it.size)
+                }
+            }
+        }
 
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+                chatViewModel.chatModes.collect {
+                    chatModesAdapter.updateMods(it)
                 }
             }
         }

@@ -1,7 +1,6 @@
 package com.example.chatgptapi.ui.screen_fragment
 
 import android.os.Bundle
-import android.se.omapi.Session
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -15,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.chatgptapi.MainViewModel
 import com.example.chatgptapi.R
 import com.example.chatgptapi.model.databaseModels.SessionEntity
-import com.example.chatgptapi.ui.ChatsHistoryViewModel
+import com.example.chatgptapi.ui.viewModel.ChatsHistoryViewModel
 import com.example.chatgptapi.ui.adapter.ChatsHistoryListAdapter
 import kotlinx.coroutines.launch
 

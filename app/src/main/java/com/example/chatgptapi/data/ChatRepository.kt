@@ -4,9 +4,7 @@ import com.example.chatgptapi.model.*
 import com.example.chatgptapi.model.databaseModels.MessageEntity
 import com.example.chatgptapi.model.databaseModels.MessageType
 import com.example.chatgptapi.model.databaseModels.SessionEntity
-import com.example.chatgptapi.model.remoteModelts.AiModels
 import com.example.chatgptapi.model.remoteModelts.CompletionRequest
-import com.example.chatgptapi.ui.model.UiAiModel
 import com.example.chatgptapi.utils.JsonUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -19,9 +17,7 @@ object ChatRepository {
     private val remoteDataSource = RemoteDataSource()
     private val localDataSource = LocalDataSource()
 
-    fun getRemoteModels(): AiModels? {
-        return remoteDataSource.getModels()
-    }
+    val chatModes: List<ChatMode> = localDataSource.chatModes
 
     suspend fun askQuestion(completion: CompletionRequest): TextCompletion = withContext(Dispatchers.IO) {
         remoteDataSource.getCompletion(completion)!! // TODO unsafe call
@@ -30,12 +26,6 @@ object ChatRepository {
     suspend fun generateImage(imageParams: ImageGenerationRequest) = withContext(Dispatchers.IO) {
         remoteDataSource.generateImage(imageParams)
     }
-
-    fun getUiAiModels(): List<UiAiModel> {
-        return localDataSource.uiAiModelList
-    }
-
-    fun findUiAiModel(modelId: String): UiAiModel? = localDataSource.findUiAIModel(modelId)
 
     suspend fun createSession(name: String): SessionEntity {
         val session = SessionEntity(UUID.randomUUID().toString(), name, UserRepository.getUser()?.userId!!)

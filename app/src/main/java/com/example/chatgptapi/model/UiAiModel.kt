@@ -1,4 +1,4 @@
-package com.example.chatgptapi.ui.model
+package com.example.chatgptapi.model
 
 data class UiAiModel(
     val id: String,

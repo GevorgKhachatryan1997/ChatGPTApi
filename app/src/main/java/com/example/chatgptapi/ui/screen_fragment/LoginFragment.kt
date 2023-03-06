@@ -10,7 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.chatgptapi.MainViewModel
 import com.example.chatgptapi.R
-import com.example.chatgptapi.ui.LoginViewModel
+import com.example.chatgptapi.ui.viewModel.LoginViewModel
 
 class LoginFragment :
     ScreenFragment(R.layout.login_fragment) {

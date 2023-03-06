@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatgptapi.R
-import com.example.chatgptapi.ui.model.UiAiModel
+import com.example.chatgptapi.model.UiAiModel
 
 class ChatGPTAdapter : RecyclerView.Adapter<ChatGPTViwHolder>() {
     private val uiAiModels = mutableListOf<UiAiModel>()

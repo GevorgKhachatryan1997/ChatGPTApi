@@ -1,8 +1,7 @@
-package com.example.chatgptapi.ui
+package com.example.chatgptapi.ui.viewModel
 
 import android.app.Activity
 import android.content.Intent
-import android.content.IntentSender
 import androidx.activity.result.IntentSenderRequest
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,7 +9,6 @@ import com.example.chatgptapi.data.UserRepository
 import com.example.chatgptapi.domain.GoogleAuthenticationHelper
 import com.example.chatgptapi.domain.Listener
 import com.example.chatgptapi.model.databaseModels.UserEntity
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch

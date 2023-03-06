@@ -3,9 +3,7 @@ package com.example.chatgptapi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chatgptapi.data.UserRepository
-import com.example.chatgptapi.ui.model.UiAiModel
 import com.example.chatgptapi.utils.emit
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
