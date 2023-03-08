@@ -2,6 +2,8 @@ package com.example.chatgptapi.ui
 
 import android.app.Activity
 import android.content.Intent
+import android.content.IntentSender
+import androidx.activity.result.IntentSenderRequest
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chatgptapi.data.UserRepository
@@ -41,11 +43,11 @@ class LoginViewModel : ViewModel() {
         }
     }
 
-    fun onAuthenticationResult(data: Intent?) {
-        googleAuthenticationHelper.onAuthenticationResult(data)
+    fun onAuthenticationResult(activity: Activity, data: Intent?) {
+        googleAuthenticationHelper.onAuthenticationResult(activity, data)
     }
 
-    fun signInRequest(activity: Activity, googleSignInRequest: (Intent) -> Unit) {
+    fun signInRequest(activity: Activity, googleSignInRequest: (IntentSenderRequest) -> Unit) {
         googleAuthenticationHelper.signInRequest(activity, googleSignInRequest)
     }
 

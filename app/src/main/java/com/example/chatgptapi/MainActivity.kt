@@ -44,9 +44,6 @@ class MainActivity : AppCompatActivity() {
             is MainViewModel.AiChatScreen -> {
                 showAiChatFragment(screen.sessionId)
             }
-            is MainViewModel.SignInScreen -> {
-                showSignInFragment()
-            }
             is MainViewModel.LoginScreen -> {
                 showLoginFragment()
             }
@@ -81,15 +78,6 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             replace(R.id.fragment_container_view, LoginFragment.newInstance())
-        }
-    }
-
-    private fun showSignInFragment() {
-        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view)
-        if (currentFragment is SignInFragment) return
-        supportFragmentManager.commit {
-            setReorderingAllowed(true)
-            replace(R.id.fragment_container_view, SignInFragment.newInstance())
         }
     }
 

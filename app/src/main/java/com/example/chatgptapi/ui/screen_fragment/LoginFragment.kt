@@ -23,12 +23,12 @@ class LoginFragment :
     private val mainViewModel: MainViewModel by viewModels(ownerProducer = { requireActivity() })
     private val loginViewModel: LoginViewModel by viewModels()
     private val loginResultHandler =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult? ->
-            loginViewModel.onAuthenticationResult(result?.data)
+        registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result: ActivityResult? ->
+            loginViewModel.onAuthenticationResult(requireActivity(), result?.data)
         }
 
     override val screen: MainViewModel.Screen
-        get() = MainViewModel.SignInScreen
+        get() = MainViewModel.LoginScreen
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

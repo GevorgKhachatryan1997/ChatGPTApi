@@ -37,7 +37,6 @@ class MainViewModel : ViewModel() {
     sealed class Screen
 
     object LoginScreen : Screen()
-    object SignInScreen : Screen()
     object SettingScreen : Screen()
     object ChatsHistory : Screen()
     class AiChatScreen(val sessionId: String? = null) : Screen()

@@ -4,6 +4,7 @@ import android.app.Application
 import com.example.chatgptapi.data.AppDatabase
 import com.google.firebase.FirebaseApp
 
+// TODO Change package name
 class App: Application() {
 
     override fun onCreate() {
