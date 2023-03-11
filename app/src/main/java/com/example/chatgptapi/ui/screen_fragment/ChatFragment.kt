@@ -1,9 +1,11 @@
 package com.example.chatgptapi.ui.screen_fragment
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.ProgressBar
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -13,9 +15,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatgptapi.MainViewModel
 import com.example.chatgptapi.R
-import com.example.chatgptapi.ui.viewModel.ChatViewModel
+import com.example.chatgptapi.data.UserMessage
 import com.example.chatgptapi.ui.adapter.ChatListAdapter
 import com.example.chatgptapi.ui.adapter.ChatModsAdapter
+import com.example.chatgptapi.ui.viewModel.ChatViewModel
 import com.example.chatgptapi.utils.hideKeyboard
 import kotlinx.coroutines.launch
 
@@ -33,10 +36,22 @@ class ChatFragment : ScreenFragment(R.layout.chat_fragment) {
     private lateinit var etChatInput: EditText
     private lateinit var rvChat: RecyclerView
     private lateinit var rvChatModes: RecyclerView
+    private lateinit var pbLoading: ProgressBar
 
     private val chatViewModel: ChatViewModel by viewModels()
 
-    private val chatAdapter = ChatListAdapter()
+    private val chatAdapter = ChatListAdapter().apply {
+        onChatListener = object : ChatListAdapter.ChatListListener {
+            override fun onDownloadClick(image: Bitmap) {
+                chatViewModel.onDownloadClick(requireContext(), image)
+            }
+
+            override fun onEditClick(message: UserMessage) {
+                etChatInput.setText(message.message)
+            }
+
+        }
+    }
     private val chatModesAdapter = ChatModsAdapter().apply {
         chatModeListener = ChatModsAdapter.OnChatModeListener {
             chatViewModel.onChatModeSelected(it)
@@ -69,8 +84,10 @@ class ChatFragment : ScreenFragment(R.layout.chat_fragment) {
         }
 
         rvChatModes = view.findViewById<RecyclerView>(R.id.rvChatModes).apply {
-            adapter  = chatModesAdapter
+            adapter = chatModesAdapter
         }
+
+        pbLoading = view.findViewById(R.id.pbLoading)
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
@@ -85,6 +102,14 @@ class ChatFragment : ScreenFragment(R.layout.chat_fragment) {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
                 chatViewModel.chatModes.collect {
                     chatModesAdapter.updateMods(it)
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+                chatViewModel.progressLoading.collect { visible ->
+                    pbLoading.visibility = if (visible) View.VISIBLE else View.GONE
                 }
             }
         }

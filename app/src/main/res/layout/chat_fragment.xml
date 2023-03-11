@@ -50,4 +50,15 @@
         app:layout_constraintTop_toTopOf="@id/etChatInput"
         app:tint="@color/purple_700" />
 
+    <ProgressBar
+        android:id="@+id/pbLoading"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:indeterminate="true"
+        android:layout_margin="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/rvChat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

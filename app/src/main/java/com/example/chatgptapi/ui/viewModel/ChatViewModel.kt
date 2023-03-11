@@ -1,16 +1,24 @@
 package com.example.chatgptapi.ui.viewModel
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.chatgptapi.R
 import com.example.chatgptapi.data.*
 import com.example.chatgptapi.model.*
 import com.example.chatgptapi.model.databaseModels.SessionEntity
 import com.example.chatgptapi.model.remoteModelts.CompletionRequest
+import com.example.chatgptapi.utils.ImageUtils
 import com.example.chatgptapi.utils.emit
 import com.example.chatgptapi.utils.toConversationItem
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.IOException
 
 // TODO Handle nonull calls
 // TODO don't allow mutable questions at same time
@@ -18,6 +26,9 @@ class ChatViewModel : ViewModel() {
 
     private val _conversationItems = MutableStateFlow<List<ConversationItem>>(emptyList())
     val conversationItems = _conversationItems.asStateFlow()
+
+    private val _progressLoading = MutableStateFlow(false)
+    val progressLoading = _progressLoading.asStateFlow()
 
     private val _chatModes = MutableStateFlow<List<ChatMode>>(emptyList()).apply {
         val modes = ChatRepository.chatModes.mapIndexed { index, chatMode -> if (index == 0) chatMode.copy(selected = true) else chatMode }
@@ -79,6 +90,23 @@ class ChatViewModel : ViewModel() {
         }
     }
 
+    fun onDownloadClick(context: Context, bitmap: Bitmap) {
+        viewModelScope.launch {
+            _progressLoading.emit(true)
+            withContext(Dispatchers.IO) {
+                try {
+                    ImageUtils.saveImageToGallery(context, bitmap)
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(context, R.string.image_saved, Toast.LENGTH_LONG).show()
+                    }
+                } catch (e: IOException) {
+                    Toast.makeText(context, R.string.image_save_fail, Toast.LENGTH_LONG).show()
+                }
+            }
+            _progressLoading.emit(value = false)
+        }
+    }
+
     private fun onImageGenerate(description: String) {
         session ?: return
 
@@ -87,7 +115,7 @@ class ChatViewModel : ViewModel() {
             updateConversation(question)
             updateConversation(AiThinking("Wait a second )"))
 
-            val imageDescription = ImageGenerationRequest(UserRepository.getUser()?.userId!!, description, IMAGE_SIZE_512, 1)
+            val imageDescription = ImageGenerationRequest(UserRepository.getUser()?.userId!!, description, IMAGE_SIZE_1024, 1)
             val result = ChatRepository.generateImage(imageDescription)
             val answer = AiImage(result!!)
 
@@ -97,12 +125,12 @@ class ChatViewModel : ViewModel() {
     }
 
     private suspend fun updateConversation(conversationItem: ConversationItem) {
-        val newConversation = conversationItems.value + conversationItem
+        val newConversation = _conversationItems.value + conversationItem
         _conversationItems.emit(newConversation)
     }
 
     private fun replaceLastConversationItem(conversationItem: ConversationItem) {
-        val newConversation = conversationItems.value.dropLast(1) + conversationItem
+        val newConversation = _conversationItems.value.dropLast(1) + conversationItem
         _conversationItems.emit(newConversation, viewModelScope)
     }
 

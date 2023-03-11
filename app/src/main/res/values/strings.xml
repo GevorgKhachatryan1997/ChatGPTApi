@@ -13,5 +13,8 @@
     <string name="code">Code</string>
     <string name="image">Image</string>
     <string name="ask_your_question">Ask your question</string>
+    <string name="copied">Copied</string>
+    <string name="image_save_fail">Image save failed</string>
+    <string name="image_saved">Image saved</string>
 
 </resources>
