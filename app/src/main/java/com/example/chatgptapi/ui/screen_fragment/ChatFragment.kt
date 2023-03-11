@@ -74,7 +74,7 @@ class ChatFragment : ScreenFragment(R.layout.chat_fragment) {
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
-                chatViewModel.updateConversation.collect {
+                chatViewModel.conversationItems.collect {
                     chatAdapter.submitList(it)
                     rvChat.smoothScrollToPosition(it.size)
                 }

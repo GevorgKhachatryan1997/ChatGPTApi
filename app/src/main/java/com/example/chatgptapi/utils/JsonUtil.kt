@@ -1,6 +1,7 @@
 package com.example.chatgptapi.utils
 
 import com.google.gson.GsonBuilder
+import com.google.gson.JsonSyntaxException
 
 object JsonUtil {
 
@@ -8,5 +9,10 @@ object JsonUtil {
 
     fun toJson(obj: Any): String {
         return gson.toJson(obj)
+    }
+
+    @Throws(JsonSyntaxException::class)
+    fun <T> fromJson(json: String?, classOfT: Class<T>?): T {
+        return gson.fromJson(json, classOfT)
     }
 }

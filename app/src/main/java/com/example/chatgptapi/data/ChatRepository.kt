@@ -1,11 +1,12 @@
 package com.example.chatgptapi.data
 
-import com.example.chatgptapi.model.*
-import com.example.chatgptapi.model.databaseModels.MessageEntity
-import com.example.chatgptapi.model.databaseModels.MessageType
+import com.example.chatgptapi.model.ChatMode
+import com.example.chatgptapi.model.ImageGenerationRequest
+import com.example.chatgptapi.model.TextCompletion
+import com.example.chatgptapi.model.databaseModels.Conversation
 import com.example.chatgptapi.model.databaseModels.SessionEntity
 import com.example.chatgptapi.model.remoteModelts.CompletionRequest
-import com.example.chatgptapi.utils.JsonUtil
+import com.example.chatgptapi.utils.toMessageEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -39,20 +40,11 @@ object ChatRepository {
         localDataSource.insertConversationItem(question, answer)
     }
 
-    @Throws(IllegalStateException::class)
-    private fun ConversationItem.toMessageEntity(sessionId: String): MessageEntity {
-        val currentTime = Calendar.getInstance().timeInMillis
-        return when (this) {
-            is UserMessage -> MessageEntity(sessionId, MessageType.USER_INPUT, message, currentTime)
-            is AiMessage -> MessageEntity(sessionId, MessageType.AI_COMPLETION, JsonUtil.toJson(textCompletion), currentTime)
-            is AiImage -> MessageEntity(sessionId, MessageType.AI_IMAGE_GENERATION, JsonUtil.toJson(image), currentTime)
-            else -> throw IllegalStateException("Unknown conversation item: ${javaClass.simpleName}")
-        }
-    }
-
     fun getChatSessions(): Flow<List<SessionEntity>> = localDataSource.getAllSessions()
 
     suspend fun getChatSession(id: String): SessionEntity? = localDataSource.getChatSession(id)
+
+    suspend fun getSessionConversation(sessionId: String): Conversation = localDataSource.getSessionConversation(sessionId)
 
     suspend fun deleteSession(session: SessionEntity) {
         localDataSource.deleteChatSession(session)

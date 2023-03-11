@@ -7,6 +7,7 @@ import com.example.chatgptapi.model.*
 import com.example.chatgptapi.model.databaseModels.SessionEntity
 import com.example.chatgptapi.model.remoteModelts.CompletionRequest
 import com.example.chatgptapi.utils.emit
+import com.example.chatgptapi.utils.toConversationItem
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -15,8 +16,8 @@ import kotlinx.coroutines.launch
 // TODO don't allow mutable questions at same time
 class ChatViewModel : ViewModel() {
 
-    private val _updateConversationItem = MutableStateFlow<List<ConversationItem>>(emptyList())
-    val updateConversation = _updateConversationItem.asStateFlow()
+    private val _conversationItems = MutableStateFlow<List<ConversationItem>>(emptyList())
+    val conversationItems = _conversationItems.asStateFlow()
 
     private val _chatModes = MutableStateFlow<List<ChatMode>>(emptyList()).apply {
         val modes = ChatRepository.chatModes.mapIndexed { index, chatMode -> if (index == 0) chatMode.copy(selected = true) else chatMode }
@@ -30,6 +31,8 @@ class ChatViewModel : ViewModel() {
         viewModelScope.launch {
             sessionId?.let {
                 session = ChatRepository.getChatSession(sessionId)
+                val conversation = ChatRepository.getSessionConversation(sessionId).messages.map { it.toConversationItem() }
+                _conversationItems.emit(conversation)
             }
         }
     }
@@ -94,13 +97,13 @@ class ChatViewModel : ViewModel() {
     }
 
     private suspend fun updateConversation(conversationItem: ConversationItem) {
-        val newConversation = updateConversation.value + conversationItem
-        _updateConversationItem.emit(newConversation)
+        val newConversation = conversationItems.value + conversationItem
+        _conversationItems.emit(newConversation)
     }
 
     private fun replaceLastConversationItem(conversationItem: ConversationItem) {
-        val newConversation = updateConversation.value.dropLast(1) + conversationItem
-        _updateConversationItem.emit(newConversation, viewModelScope)
+        val newConversation = conversationItems.value.dropLast(1) + conversationItem
+        _conversationItems.emit(newConversation, viewModelScope)
     }
 
     private fun getSelectedChatMode() = chatModes.value.first { it.selected }

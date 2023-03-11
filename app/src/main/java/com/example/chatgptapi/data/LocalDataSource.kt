@@ -2,6 +2,7 @@ package com.example.chatgptapi.data
 
 import com.example.chatgptapi.R
 import com.example.chatgptapi.model.*
+import com.example.chatgptapi.model.databaseModels.Conversation
 import com.example.chatgptapi.model.databaseModels.MessageEntity
 import com.example.chatgptapi.model.databaseModels.SessionEntity
 import com.example.chatgptapi.model.databaseModels.UserEntity
@@ -40,6 +41,10 @@ class LocalDataSource {
 
     suspend fun getChatSession(id: String): SessionEntity? = withContext(Dispatchers.IO) {
         appDb.conversationDao().getSession(id)
+    }
+
+    suspend fun getSessionConversation(sessionId: String): Conversation = withContext(Dispatchers.IO) {
+        appDb.conversationDao().getConversationBySessionId(sessionId)
     }
 
     suspend fun deleteChatSession(session: SessionEntity) = withContext(Dispatchers.IO) {
