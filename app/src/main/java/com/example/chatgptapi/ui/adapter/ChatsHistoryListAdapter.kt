@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.example.chatgptapi.R
 import com.example.chatgptapi.model.databaseModels.SessionEntity
+import com.example.chatgptapi.utils.hideKeyboard
+import com.example.chatgptapi.utils.showKeyboard
 
 class ChatsHistoryListAdapter : ListAdapter<SessionEntity, ChatsHistoryListAdapter.ChatsHistoryViewHolder>(ChatHistoryItemCallback()) {
 
@@ -74,6 +76,7 @@ class ChatsHistoryListAdapter : ListAdapter<SessionEntity, ChatsHistoryListAdapt
         private fun requireSession(): SessionEntity = session!!
 
         private fun switchNameView(text: String? = null) {
+            editNameContainer.hideKeyboard()
             editNameContainer.visibility = View.GONE
             nameContainer.visibility = View.VISIBLE
 
@@ -86,7 +89,11 @@ class ChatsHistoryListAdapter : ListAdapter<SessionEntity, ChatsHistoryListAdapt
             nameContainer.visibility = View.GONE
             editNameContainer.visibility = View.VISIBLE
 
-            etName.setText(tvName.text)
+            etName.apply {
+                setText(tvName.text)
+                requestFocus()
+                showKeyboard()
+            }
         }
     }
 

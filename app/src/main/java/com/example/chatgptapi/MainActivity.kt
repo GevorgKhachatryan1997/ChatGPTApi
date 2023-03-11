@@ -86,6 +86,7 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             replace(R.id.fragment_container_view, SettingFragment())
+            addToBackStack(null)
         }
     }
 }
