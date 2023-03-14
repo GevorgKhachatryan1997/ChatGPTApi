@@ -7,7 +7,7 @@ object UserRepository {
     private val localDataSource = LocalDataSource()
 
     suspend fun isUserAuthenticated(): Boolean {
-        return true//localDataSource.isUserAuthenticated()
+        return localDataSource.isUserAuthenticated()
     }
 
     suspend fun insertUser(userEntity: UserEntity) {

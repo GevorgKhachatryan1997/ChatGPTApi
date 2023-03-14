@@ -4,7 +4,7 @@ import com.example.chatgptapi.model.remoteModelts.Choice
 import com.example.chatgptapi.model.remoteModelts.Usage
 import com.google.gson.annotations.SerializedName
 
-class TextCompletion(
+data class TextCompletion(
     val id: String? = null,
     @SerializedName("object")
     val data: String? = null,

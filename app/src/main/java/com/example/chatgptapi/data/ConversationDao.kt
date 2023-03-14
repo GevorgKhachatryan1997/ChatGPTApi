@@ -29,4 +29,7 @@ interface ConversationDao {
 
     @Insert
     suspend fun insertMessage(message: MessageEntity)
+
+    @Query("DELETE FROM session_table")
+    suspend fun deleteAllSessions()
 }

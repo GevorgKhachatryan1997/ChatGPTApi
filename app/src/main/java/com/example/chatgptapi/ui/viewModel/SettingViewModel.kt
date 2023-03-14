@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.chatgptapi.data.ApiKeyRepository
+import com.example.chatgptapi.data.ChatRepository
 import com.example.chatgptapi.data.UserRepository
 import com.example.chatgptapi.domain.GoogleAuthenticationHelper
 import kotlinx.coroutines.launch
@@ -17,6 +18,7 @@ class SettingViewModel : ViewModel() {
         viewModelScope.launch {
             UserRepository.deleteUserData()
             ApiKeyRepository.deleteApiKey()
+            ChatRepository.deleteAllData()
         }
     }
 }

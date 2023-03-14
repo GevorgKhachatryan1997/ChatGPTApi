@@ -81,7 +81,7 @@ class ChatViewModel : ViewModel() {
             updateConversation(question)
             updateConversation(AiThinking("Wait a second )"))
 
-            val completion = CompletionRequest(UserRepository.getUser()?.userId!!, mode.model, text, 100, 0.3F)
+            val completion = CompletionRequest(UserRepository.getUser()?.userId!!, mode.model, generateTextPrompts(text), 100, 0.3F)
             val result = ChatRepository.askQuestion(completion)
             val answer = AiMessage(result)
 
@@ -135,4 +135,33 @@ class ChatViewModel : ViewModel() {
     }
 
     private fun getSelectedChatMode() = chatModes.value.first { it.selected }
+
+    // TODO uses only first choice
+    private fun generateTextPrompts(prompt: String): String {
+
+        fun StringBuilder.newLine(): StringBuilder {
+            append("\n")
+            return this
+        }
+
+        fun StringBuilder.appendMessage(userMessage: String?): StringBuilder {
+            append(userMessage)
+            newLine()
+            return this
+        }
+
+        val result = StringBuilder()
+        conversationItems.value.forEach {
+            when (it) {
+                is UserMessage -> result.appendMessage(it.message)
+                is AiMessage -> result.appendMessage(it.textCompletion.choices?.first()?.text)
+                is AiImage -> result.append(it.image.data)
+                else -> {}
+            }
+        }
+
+        result.appendMessage(prompt)
+
+        return result.toString()
+    }
 }

@@ -53,4 +53,8 @@ object ChatRepository {
     suspend fun updateSessionName(session: SessionEntity, name: String) {
         localDataSource.updateSessionName(session, name)
     }
+
+    suspend fun deleteAllData() {
+        localDataSource.deleteChatData()
+    }
 }

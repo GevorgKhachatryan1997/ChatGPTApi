@@ -26,7 +26,6 @@ class LocalDataSource {
         ChatMode(CHAT_MODE_IMAGE_GENERATION, R.string.image, R.drawable.icon_image, "image generation")
     )
 
-
     suspend fun insertSession(session: SessionEntity) = withContext(Dispatchers.IO) {
         appDb.conversationDao().insertSession(session)
     }
@@ -81,11 +80,19 @@ class LocalDataSource {
         appDb.apiKeyDao().insertApiKey(apiKeyEntity)
     }
 
-    suspend fun getApiKey(): ApiKeyEntity? {
-        return appDb.apiKeyDao().getApiKey()
+    suspend fun getApiKey(): ApiKeyEntity? = withContext(Dispatchers.IO) {
+        appDb.apiKeyDao().getApiKey()
     }
 
     suspend fun deleteApiKey() {
-        return appDb.apiKeyDao().deleteApiKey()
+        withContext(Dispatchers.IO) {
+            appDb.apiKeyDao().deleteApiKey()
+        }
+    }
+
+    suspend fun deleteChatData() {
+        withContext(Dispatchers.IO) {
+            appDb.conversationDao().deleteAllSessions()
+        }
     }
 }
