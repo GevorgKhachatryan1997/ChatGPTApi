@@ -57,7 +57,7 @@ class GoogleAuthenticationHelper {
         try {
             // TODO use add also user account picture
             val credential: SignInCredential = Identity.getSignInClient(activity).getSignInCredentialFromIntent(data)
-            val user = UserEntity(generateUserId(), credential.displayName, credential.familyName, "")
+            val user = UserEntity(generateUserId(), credential.displayName, credential.familyName, credential.id)
             onAuthenticationListener?.onLoginSuccess(user)
         } catch (e: ApiException) {
             onAuthenticationListener?.onLoginFailure()
