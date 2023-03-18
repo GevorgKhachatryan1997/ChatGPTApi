@@ -2,11 +2,12 @@ package com.example.chatgptapi.data
 
 import com.example.chatgptapi.model.databaseModels.UserEntity
 
+// TODO use with context and set Dispatchers.IO for suspend methods
 object UserRepository {
     private val localDataSource = LocalDataSource()
 
     suspend fun isUserAuthenticated(): Boolean {
-        return localDataSource.isUserAuthenticated()
+        return true//localDataSource.isUserAuthenticated()
     }
 
     suspend fun insertUser(userEntity: UserEntity) {

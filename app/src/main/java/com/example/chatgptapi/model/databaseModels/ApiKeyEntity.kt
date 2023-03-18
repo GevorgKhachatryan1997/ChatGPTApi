@@ -3,12 +3,9 @@ package com.example.chatgptapi.model.databaseModels
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "user_table")
-class UserEntity(
-    val userId: String,
-    val name: String?,
-    val lastname: String?,
-    val email: String?
+@Entity(tableName = "api_key_table")
+class ApiKeyEntity(
+    val apiKey: String?
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0

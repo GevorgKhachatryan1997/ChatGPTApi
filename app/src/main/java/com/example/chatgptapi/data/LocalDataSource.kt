@@ -6,6 +6,7 @@ import com.example.chatgptapi.model.databaseModels.Conversation
 import com.example.chatgptapi.model.databaseModels.MessageEntity
 import com.example.chatgptapi.model.databaseModels.SessionEntity
 import com.example.chatgptapi.model.databaseModels.UserEntity
+import com.example.chatgptapi.model.databaseModels.ApiKeyEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -73,5 +74,18 @@ class LocalDataSource {
 
     suspend fun getUser(): UserEntity? {
         return appDb.userDao().getUser()
+    }
+
+    suspend fun insertApiKey(apiKey: String) {
+        val apiKeyEntity = ApiKeyEntity(apiKey)
+        appDb.apiKeyDao().insertApiKey(apiKeyEntity)
+    }
+
+    suspend fun getApiKey(): ApiKeyEntity? {
+        return appDb.apiKeyDao().getApiKey()
+    }
+
+    suspend fun deleteApiKey() {
+        return appDb.apiKeyDao().deleteApiKey()
     }
 }

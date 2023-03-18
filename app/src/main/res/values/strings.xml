@@ -8,6 +8,9 @@
     <string name="authentication">Authentication</string>
     <string name="logout">Logout</string>
     <string name="settings">Settings</string>
+    <string name="accept">Accept</string>
+    <string name="https_platform_openai_com_account_api_keys">https://platform.openai.com/account/api-keys</string>
+    <string name="click_this_link_to_get_token_key">click this link to get token key</string>
 
     <string name="text">Text</string>
     <string name="code">Code</string>
@@ -16,5 +19,7 @@
     <string name="copied">Copied</string>
     <string name="image_save_fail">Image save failed</string>
     <string name="image_saved">Image saved</string>
+    <string name="authentication_fail">authentication fail</string>
+    <string name="api_key_is_invalid">Api key is invalid</string>
 
 </resources>

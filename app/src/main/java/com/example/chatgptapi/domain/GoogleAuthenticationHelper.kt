@@ -44,10 +44,7 @@ class GoogleAuthenticationHelper {
     }
 
     fun signOutRequest(context: Context) {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestEmail()
-            .requestProfile()
-            .build()
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()
 
         val googleSignInClient = GoogleSignIn.getClient(context, gso)
         googleSignInClient.signOut()

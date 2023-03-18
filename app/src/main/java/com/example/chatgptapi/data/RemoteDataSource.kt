@@ -1,9 +1,14 @@
 package com.example.chatgptapi.data
 
 import com.example.chatgptapi.data.ChatGPTApi.Companion.BASE_URL
-import com.example.chatgptapi.model.*
-import com.example.chatgptapi.model.remoteModelts.AiModels
+import com.example.chatgptapi.domain.AuthorizationInterceptor
+import com.example.chatgptapi.model.ImageGenerationRequest
+import com.example.chatgptapi.model.ImageModel
+import com.example.chatgptapi.model.TextCompletion
 import com.example.chatgptapi.model.remoteModelts.CompletionRequest
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -14,30 +19,12 @@ class RemoteDataSource {
 
     companion object {
         private const val CONNECTION_TIMEOUT = 60L
+
+        private const val RESPONSE_CODE_INVALID_API_KEY = 401
     }
 
-    private val defaultClient = OkHttpClient().newBuilder()
-        .connectTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)
-        .readTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)
-        .build()
-
-    private val chatGPTService = Retrofit
-        .Builder()
-        .baseUrl(BASE_URL)
-        .client(defaultClient)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-        .create(ChatGPTApi::class.java)
-
-    fun getModels(): AiModels? {
-        val response = chatGPTService.getModels().execute()
-        if (response.isSuccessful) {
-            val aiModels = response.body()
-            return aiModels
-        }
-        //TODO trow exception for fail case
-        return null
-    }
+    private val chatGPTService = createChatApi()
+    private val apiKeyService = checkApiKeyApi()
 
     fun getCompletion(completion: CompletionRequest): TextCompletion? {
         val response = chatGPTService.requestCompletion(completion).execute()
@@ -47,6 +34,13 @@ class RemoteDataSource {
         return null
     }
 
+    suspend fun validateApiKey(apiKey: String): Boolean = withContext(Dispatchers.IO) {
+        val header = "Bearer $apiKey"
+        val response = apiKeyService.checkApiKey(header).execute()
+
+        response.code() != RESPONSE_CODE_INVALID_API_KEY
+    }
+
     fun generateImage(requestModel: ImageGenerationRequest): ImageModel? {
         val response = chatGPTService.requestImageGeneration(requestModel).execute()
         if (response.isSuccessful) {
@@ -54,5 +48,35 @@ class RemoteDataSource {
         }
 
         return null
+    }
+
+    private fun createChatApi(): ChatGPTApi {
+        return Retrofit
+            .Builder()
+            .baseUrl(BASE_URL)
+            .client(createHttpClient(AuthorizationInterceptor()))
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(ChatGPTApi::class.java)
+    }
+
+    private fun checkApiKeyApi(): CheckApiKeyApi {
+        return Retrofit
+            .Builder()
+            .baseUrl(BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create())
+            .build()
+            .create(CheckApiKeyApi::class.java)
+    }
+
+    private fun createHttpClient(interceptor: Interceptor?): OkHttpClient {
+        val builder = OkHttpClient().newBuilder()
+            .connectTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)
+            .readTimeout(CONNECTION_TIMEOUT, TimeUnit.SECONDS)
+
+        if (interceptor != null) {
+            builder.addInterceptor(interceptor)
+        }
+        return builder.build()
     }
 }

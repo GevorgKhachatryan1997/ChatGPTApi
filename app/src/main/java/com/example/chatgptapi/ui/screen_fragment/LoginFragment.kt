@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.example.chatgptapi.MainViewModel
@@ -20,7 +21,7 @@ class LoginFragment :
     }
 
     private var btnGoogleAuthentication: Button? = null
-    private val mainViewModel: MainViewModel by viewModels(ownerProducer = { requireActivity() })
+    private val mainViewModel: MainViewModel by activityViewModels()
     private val loginViewModel: LoginViewModel by viewModels()
     private val loginResultHandler =
         registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result: ActivityResult? ->
@@ -45,17 +46,17 @@ class LoginFragment :
             loginViewModel.authenticationSharedFlow.collect {
                 when (it) {
                     LoginViewModel.AuthenticationSuccess -> {
-                        showChatsHistoryScreen()
+                        showApiKeyScreen()
                     }
                     LoginViewModel.AuthenticationFailed -> {
-                        Toast.makeText(requireContext(), "authentication fail", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(requireContext(), getString(R.string.authentication_fail), Toast.LENGTH_SHORT).show()
                     }
                 }
             }
         }
     }
 
-    private fun showChatsHistoryScreen() {
-        mainViewModel.showScreen(MainViewModel.ChatsHistory)
+    private fun showApiKeyScreen() {
+        mainViewModel.showScreen(MainViewModel.ApiKeyScreen)
     }
 }

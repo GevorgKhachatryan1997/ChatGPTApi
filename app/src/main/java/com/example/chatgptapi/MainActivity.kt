@@ -49,6 +49,9 @@ class MainActivity : AppCompatActivity() {
             is MainViewModel.SettingScreen -> {
                 showSettingFragment()
             }
+            is MainViewModel.ApiKeyScreen -> {
+                showApiKeyFragment()
+            }
         }
     }
 
@@ -87,6 +90,15 @@ class MainActivity : AppCompatActivity() {
             setReorderingAllowed(true)
             replace(R.id.fragment_container_view, SettingFragment())
             addToBackStack(null)
+        }
+    }
+
+    private fun showApiKeyFragment() {
+        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view)
+        if (currentFragment is ApiKeyFragment) return
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            replace(R.id.fragment_container_view, ApiKeyFragment())
         }
     }
 }
