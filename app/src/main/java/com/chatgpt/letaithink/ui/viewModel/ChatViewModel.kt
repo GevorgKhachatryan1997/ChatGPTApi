@@ -21,6 +21,10 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
 import com.chatgpt.letaithink.utils.emit
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlin.coroutines.CoroutineContext
 
 // TODO Handle nonull calls
 // TODO don't allow mutable questions at same time
@@ -32,16 +36,24 @@ class ChatViewModel : ViewModel() {
     private val _progressLoading = MutableStateFlow(false)
     val progressLoading = _progressLoading.asStateFlow()
 
+    private val _exceptionFlow = MutableSharedFlow<Throwable>()
+    val exceptionFlow = _exceptionFlow.asSharedFlow()
+
     private val _chatModes = MutableStateFlow<List<ChatMode>>(emptyList()).apply {
         val modes = ChatRepository.chatModes.mapIndexed { index, chatMode -> if (index == 0) chatMode.copy(selected = true) else chatMode }
         emit(modes, viewModelScope)
     }
+
+    private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
+        _exceptionFlow.emit(exception, viewModelScope)
+    }
+
     val chatModes = _chatModes.asStateFlow()
 
     var session: SessionEntity? = null
 
     fun setChatSession(sessionId: String?) {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             sessionId?.let {
                 session = ChatRepository.getChatSession(sessionId)
                 val conversation = ChatRepository.getSessionConversation(sessionId).messages.map { it.toConversationItem() }
@@ -51,7 +63,7 @@ class ChatViewModel : ViewModel() {
     }
 
     fun onSendClick(text: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             if (session == null) {
                 session = ChatRepository.createSession(text)
             }
@@ -78,7 +90,7 @@ class ChatViewModel : ViewModel() {
     private fun onTextGeneration(text: String, mode: ChatMode) {
         session ?: return
 
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             val question = UserMessage(text)
             updateConversation(question)
             updateConversation(AiThinking("Wait a second )"))
@@ -93,7 +105,7 @@ class ChatViewModel : ViewModel() {
     }
 
     fun onDownloadClick(context: Context, bitmap: Bitmap) {
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             _progressLoading.emit(true)
             withContext(Dispatchers.IO) {
                 try {
@@ -112,14 +124,14 @@ class ChatViewModel : ViewModel() {
     private fun onImageGenerate(description: String) {
         session ?: return
 
-        viewModelScope.launch {
+        viewModelScope.launch(exceptionHandler) {
             val question = UserMessage(description)
             updateConversation(question)
             updateConversation(AiThinking("Wait a second )"))
 
             val imageDescription = ImageGenerationRequest(UserRepository.getUser()?.userId!!, description, IMAGE_SIZE_1024, 1)
             val result = ChatRepository.generateImage(imageDescription)
-            val answer = AiImage(result!!)
+            val answer = AiImage(result)
 
             replaceLastConversationItem(answer)
             ChatRepository.saveConversationItem(session!!, question, answer)

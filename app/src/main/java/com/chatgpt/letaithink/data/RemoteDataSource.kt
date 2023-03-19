@@ -2,6 +2,8 @@ package com.chatgpt.letaithink.data
 
 import com.chatgpt.letaithink.data.ChatGPTApi.Companion.BASE_URL
 import com.chatgpt.letaithink.domain.AuthorizationInterceptor
+import com.chatgpt.letaithink.exception.ApiError
+import com.chatgpt.letaithink.exception.NoConnectionException
 import com.chatgpt.letaithink.model.TextCompletion
 import com.chatgpt.letaithink.model.remoteModelts.CompletionRequest
 import com.chatgpt.letaithink.model.remoteModelts.ImageModel
@@ -11,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
@@ -22,19 +25,24 @@ class RemoteDataSource {
         private const val CONNECTION_TIMEOUT = 60L
 
         private const val RESPONSE_CODE_INVALID_API_KEY = 401
+        private const val RESPONSE_CODE_RATE_LIMIT_REACHED = 429
+        private const val RESPONSE_CODE_SERVER_HAD_ERROR = 500
     }
 
     private val chatGPTService = createChatApi()
     private val apiKeyService = checkApiKeyApi()
 
-    fun getCompletion(completion: CompletionRequest): TextCompletion? {
+    @Throws(NoConnectionException::class, ApiError::class)
+    fun getCompletion(completion: CompletionRequest): TextCompletion {
         val response = chatGPTService.requestCompletion(completion).execute()
         if (response.isSuccessful) {
-            return response.body()
+            return response.body()!!
         }
-        return null
+
+        throwAPIError(response)
     }
 
+    @Throws(NoConnectionException::class)
     suspend fun validateApiKey(apiKey: String): Boolean = withContext(Dispatchers.IO) {
         val header = "Bearer $apiKey"
         val response = apiKeyService.checkApiKey(header).execute()
@@ -42,13 +50,14 @@ class RemoteDataSource {
         response.code() != RESPONSE_CODE_INVALID_API_KEY
     }
 
-    fun generateImage(requestModel: ImageGenerationRequest): ImageModel? {
+    @Throws(NoConnectionException::class, ApiError::class)
+    fun generateImage(requestModel: ImageGenerationRequest): ImageModel {
         val response = chatGPTService.requestImageGeneration(requestModel).execute()
         if (response.isSuccessful) {
-            return response.body()
+            return response.body()!!
         }
 
-        return null
+        throwAPIError(response)
     }
 
     private fun createChatApi(): ChatGPTApi {
@@ -79,5 +88,10 @@ class RemoteDataSource {
             builder.addInterceptor(interceptor)
         }
         return builder.build()
+    }
+
+    @Throws(ApiError::class)
+    private fun throwAPIError(response: Response<*>): Nothing {
+        throw ApiError(response.code(), response.errorBody().toString())
     }
 }

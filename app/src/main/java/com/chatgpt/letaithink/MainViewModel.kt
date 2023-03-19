@@ -16,6 +16,9 @@ class MainViewModel : ViewModel() {
     private val _screenNavigationFlow = MutableSharedFlow<Screen>()
     val screenNavigationFlow = _screenNavigationFlow.asSharedFlow()
 
+    private val _exceptionMutableSharedFlow = MutableSharedFlow<Throwable>()
+    val exceptionSharedFlow = _exceptionMutableSharedFlow.asSharedFlow()
+
     fun onActivityStart() {
         if (currentScreen == null) {
             viewModelScope.launch {
@@ -33,6 +36,10 @@ class MainViewModel : ViewModel() {
     fun showScreen(screen: Screen) {
         currentScreen = screen
         _screenNavigationFlow.emit(screen, viewModelScope)
+    }
+
+    fun handleException(exception: Throwable) {
+        _exceptionMutableSharedFlow.emit(exception, viewModelScope)
     }
 
     sealed class Screen

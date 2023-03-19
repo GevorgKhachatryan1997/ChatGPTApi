@@ -1,11 +1,14 @@
 package com.chatgpt.letaithink.data
 
+import com.chatgpt.letaithink.exception.ApiError
+import com.chatgpt.letaithink.exception.NoConnectionException
 import com.chatgpt.letaithink.model.ChatMode
 import com.chatgpt.letaithink.model.remoteModelts.ImageGenerationRequest
 import com.chatgpt.letaithink.model.TextCompletion
 import com.chatgpt.letaithink.model.databaseModels.Conversation
 import com.chatgpt.letaithink.model.databaseModels.SessionEntity
 import com.chatgpt.letaithink.model.remoteModelts.CompletionRequest
+import com.chatgpt.letaithink.model.remoteModelts.ImageModel
 import com.chatgpt.letaithink.utils.toMessageEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -20,11 +23,13 @@ object ChatRepository {
 
     val chatModes: List<ChatMode> = localDataSource.chatModes
 
+    @Throws(NoConnectionException::class, ApiError::class)
     suspend fun askQuestion(completion: CompletionRequest): TextCompletion = withContext(Dispatchers.IO) {
-        remoteDataSource.getCompletion(completion)!! // TODO unsafe call
+        remoteDataSource.getCompletion(completion)
     }
 
-    suspend fun generateImage(imageParams: ImageGenerationRequest) = withContext(Dispatchers.IO) {
+    @Throws(NoConnectionException::class, ApiError::class)
+    suspend fun generateImage(imageParams: ImageGenerationRequest): ImageModel = withContext(Dispatchers.IO) {
         remoteDataSource.generateImage(imageParams)
     }
 

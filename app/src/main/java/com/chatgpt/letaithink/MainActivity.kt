@@ -1,12 +1,15 @@
 package com.chatgpt.letaithink
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.chatgpt.letaithink.exception.ApiError
+import com.chatgpt.letaithink.exception.NoConnectionException
 import com.chatgpt.letaithink.ui.screen_fragment.ChatFragment
 import com.chatgpt.letaithink.ui.screen_fragment.ChatsHistoryFragment
 import com.chatgpt.letaithink.ui.screen_fragment.*
@@ -24,6 +27,27 @@ class MainActivity : AppCompatActivity() {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
                 viewModel.screenNavigationFlow.collect { screen ->
                     navigateToScreen(screen)
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+                viewModel.exceptionSharedFlow.collect { exception ->
+                    when (exception) {
+                        is NoConnectionException -> {
+                            // TODO show dialog
+                            Toast.makeText(this@MainActivity, "Not internet", Toast.LENGTH_LONG).show()
+                        }
+                        is ApiError -> {
+                            // TODO show dialog
+                            Toast.makeText(
+                                this@MainActivity,
+                                "Error ${exception.message}, ${exception.errorCode}",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                    }
                 }
             }
         }

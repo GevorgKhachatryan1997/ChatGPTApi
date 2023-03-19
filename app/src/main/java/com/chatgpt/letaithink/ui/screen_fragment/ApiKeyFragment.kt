@@ -70,6 +70,14 @@ class ApiKeyFragment : ScreenFragment(R.layout.api_key_fragment) {
                 }
             }
         }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+                apiKeyViewModel.exceptionFlow.collect {
+                    mainViewModel.handleException(it)
+                }
+            }
+        }
     }
 
     private fun showUrl(link: String) {

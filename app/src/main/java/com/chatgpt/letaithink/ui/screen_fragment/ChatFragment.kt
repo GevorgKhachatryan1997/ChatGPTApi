@@ -7,6 +7,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.core.os.bundleOf
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -39,6 +40,7 @@ class ChatFragment : ScreenFragment(R.layout.chat_fragment) {
     private lateinit var pbLoading: ProgressBar
 
     private val chatViewModel: ChatViewModel by viewModels()
+    private val mainViewModel: MainViewModel by activityViewModels()
 
     private val chatAdapter = ChatListAdapter().apply {
         onChatListener = object : ChatListAdapter.ChatListListener {
@@ -110,6 +112,14 @@ class ChatFragment : ScreenFragment(R.layout.chat_fragment) {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
                 chatViewModel.progressLoading.collect { visible ->
                     pbLoading.visibility = if (visible) View.VISIBLE else View.GONE
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.CREATED) {
+                chatViewModel.exceptionFlow.collect {
+                    mainViewModel.handleException(it)
                 }
             }
         }
