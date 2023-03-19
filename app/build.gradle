@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.chatgptapi'
+    namespace 'com.chatgpt.letaithink'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.chatgptapi"
+        applicationId "com.chatgpt.letaithink"
         minSdk 26
         targetSdk 33
         versionCode 1

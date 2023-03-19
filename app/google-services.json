@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "887145393846",
-    "project_id": "chatgpt-86bcd",
-    "storage_bucket": "chatgpt-86bcd.appspot.com"
+    "project_number": "136915008331",
+    "project_id": "letaithink",
+    "storage_bucket": "letaithink.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:887145393846:android:4d87f1f308ff177663c017",
+        "mobilesdk_app_id": "1:136915008331:android:f69f0137293e039e9286ce",
         "android_client_info": {
-          "package_name": "com.example.chatgptapi"
+          "package_name": "com.chatgpt.letaithink"
         }
       },
       "oauth_client": [
         {
-          "client_id": "887145393846-ekfseedfc2rtc82k8bh47fkub860rns3.apps.googleusercontent.com",
+          "client_id": "136915008331-uqb28teaou4phsiladdpcf6gkd3nlglm.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.chatgptapi",
+            "package_name": "com.chatgpt.letaithink",
             "certificate_hash": "bdec294550b5190a27f0660fa9b1cdad588756ac"
           }
         },
         {
-          "client_id": "887145393846-fl0tq6cn8r00iu6r1icqholmarl3n5u3.apps.googleusercontent.com",
+          "client_id": "136915008331-tsfcrukbrgheg98ktrf2gukqmt8qjph6.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDbXpW7P0Gk3d7GV_bp3-rhIyok0o76w1M"
+          "current_key": "AIzaSyAGE1qA1YseQ3OsXD1Lek3DWIFPU5rDEpE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "887145393846-fl0tq6cn8r00iu6r1icqholmarl3n5u3.apps.googleusercontent.com",
+              "client_id": "136915008331-tsfcrukbrgheg98ktrf2gukqmt8qjph6.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
