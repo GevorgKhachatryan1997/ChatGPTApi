@@ -14,6 +14,7 @@ import kotlinx.coroutines.withContext
 class LocalDataSource {
 
     companion object {
+        // TODO use latest version
         const val TEXT_DAVINCI_MODEL = "text-davinci-003"
         const val CODE_DAVINCI_MODEL = "code-davinci-002"
     }
@@ -76,8 +77,10 @@ class LocalDataSource {
     }
 
     suspend fun insertApiKey(apiKey: String) {
-        val apiKeyEntity = ApiKeyEntity(apiKey)
-        appDb.apiKeyDao().insertApiKey(apiKeyEntity)
+        withContext(Dispatchers.IO) {
+            val apiKeyEntity = ApiKeyEntity(apiKey)
+            appDb.apiKeyDao().insertApiKey(apiKeyEntity)
+        }
     }
 
     suspend fun getApiKey(): ApiKeyEntity? = withContext(Dispatchers.IO) {
