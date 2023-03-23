@@ -3,6 +3,8 @@ package com.chatgpt.letaithink
 import android.app.Application
 import com.chatgpt.letaithink.data.AppDatabase
 import com.chatgpt.letaithink.utils.NetworkUtils
+import com.chatgpt.letaithink.utils.NotificationUtils
+import com.chatgpt.letaithink.utils.ShortCutUtils
 import com.google.firebase.FirebaseApp
 
 // TODO Change package name
@@ -13,5 +15,7 @@ class App: Application() {
         FirebaseApp.initializeApp(this)
         AppDatabase.initDatabase(this)
         NetworkUtils.init(this)
+        NotificationUtils.init(this)
+        ShortCutUtils.init(this)
     }
 }
