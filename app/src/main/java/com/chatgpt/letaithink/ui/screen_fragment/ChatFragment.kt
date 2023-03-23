@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -82,13 +83,16 @@ class ChatFragment : ScreenFragment(R.layout.chat_fragment) {
         }
 
         lifecycleScope.launchWhenCreated {
-            chatViewModel.requestInProgress.collect {
-                etChatInput.isEnabled = !it
+            chatViewModel.requestInProgress.collect { loading ->
+                if (!loading) {
+                    Toast.makeText(requireContext(), "wait answer", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
         rvChat = view.findViewById<RecyclerView>(R.id.rvChat).apply {
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = chatAdapter
         }
 
