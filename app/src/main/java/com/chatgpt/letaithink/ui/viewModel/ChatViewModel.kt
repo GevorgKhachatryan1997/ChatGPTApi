@@ -42,9 +42,6 @@ class ChatViewModel : ViewModel() {
     private val _exceptionFlow = MutableSharedFlow<Throwable>()
     val exceptionFlow = _exceptionFlow.asSharedFlow()
 
-    private val _requestInProgress = MutableStateFlow(false)
-    val requestInProgress = _requestInProgress.asStateFlow()
-
     private val _chatModes = MutableStateFlow<List<ChatMode>>(emptyList()).apply {
         val modes = ChatRepository.chatModes.mapIndexed { index, chatMode ->
             if (index == 0) chatMode.copy(selected = true) else chatMode
@@ -53,7 +50,7 @@ class ChatViewModel : ViewModel() {
     }
 
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
-        _requestInProgress.emit(false, viewModelScope)
+        _progressLoading.emit(false, viewModelScope)
         _exceptionFlow.emit(exception, viewModelScope)
     }
 
@@ -73,6 +70,8 @@ class ChatViewModel : ViewModel() {
     }
 
     fun onSendClick(text: String) {
+        if (progressLoading.value) return
+
         viewModelScope.launch(exceptionHandler) {
             if (session == null) {
                 session = ChatRepository.createSession(text)
@@ -101,7 +100,7 @@ class ChatViewModel : ViewModel() {
         session ?: return
 
         viewModelScope.launch(exceptionHandler) {
-            _requestInProgress.emit(value = true)
+            _progressLoading.emit(value = true)
 
             val question = UserMessage(text)
             updateConversation(question)
@@ -120,7 +119,7 @@ class ChatViewModel : ViewModel() {
             replaceLastConversationItem(answer)
             ChatRepository.saveConversationItem(session!!, question, answer)
 
-            _requestInProgress.emit(value = false)
+            _progressLoading.emit(value = false)
         }
     }
 
@@ -145,7 +144,7 @@ class ChatViewModel : ViewModel() {
         session ?: return
 
         viewModelScope.launch(exceptionHandler) {
-            _requestInProgress.emit(value = true)
+            _progressLoading.emit(value = true)
 
             val question = UserMessage(description)
             updateConversation(question)
@@ -163,7 +162,7 @@ class ChatViewModel : ViewModel() {
             replaceLastConversationItem(answer)
             ChatRepository.saveConversationItem(session!!, question, answer)
 
-            _requestInProgress.emit(value = false)
+            _progressLoading.emit(value = false)
         }
     }
 
