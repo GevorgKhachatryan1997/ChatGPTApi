@@ -5,25 +5,29 @@ import android.graphics.Bitmap
 import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.chatgpt.letaithink.model.remoteModelts.IMAGE_SIZE_1024
-import com.chatgpt.letaithink.model.remoteModelts.ImageGenerationRequest
 import com.chatgpt.letaithink.R
 import com.chatgpt.letaithink.data.*
-import com.chatgpt.letaithink.model.*
+import com.chatgpt.letaithink.data.RemoteDataSource.Companion.MAX_TOKEN_COUNT
+import com.chatgpt.letaithink.model.CHAT_MODE_CODE_COMPLETION
+import com.chatgpt.letaithink.model.CHAT_MODE_IMAGE_GENERATION
+import com.chatgpt.letaithink.model.CHAT_MODE_TEXT_COMPLETION
+import com.chatgpt.letaithink.model.ChatMode
 import com.chatgpt.letaithink.model.databaseModels.SessionEntity
 import com.chatgpt.letaithink.model.remoteModelts.CompletionRequest
+import com.chatgpt.letaithink.model.remoteModelts.IMAGE_SIZE_1024
+import com.chatgpt.letaithink.model.remoteModelts.ImageGenerationRequest
 import com.chatgpt.letaithink.utils.ImageUtils
+import com.chatgpt.letaithink.utils.emit
 import com.chatgpt.letaithink.utils.toConversationItem
+import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
-import com.chatgpt.letaithink.utils.emit
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
 
 // TODO Handle nonull calls
 // TODO don't allow mutable questions at same time
@@ -107,7 +111,7 @@ class ChatViewModel : ViewModel() {
                 UserRepository.getUser()?.userId!!,
                 mode.model,
                 generateTextPrompts(text),
-                100,
+                MAX_TOKEN_COUNT,
                 0.3F
             )
             val result = ChatRepository.askQuestion(completion)
