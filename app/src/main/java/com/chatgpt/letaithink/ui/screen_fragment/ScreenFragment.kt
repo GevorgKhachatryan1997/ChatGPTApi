@@ -1,5 +1,6 @@
 package com.chatgpt.letaithink.ui.screen_fragment
 
+import android.content.Context
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -9,8 +10,9 @@ abstract class ScreenFragment(@LayoutRes contentLayoutId: Int): Fragment(content
 
     private val mainViewModel: MainViewModel by activityViewModels()
 
-    override fun onStart() {
-        super.onStart()
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
         mainViewModel.currentScreen = screen
     }
     abstract val screen: MainViewModel.Screen

@@ -2,12 +2,14 @@ package com.chatgpt.letaithink.ui.screen_fragment
 
 import android.Manifest
 import android.os.Build
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import com.chatgpt.letaithink.MainActivity
 import com.chatgpt.letaithink.MainViewModel
 import com.chatgpt.letaithink.R
 import com.chatgpt.letaithink.ui.viewModel.SettingViewModel
@@ -63,5 +65,11 @@ class SettingFragment : ScreenFragment(R.layout.setting_fragment) {
     private fun showBubbleViewNotification() {
         NotificationUtils.showBubbleViewNotification()
         requireActivity().finish()
+    }
+
+    private fun clearStack() {
+        val intent = Intent(requireContext(), MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
     }
 }

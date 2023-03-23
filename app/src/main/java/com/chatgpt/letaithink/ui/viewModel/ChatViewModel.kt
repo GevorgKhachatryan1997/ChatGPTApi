@@ -24,7 +24,6 @@ import com.chatgpt.letaithink.utils.emit
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
-import kotlin.coroutines.CoroutineContext
 
 // TODO Handle nonull calls
 // TODO don't allow mutable questions at same time
@@ -39,12 +38,18 @@ class ChatViewModel : ViewModel() {
     private val _exceptionFlow = MutableSharedFlow<Throwable>()
     val exceptionFlow = _exceptionFlow.asSharedFlow()
 
+    private val _requestInProgress = MutableStateFlow(false)
+    val requestInProgress = _requestInProgress.asStateFlow()
+
     private val _chatModes = MutableStateFlow<List<ChatMode>>(emptyList()).apply {
-        val modes = ChatRepository.chatModes.mapIndexed { index, chatMode -> if (index == 0) chatMode.copy(selected = true) else chatMode }
+        val modes = ChatRepository.chatModes.mapIndexed { index, chatMode ->
+            if (index == 0) chatMode.copy(selected = true) else chatMode
+        }
         emit(modes, viewModelScope)
     }
 
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
+        _requestInProgress.emit(false, viewModelScope)
         _exceptionFlow.emit(exception, viewModelScope)
     }
 
@@ -56,7 +61,8 @@ class ChatViewModel : ViewModel() {
         viewModelScope.launch(exceptionHandler) {
             sessionId?.let {
                 session = ChatRepository.getChatSession(sessionId)
-                val conversation = ChatRepository.getSessionConversation(sessionId).messages.map { it.toConversationItem() }
+                val conversation =
+                    ChatRepository.getSessionConversation(sessionId).messages.map { it.toConversationItem() }
                 _conversationItems.emit(conversation)
             }
         }
@@ -91,16 +97,26 @@ class ChatViewModel : ViewModel() {
         session ?: return
 
         viewModelScope.launch(exceptionHandler) {
+            _requestInProgress.emit(value = true)
+
             val question = UserMessage(text)
             updateConversation(question)
             updateConversation(AiThinking("Wait a second )"))
 
-            val completion = CompletionRequest(UserRepository.getUser()?.userId!!, mode.model, generateTextPrompts(text), 100, 0.3F)
+            val completion = CompletionRequest(
+                UserRepository.getUser()?.userId!!,
+                mode.model,
+                generateTextPrompts(text),
+                100,
+                0.3F
+            )
             val result = ChatRepository.askQuestion(completion)
             val answer = AiMessage(result)
 
             replaceLastConversationItem(answer)
             ChatRepository.saveConversationItem(session!!, question, answer)
+
+            _requestInProgress.emit(value = false)
         }
     }
 
@@ -125,16 +141,25 @@ class ChatViewModel : ViewModel() {
         session ?: return
 
         viewModelScope.launch(exceptionHandler) {
+            _requestInProgress.emit(value = true)
+
             val question = UserMessage(description)
             updateConversation(question)
             updateConversation(AiThinking("Wait a second )"))
 
-            val imageDescription = ImageGenerationRequest(UserRepository.getUser()?.userId!!, description, IMAGE_SIZE_1024, 1)
+            val imageDescription = ImageGenerationRequest(
+                UserRepository.getUser()?.userId!!,
+                description,
+                IMAGE_SIZE_1024,
+                1
+            )
             val result = ChatRepository.generateImage(imageDescription)
             val answer = AiImage(result)
 
             replaceLastConversationItem(answer)
             ChatRepository.saveConversationItem(session!!, question, answer)
+
+            _requestInProgress.emit(value = false)
         }
     }
 

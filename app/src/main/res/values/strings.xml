@@ -5,7 +5,7 @@
     <string name="name">name</string>
     <string name="name_is_empty">Name is empty</string>
     <string name="google">Google</string>
-    <string name="authentication">Authentication</string>
+    <string name="authorization">Authorization</string>
     <string name="logout">Logout</string>
     <string name="settings">Settings</string>
     <string name="accept">Accept</string>
