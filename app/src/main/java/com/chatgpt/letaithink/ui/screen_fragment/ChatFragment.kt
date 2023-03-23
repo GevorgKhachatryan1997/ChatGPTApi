@@ -80,6 +80,13 @@ class ChatFragment : ScreenFragment(R.layout.chat_fragment) {
                 } // TODO handle blank case
             }
         }
+
+        lifecycleScope.launchWhenCreated {
+            chatViewModel.requestInProgress.collect {
+                etChatInput.isEnabled = !it
+            }
+        }
+
         rvChat = view.findViewById<RecyclerView>(R.id.rvChat).apply {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             adapter = chatAdapter

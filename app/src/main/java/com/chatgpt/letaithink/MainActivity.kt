@@ -1,5 +1,6 @@
 package com.chatgpt.letaithink
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -8,10 +9,9 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.chatgpt.letaithink.data.RemoteDataSource.Companion.RESPONSE_CODE_INVALID_API_KEY
 import com.chatgpt.letaithink.exception.ApiError
 import com.chatgpt.letaithink.exception.NoConnectionException
-import com.chatgpt.letaithink.ui.screen_fragment.ChatFragment
-import com.chatgpt.letaithink.ui.screen_fragment.ChatsHistoryFragment
 import com.chatgpt.letaithink.ui.screen_fragment.*
 import kotlinx.coroutines.launch
 
@@ -37,7 +37,8 @@ class MainActivity : AppCompatActivity() {
                     when (exception) {
                         is NoConnectionException -> {
                             // TODO show dialog
-                            Toast.makeText(this@MainActivity, "Not internet", Toast.LENGTH_LONG).show()
+                            Toast.makeText(this@MainActivity, "Not internet", Toast.LENGTH_LONG)
+                                .show()
                         }
                         is ApiError -> {
                             // TODO show dialog
@@ -46,6 +47,10 @@ class MainActivity : AppCompatActivity() {
                                 "Error ${exception.message}, ${exception.errorCode}",
                                 Toast.LENGTH_LONG
                             ).show()
+                            if (exception.errorCode == RESPONSE_CODE_INVALID_API_KEY) {
+                                showApiKeyFragment()
+                                clearStack()
+                            }
                         }
                     }
                 }
@@ -57,6 +62,12 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
 
         viewModel.onActivityStart()
+    }
+
+    private fun clearStack() {
+        val intent = Intent(this, MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
     }
 
     private fun navigateToScreen(screen: MainViewModel.Screen) {

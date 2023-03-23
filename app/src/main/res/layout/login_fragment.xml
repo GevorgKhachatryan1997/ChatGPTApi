@@ -10,28 +10,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="2dp"
-        android:text="@string/authentication"
+        android:text="@string/authorization"
         android:textSize="50sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="200dp"
+        android:layout_width="300dp"
         android:layout_height="300dp"
+        android:layout_margin="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/googleSignInImageView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        tools:srcCompat="@tools:sample/avatars" />
+        app:srcCompat="@mipmap/ic_launcher" />
 
-    <Button
-        android:id="@+id/btnGoogleAuthentication"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
-        android:text="@string/google"
+    <ImageView
+        android:id="@+id/googleSignInImageView"
+        android:layout_width="350dp"
+        android:layout_height="80dp"
+        android:layout_margin="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@drawable/common_google_signin_btn_icon_dark" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="256dp"
         android:layout_margin="8dp"
-        android:background="@color/purple_200"
+        android:background="@color/blue_100"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

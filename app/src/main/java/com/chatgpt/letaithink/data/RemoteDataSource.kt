@@ -24,7 +24,7 @@ class RemoteDataSource {
     companion object {
         private const val CONNECTION_TIMEOUT = 60L
 
-        private const val RESPONSE_CODE_INVALID_API_KEY = 401
+        const val RESPONSE_CODE_INVALID_API_KEY = 401
         private const val RESPONSE_CODE_RATE_LIMIT_REACHED = 429
         private const val RESPONSE_CODE_SERVER_HAD_ERROR = 500
     }
