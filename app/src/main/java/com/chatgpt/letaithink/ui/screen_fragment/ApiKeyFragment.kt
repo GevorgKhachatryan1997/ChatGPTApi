@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -15,17 +14,14 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.chatgpt.letaithink.MainViewModel
 import com.chatgpt.letaithink.R
 import com.chatgpt.letaithink.ui.viewModel.ApiKeyViewModel
+import com.chatgpt.letaithink.utils.OpenAIUtils
 import kotlinx.coroutines.launch
 
 class ApiKeyFragment : ScreenFragment(R.layout.api_key_fragment) {
 
-    companion object {
-        private const val API_KEY_LINK = "https://platform.openai.com/account/api-keys"
-    }
-
-    var tvApiKeyLink: TextView? = null
-    var etApiKey: EditText? = null
-    var btnAcceptApiKey: Button? = null
+    private var btnGenerateApiKey: Button? = null
+    private var etApiKey: EditText? = null
+    private var btnAcceptApiKey: Button? = null
     private val apiKeyViewModel: ApiKeyViewModel by viewModels()
     private val mainViewModel: MainViewModel by activityViewModels()
 
@@ -35,13 +31,13 @@ class ApiKeyFragment : ScreenFragment(R.layout.api_key_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        tvApiKeyLink = view.findViewById(R.id.tvApiKeyLink)
+        btnGenerateApiKey = view.findViewById<Button>(R.id.btnGenerateApiKey).apply {
+            setOnClickListener {
+                OpenAIUtils.navigateToGenerateApiKeyPage(requireContext())
+            }
+        }
         etApiKey = view.findViewById(R.id.etApiKey)
         btnAcceptApiKey = view.findViewById(R.id.btnAcceptApiKey)
-
-        tvApiKeyLink?.setOnClickListener {
-            showUrl(API_KEY_LINK)
-        }
 
         btnAcceptApiKey?.setOnClickListener {
             if (etApiKey?.text?.isNotBlank() == true) {
@@ -78,9 +74,5 @@ class ApiKeyFragment : ScreenFragment(R.layout.api_key_fragment) {
                 }
             }
         }
-    }
-
-    private fun showUrl(link: String) {
-        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(link)))
     }
 }

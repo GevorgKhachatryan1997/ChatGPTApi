@@ -15,5 +15,6 @@ abstract class ScreenFragment(@LayoutRes contentLayoutId: Int): Fragment(content
 
         mainViewModel.currentScreen = screen
     }
+    // TODO try remove
     abstract val screen: MainViewModel.Screen
 }
