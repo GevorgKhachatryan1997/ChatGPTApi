@@ -2,7 +2,7 @@ package com.chatgpt.letaithink.ui.screen_fragment
 
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -20,7 +20,7 @@ class LoginFragment :
         fun newInstance() = LoginFragment()
     }
 
-    private var googleSignInImageView: ImageView? = null
+    private var googleSignInView: FrameLayout? = null
     private val mainViewModel: MainViewModel by activityViewModels()
     private val loginViewModel: LoginViewModel by viewModels()
     private val loginResultHandler =
@@ -35,8 +35,8 @@ class LoginFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        googleSignInImageView = view.findViewById(R.id.googleSignInImageView)
-        googleSignInImageView?.setOnClickListener {
+        googleSignInView = view.findViewById(R.id.googleSignInButton)
+        googleSignInView?.setOnClickListener {
             loginViewModel.signInRequest(requireActivity()) {
                 loginResultHandler.launch(it)
             }
