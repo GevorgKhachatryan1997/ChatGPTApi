@@ -1,7 +1,6 @@
 package com.chatgpt.letaithink
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
@@ -12,10 +11,12 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.chatgpt.letaithink.data.RemoteDataSource.Companion.RESPONSE_CODE_INVALID_API_KEY
 import com.chatgpt.letaithink.exception.ApiError
 import com.chatgpt.letaithink.exception.NoConnectionException
+import com.chatgpt.letaithink.ui.dialog.ErrorDialog
+import com.chatgpt.letaithink.ui.dialog.InvalidApiKeyDialog
 import com.chatgpt.letaithink.ui.screen_fragment.*
 import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), InvalidApiKeyDialog.Listener {
 
     private val viewModel: MainViewModel by viewModels()
 
@@ -38,22 +39,19 @@ class MainActivity : AppCompatActivity() {
                 viewModel.exceptionSharedFlow.collect { exception ->
                     when (exception) {
                         is NoConnectionException -> {
-                            // TODO show dialog
-                            Toast.makeText(this@MainActivity, "Not internet", Toast.LENGTH_LONG)
-                                .show()
+                            showErrorDialog(getString(R.string.no_internet_connection))
                         }
                         is ApiError -> {
-                            // TODO show dialog
-                            Toast.makeText(
-                                this@MainActivity,
-                                "Error ${exception.message}, ${exception.errorCode}",
-                                Toast.LENGTH_LONG
-                            ).show()
-                            if (exception.errorCode == RESPONSE_CODE_INVALID_API_KEY) {
-                                clearStack()
-                                showApiKeyFragment()
+                            when (exception.errorCode) {
+                                RESPONSE_CODE_INVALID_API_KEY -> {
+                                    InvalidApiKeyDialog.newInstance(exception.message ?: "")
+                                        .apply { listener = this@MainActivity }
+                                        .show(supportFragmentManager)
+                                }
+                                else -> showErrorDialog(exception.message)
                             }
                         }
+                        else -> showErrorDialog(exception.message)
                     }
                 }
             }
@@ -64,6 +62,11 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
 
         viewModel.onActivityStart()
+    }
+
+    override fun onUpdateApiKey() {
+        clearStack()
+        showApiKeyFragment()
     }
 
     private fun clearStack() {
@@ -138,6 +141,12 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             replace(R.id.fragment_container_view, ApiKeyFragment())
+        }
+    }
+
+    private fun showErrorDialog(message: String?) {
+        message?.let {
+            ErrorDialog.newInstance(it).show(supportFragmentManager)
         }
     }
 }

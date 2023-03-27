@@ -12,7 +12,7 @@ object JsonUtil {
     }
 
     @Throws(JsonSyntaxException::class)
-    fun <T> fromJson(json: String?, classOfT: Class<T>?): T {
+    fun <T> fromJson(json: String, classOfT: Class<T>): T {
         return gson.fromJson(json, classOfT)
     }
 }

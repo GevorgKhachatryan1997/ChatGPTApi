@@ -6,9 +6,11 @@ import com.chatgpt.letaithink.exception.ApiError
 import com.chatgpt.letaithink.exception.NoConnectionException
 import com.chatgpt.letaithink.model.TextCompletion
 import com.chatgpt.letaithink.model.remoteModelts.CompletionRequest
-import com.chatgpt.letaithink.model.remoteModelts.ImageModel
+import com.chatgpt.letaithink.model.remoteModelts.ErrorBody
 import com.chatgpt.letaithink.model.remoteModelts.ImageGenerationRequest
-
+import com.chatgpt.letaithink.model.remoteModelts.ImageModel
+import com.chatgpt.letaithink.utils.JsonUtil
+import com.chatgpt.letaithink.utils.NetworkUtils
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.Interceptor
@@ -34,6 +36,8 @@ class RemoteDataSource {
 
     @Throws(NoConnectionException::class, ApiError::class)
     fun getCompletion(completion: CompletionRequest): TextCompletion {
+        NetworkUtils.ensureNetworkConnection()
+
         val response = chatGPTService.requestCompletion(completion).execute()
         if (response.isSuccessful) {
             return response.body()!!
@@ -44,6 +48,8 @@ class RemoteDataSource {
 
     @Throws(NoConnectionException::class)
     suspend fun validateApiKey(apiKey: String): Boolean = withContext(Dispatchers.IO) {
+        NetworkUtils.ensureNetworkConnection()
+
         val header = "Bearer $apiKey"
         val response = apiKeyService.checkApiKey(header).execute()
 
@@ -52,6 +58,8 @@ class RemoteDataSource {
 
     @Throws(NoConnectionException::class, ApiError::class)
     fun generateImage(requestModel: ImageGenerationRequest): ImageModel {
+        NetworkUtils.ensureNetworkConnection()
+
         val response = chatGPTService.requestImageGeneration(requestModel).execute()
         if (response.isSuccessful) {
             return response.body()!!
@@ -92,6 +100,9 @@ class RemoteDataSource {
 
     @Throws(ApiError::class)
     private fun throwAPIError(response: Response<*>): Nothing {
-        throw ApiError(response.code(), response.errorBody().toString())
+        val errorBody = response.errorBody()?.string() ?: ""
+        // TODO handle json parse exception
+        val error = JsonUtil.fromJson(errorBody, ErrorBody::class.java)
+        throw ApiError(response.code(), error.error?.message ?: "")
     }
 }

@@ -3,7 +3,6 @@ package com.chatgpt.letaithink.ui.screen_fragment
 import android.os.Bundle
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
@@ -11,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.chatgpt.letaithink.MainViewModel
 import com.chatgpt.letaithink.R
+import com.chatgpt.letaithink.ui.dialog.ErrorDialog
 import com.chatgpt.letaithink.ui.viewModel.LoginViewModel
 
 class LoginFragment :
@@ -49,7 +49,8 @@ class LoginFragment :
                         showApiKeyScreen()
                     }
                     LoginViewModel.AuthenticationFailed -> {
-                        Toast.makeText(requireContext(), getString(R.string.authentication_fail), Toast.LENGTH_SHORT).show()
+                        val message = getString(R.string.authentication_fail)
+                        showErrorDialog(message)
                     }
                 }
             }
@@ -58,5 +59,9 @@ class LoginFragment :
 
     private fun showApiKeyScreen() {
         mainViewModel.showScreen(MainViewModel.ApiKeyScreen)
+    }
+
+    private fun showErrorDialog(message: String) {
+        ErrorDialog.newInstance(message).show(childFragmentManager)
     }
 }

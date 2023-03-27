@@ -9,6 +9,7 @@ import com.chatgpt.letaithink.model.databaseModels.Conversation
 import com.chatgpt.letaithink.model.databaseModels.SessionEntity
 import com.chatgpt.letaithink.model.remoteModelts.CompletionRequest
 import com.chatgpt.letaithink.model.remoteModelts.ImageModel
+import com.chatgpt.letaithink.utils.NetworkUtils
 import com.chatgpt.letaithink.utils.toMessageEntity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
@@ -30,6 +31,7 @@ object ChatRepository {
 
     @Throws(NoConnectionException::class, ApiError::class)
     suspend fun generateImage(imageParams: ImageGenerationRequest): ImageModel = withContext(Dispatchers.IO) {
+        NetworkUtils.ensureNetworkConnection()
         remoteDataSource.generateImage(imageParams)
     }
 

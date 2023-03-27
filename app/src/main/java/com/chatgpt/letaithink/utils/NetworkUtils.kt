@@ -15,7 +15,8 @@ object NetworkUtils {
         this.context = context
     }
 
-    fun enshureNetworcConnetcted() {
+    @Throws(NoConnectionException::class)
+    fun ensureNetworkConnection() {
         if (!isInternetConnected()) {
             throw NoConnectionException()
         }

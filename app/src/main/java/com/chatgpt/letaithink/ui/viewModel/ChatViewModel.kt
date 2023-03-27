@@ -50,6 +50,9 @@ class ChatViewModel : ViewModel() {
     }
 
     private val exceptionHandler = CoroutineExceptionHandler { _, exception ->
+        if (conversationItems.value.lastOrNull() is AiThinking) {
+            removeLastItem()
+        }
         _progressLoading.emit(false, viewModelScope)
         _exceptionFlow.emit(exception, viewModelScope)
     }
@@ -174,6 +177,15 @@ class ChatViewModel : ViewModel() {
     private fun replaceLastConversationItem(conversationItem: ConversationItem) {
         val newConversation = _conversationItems.value.dropLast(1) + conversationItem
         _conversationItems.emit(newConversation, viewModelScope)
+    }
+
+    private fun removeLastItem() {
+        with(_conversationItems) {
+            if (value.isNotEmpty()) {
+                val newConversation = value.dropLast(1)
+                _conversationItems.emit(newConversation, viewModelScope)
+            }
+        }
     }
 
     private fun getSelectedChatMode() = chatModes.value.first { it.selected }

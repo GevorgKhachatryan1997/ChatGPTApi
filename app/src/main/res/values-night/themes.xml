@@ -1,3 +1,4 @@
+<!--TODO Remove night theme-->
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Theme.ChatGPTApi" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
