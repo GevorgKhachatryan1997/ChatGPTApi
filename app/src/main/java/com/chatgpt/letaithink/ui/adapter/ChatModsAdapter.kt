@@ -58,7 +58,7 @@ class ChatModsAdapter : RecyclerView.Adapter<ChatModsAdapter.ChatModeViewHolder>
                 tvModeTitle.setText(title)
 
                 if (selected) {
-                    clModeContainer.setBackgroundResource(R.color.selected_chat_mode_color)
+                    clModeContainer.setBackgroundResource(R.color.icon_pressed_color)
                 } else {
                     clModeContainer.setBackgroundResource(android.R.color.white)
                 }

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <style name="ToolBar" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="android:background">@color/blue_700</item>
+        <item name="titleTextColor">@android:color/white</item>
+    </style>
+
     <style name="TextTitle">
         <item name="android:textColor">@color/blue_900</item>
         <item name="android:textSize">28sp</item>
@@ -12,6 +17,11 @@
         <item name="android:textSize">16sp</item>
     </style>
 
+    <style name="TextDescription.ListTextOneLine">
+        <item name="android:lines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textSize">20sp</item>
+    </style>
 
     <style name="TextStep" parent="Widget.MaterialComponents.TextView">
         <item name="android:textColor">@android:color/white</item>
@@ -33,5 +43,13 @@
         <item name="boxStrokeColor">@color/blue_500</item>
         <item name="hintTextColor">@color/blue_700</item>
         <item name="android:textSize">16sp</item>
+    </style>
+
+    <style name="IconDark">
+        <item name="android:tint">@color/blue_800</item>
+    </style>
+
+    <style name="IconLight">
+        <item name="android:tint">@color/blue_50</item>
     </style>
 </resources>

@@ -1,9 +1,13 @@
 package com.chatgpt.letaithink.ui.screen_fragment
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.Button
-import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -18,7 +22,7 @@ import com.chatgpt.letaithink.ui.adapter.ChatsHistoryListAdapter
 import com.chatgpt.letaithink.ui.viewModel.ChatsHistoryViewModel
 import kotlinx.coroutines.launch
 
-class ChatsHistoryFragment : ScreenFragment(R.layout.chats_history_fragment) {
+class ChatsHistoryFragment : ScreenFragment(R.layout.chats_history_fragment), MenuProvider {
 
     private val chatsHistoryAdapter = ChatsHistoryListAdapter().apply {
         itemClickListener = object : ChatsHistoryListAdapter.OnSessionClickListener {
@@ -43,22 +47,18 @@ class ChatsHistoryFragment : ScreenFragment(R.layout.chats_history_fragment) {
         get() = MainViewModel.ChatsHistory
 
     private var btnCreateNewChat: Button? = null
-    private var tvChatsHistoryTitle: TextView? = null
     private var rvChatsHistory: RecyclerView? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        view.findViewById<Button>(R.id.btnSetting)?.setOnClickListener {
-            mainViewModel.showScreen(MainViewModel.SettingScreen)
-        }
+        requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
         btnCreateNewChat = view.findViewById<Button>(R.id.btn_create_new_chat).also {
             it.setOnClickListener {
                 mainViewModel.showScreen(MainViewModel.AiChatScreen())
             }
         }
-        tvChatsHistoryTitle = view.findViewById(R.id.tv_chats_history_title)
         rvChatsHistory = view.findViewById<RecyclerView>(R.id.rv_chats_history).also {
             it.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             it.adapter = chatsHistoryAdapter
@@ -71,5 +71,33 @@ class ChatsHistoryFragment : ScreenFragment(R.layout.chats_history_fragment) {
                 }
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        requireActivity().findViewById<Toolbar>(R.id.toolbar).setTitle(R.string.chats)
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        requireActivity().findViewById<Toolbar>(R.id.toolbar).setTitle(R.string.app_name)
+    }
+
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.chat_history, menu)
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        val handled = when (menuItem.itemId) {
+            R.id.menu_settings -> {
+                mainViewModel.showScreen(MainViewModel.SettingScreen)
+                true
+            }
+            else -> false
+        }
+
+        return handled
     }
 }
