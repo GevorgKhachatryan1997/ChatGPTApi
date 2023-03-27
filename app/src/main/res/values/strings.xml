@@ -25,5 +25,8 @@
     <string name="enable_bubble_chat">Enable bubble chat</string>
     <string name="bubble_notification_message">Click on notification bubble icon</string>
     <string name="bubble_notification_settings_description">also you can enable bubbling from app notification settings.</string>
+    <string name="back">Back</string>
+    <string name="error">Error</string>
+    <string name="no_internet_conection">No internet conection</string>
 
 </resources>

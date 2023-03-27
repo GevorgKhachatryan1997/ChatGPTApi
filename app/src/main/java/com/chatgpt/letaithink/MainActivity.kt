@@ -2,7 +2,6 @@ package com.chatgpt.letaithink
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.commit
@@ -12,6 +11,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.chatgpt.letaithink.data.RemoteDataSource.Companion.RESPONSE_CODE_INVALID_API_KEY
 import com.chatgpt.letaithink.exception.ApiError
 import com.chatgpt.letaithink.exception.NoConnectionException
+import com.chatgpt.letaithink.ui.dialog.ErrorDialog
 import com.chatgpt.letaithink.ui.screen_fragment.*
 import kotlinx.coroutines.launch
 
@@ -36,17 +36,10 @@ class MainActivity : AppCompatActivity() {
                 viewModel.exceptionSharedFlow.collect { exception ->
                     when (exception) {
                         is NoConnectionException -> {
-                            // TODO show dialog
-                            Toast.makeText(this@MainActivity, "Not internet", Toast.LENGTH_LONG)
-                                .show()
+                            showErrorDialog(getString(R.string.no_internet_conection))
                         }
                         is ApiError -> {
-                            // TODO show dialog
-                            Toast.makeText(
-                                this@MainActivity,
-                                "Error ${exception.message}, ${exception.errorCode}",
-                                Toast.LENGTH_LONG
-                            ).show()
+                            showErrorDialog(exception.message)
                             if (exception.errorCode == RESPONSE_CODE_INVALID_API_KEY) {
                                 showApiKeyFragment()
                                 clearStack()
@@ -134,6 +127,13 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             replace(R.id.fragment_container_view, ApiKeyFragment())
+        }
+    }
+
+    private fun showErrorDialog(message: String?) {
+        message?.let {
+            ErrorDialog.newInstance(it)
+                .show(supportFragmentManager)
         }
     }
 }

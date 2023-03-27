@@ -55,6 +55,7 @@ class ChatFragment : ScreenFragment(R.layout.chat_fragment) {
 
         }
     }
+
     private val chatModesAdapter = ChatModsAdapter().apply {
         chatModeListener = ChatModsAdapter.OnChatModeListener {
             chatViewModel.onChatModeSelected(it)
