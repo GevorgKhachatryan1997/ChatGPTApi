@@ -13,8 +13,7 @@ import com.chatgpt.letaithink.R
 import com.chatgpt.letaithink.ui.dialog.ErrorDialog
 import com.chatgpt.letaithink.ui.viewModel.LoginViewModel
 
-class LoginFragment :
-    ScreenFragment(R.layout.login_fragment) {
+class LoginFragment : ScreenFragment(R.layout.login_fragment) {
 
     companion object {
         fun newInstance() = LoginFragment()

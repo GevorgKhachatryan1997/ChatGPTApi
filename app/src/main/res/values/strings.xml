@@ -28,5 +28,6 @@
     <string name="back">Back</string>
     <string name="error">Error</string>
     <string name="no_internet_conection">No internet conection</string>
+    <string name="support">Support</string>
 
 </resources>
