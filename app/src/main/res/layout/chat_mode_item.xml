@@ -9,14 +9,16 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/clModeContainer"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="36dp"
+        android:layout_height="38dp"
         android:padding="4dp">
 
         <ImageView
+            style="@style/IconDark"
             android:id="@+id/ivChatMode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -28,6 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/ivChatMode"
             app:layout_constraintStart_toStartOf="@id/ivChatMode"

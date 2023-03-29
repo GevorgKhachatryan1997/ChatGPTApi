@@ -53,7 +53,7 @@ class ChatListAdapter : ListAdapter<ConversationItem, ChatListAdapter.Conversati
     @LayoutRes
     private fun getItemLayout(viewType: Int): Int = when (viewType) {
         VIEW_TYPE_USER -> R.layout.user_question_item
-        VIEW_TYPE_AI_THINKING -> R.layout.ai_thinks_item
+        VIEW_TYPE_AI_THINKING -> R.layout.ai_answer_item
         VIEW_TYPE_AI_TEXT -> R.layout.ai_answer_item
         VIEW_TYPE_AI_IMAGE -> R.layout.ai_image_item
         else -> throw IllegalArgumentException("View type not supported: $viewType")
@@ -86,16 +86,11 @@ class ChatListAdapter : ListAdapter<ConversationItem, ChatListAdapter.Conversati
 
     inner class UserMessageViewHolder(view: View) : ConversationViewHolder<UserMessage>(view) {
         private val tvText: TextView = view.findViewById(R.id.tvText)
-        private val icCopy: ImageView = view.findViewById(R.id.ivCopyMessage)
         private val icEdit: ImageView = view.findViewById(R.id.ivEditMessage)
 
         private var userMessage: UserMessage? = null
 
         init {
-            icCopy.setOnClickListener {
-                view.context.addToClipboard(tvText.text.toString())
-            }
-
             icEdit.setOnClickListener {
                 onChatListener?.onEditClick(userMessage!!)
             }
@@ -111,6 +106,11 @@ class ChatListAdapter : ListAdapter<ConversationItem, ChatListAdapter.Conversati
     class AiThinkingViewHolder(view: View) : ConversationViewHolder<AiThinking>(view) {
 
         private val tvText: TextView = view.findViewById(R.id.tvText)
+        private val ivCopy: ImageView = view.findViewById(R.id.ivCopyMessage)
+
+        init {
+            ivCopy.visibility = View.GONE
+        }
 
         override fun bind(message: AiThinking) {
             tvText.text = message.message

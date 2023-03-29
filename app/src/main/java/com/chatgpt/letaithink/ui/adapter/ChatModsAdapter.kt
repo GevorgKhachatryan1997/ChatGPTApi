@@ -5,8 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.chatgpt.letaithink.R
@@ -58,13 +58,12 @@ class ChatModsAdapter : RecyclerView.Adapter<ChatModsAdapter.ChatModeViewHolder>
                 ivChatMode.setImageResource(image)
                 tvModeTitle.setText(title)
 
-                val backgroundColor = if (selected) {
-                    R.color.icon_pressed_color
-                } else {
-                    android.R.color.white
-                }
+                val backgroundColor = if (selected) R.color.icon_pressed_color else android.R.color.white
+
+                val imageTint = if (selected) R.color.blue_50 else R.color.blue_800
 
                 clModeContainer.setBackgroundColor(itemView.context.getColor(backgroundColor))
+                ivChatMode.setColorFilter(ContextCompat.getColor(itemView.context, imageTint), android.graphics.PorterDuff.Mode.SRC_IN)
             }
         }
     }
