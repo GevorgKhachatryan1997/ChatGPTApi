@@ -22,10 +22,7 @@
             android:name=".MainActivity"
             android:exported="true"
             android:allowEmbedded="true"
-            android:resizeableActivity="true"
-            android:documentLaunchMode="always"
-            android:launchMode="singleInstance"
-            android:clearTaskOnLaunch="true">
+            android:resizeableActivity="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
