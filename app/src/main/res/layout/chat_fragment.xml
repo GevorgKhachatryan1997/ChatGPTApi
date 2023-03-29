@@ -23,6 +23,7 @@
         android:src="@drawable/icon_chat"
         android:orientation="horizontal"
         android:overScrollMode="never"
+        android:layout_marginBottom="4dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toTopOf="@+id/etChatInput"
         app:layout_constraintStart_toStartOf="@+id/etChatInput"

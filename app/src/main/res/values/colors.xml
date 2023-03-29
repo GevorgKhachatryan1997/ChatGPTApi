@@ -12,7 +12,7 @@
     <color name="blue_800">#1565C0</color>
     <color name="blue_900">#0D47A1</color>
 
-    <color name="icon_pressed_color">@color/blue_700</color>
-    <color name="icon_color">@color/blue_100</color>
+    <color name="icon_pressed_color">@color/blue_500</color>
+    <color name="icon_color">@color/blue_300</color>
 
 </resources>
