@@ -5,18 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Button
-        android:id="@+id/btn_create_new_chat"
-        style="@style/Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:text="@string/new_chat"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_chats_history"
         android:layout_width="match_parent"
@@ -24,11 +12,30 @@
         android:clipToPadding="true"
         android:overScrollMode="ifContentScrolls"
         android:paddingVertical="16dp"
-        app:layout_constraintBottom_toTopOf="@id/btn_create_new_chat"
+        app:layout_constraintBottom_toTopOf="@id/cv_new_chat"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/chat_history_item" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cv_new_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="@color/blue_700"
+        app:cardCornerRadius="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            style="@style/IconLight"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_margin="16dp"
+            android:src="@drawable/icon_chat" />
+    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

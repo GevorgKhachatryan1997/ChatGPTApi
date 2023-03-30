@@ -5,8 +5,8 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
 import androidx.appcompat.widget.Toolbar
+import androidx.cardview.widget.CardView
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -46,7 +46,7 @@ class ChatsHistoryFragment : ScreenFragment(R.layout.chats_history_fragment), Me
     override val screen: MainViewModel.Screen
         get() = MainViewModel.ChatsHistory
 
-    private var btnCreateNewChat: Button? = null
+    private var btnCreateNewChat: CardView? = null
     private var rvChatsHistory: RecyclerView? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -54,7 +54,7 @@ class ChatsHistoryFragment : ScreenFragment(R.layout.chats_history_fragment), Me
 
         requireActivity().addMenuProvider(this, viewLifecycleOwner, Lifecycle.State.RESUMED)
 
-        btnCreateNewChat = view.findViewById<Button>(R.id.btn_create_new_chat).also {
+        btnCreateNewChat = view.findViewById<CardView>(R.id.cv_new_chat).also {
             it.setOnClickListener {
                 mainViewModel.showScreen(MainViewModel.AiChatScreen())
             }
