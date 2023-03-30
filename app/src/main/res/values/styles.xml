@@ -21,7 +21,7 @@
     </style>
 
     <style name="TextDescription.Light">
-        <item name="android:textColor">@color/blue_50</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="SmallText">
@@ -68,6 +68,14 @@
     </style>
 
     <style name="IconLight">
-        <item name="android:tint">@color/blue_50</item>
+        <item name="android:tint">@color/white</item>
+    </style>
+
+    <style name="SettingCardView">
+        <item name="cardBackgroundColor">@color/white</item>
+        <item name="cardCornerRadius">8dp</item>
+        <item name="cardElevation">2dp</item>
+        <item name="contentPaddingLeft">8dp</item>
+        <item name="contentPaddingRight">8dp</item>
     </style>
 </resources>

@@ -2,6 +2,7 @@ package com.chatgpt.letaithink.ui.dialog
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
@@ -24,7 +25,13 @@ class InvalidApiKeyDialog : DialogFragment() {
         }
     }
 
-    var listener: Listener? = null
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        listener = (parentFragment ?: requireActivity()) as? Listener
+    }
+
+    private var listener: Listener? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val message = StringBuilder()

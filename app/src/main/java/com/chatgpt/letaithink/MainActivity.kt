@@ -45,7 +45,6 @@ class MainActivity : AppCompatActivity(), InvalidApiKeyDialog.Listener {
                             when (exception.errorCode) {
                                 RESPONSE_CODE_INVALID_API_KEY -> {
                                     InvalidApiKeyDialog.newInstance(exception.message ?: "")
-                                        .apply { listener = this@MainActivity }
                                         .show(supportFragmentManager)
                                 }
                                 else -> showErrorDialog(exception.message)

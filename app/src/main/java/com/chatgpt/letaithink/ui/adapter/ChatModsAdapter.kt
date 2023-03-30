@@ -60,7 +60,7 @@ class ChatModsAdapter : RecyclerView.Adapter<ChatModsAdapter.ChatModeViewHolder>
 
                 val backgroundColor = if (selected) R.color.icon_pressed_color else android.R.color.white
 
-                val imageTint = if (selected) R.color.blue_50 else R.color.blue_800
+                val imageTint = if (selected) R.color.white else R.color.blue_800
 
                 clModeContainer.setBackgroundColor(itemView.context.getColor(backgroundColor))
                 ivChatMode.setColorFilter(ContextCompat.getColor(itemView.context, imageTint), android.graphics.PorterDuff.Mode.SRC_IN)
