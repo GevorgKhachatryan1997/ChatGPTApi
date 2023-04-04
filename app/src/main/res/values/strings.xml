@@ -31,9 +31,11 @@
     <string name="new_chat">New chat</string>
     <string name="update">Update</string>
     <string name="your_api_key_is_invalid">Your API key is invalid</string>
+    <string name="quota_exceeded">Quota Exceeded</string>
     <string name="support">Support</string>
     <string name="support_description">We\'re always working to improve our app and make it the best it can be. If you have any feedback, suggestions, or issues to report, please let us know. Your input helps us make the app even better for you.</string>
     <string name="contact_to_support">Contact to support</string>
     <string name="logut_message">Are you sure you want to logout? You will lose your data.</string>
+    <string name="check">Check</string>
 
 </resources>

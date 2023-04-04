@@ -27,8 +27,8 @@ class RemoteDataSource {
         const val MAX_TOKEN_COUNT = 1000
         private const val CONNECTION_TIMEOUT = 60L
         const val RESPONSE_CODE_INVALID_API_KEY = 401
-        private const val RESPONSE_CODE_RATE_LIMIT_REACHED = 429
-        private const val RESPONSE_CODE_SERVER_HAD_ERROR = 500
+        const val RESPONSE_CODE_RATE_LIMIT_REACHED = 429
+        const val RESPONSE_CODE_SERVER_HAD_ERROR = 500
     }
 
     private val chatGPTService = createChatApi()
