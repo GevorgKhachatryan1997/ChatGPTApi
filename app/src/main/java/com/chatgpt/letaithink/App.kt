@@ -12,6 +12,9 @@ class App: Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        AppInstallValidator.validateAppInstallation(this)
+
         FirebaseApp.initializeApp(this)
         AppDatabase.initDatabase(this)
         NetworkUtils.init(this)
