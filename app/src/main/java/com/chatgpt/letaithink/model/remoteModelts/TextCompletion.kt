@@ -1,7 +1,5 @@
-package com.chatgpt.letaithink.model
+package com.chatgpt.letaithink.model.remoteModelts
 
-import com.chatgpt.letaithink.model.remoteModelts.Choice
-import com.chatgpt.letaithink.model.remoteModelts.Usage
 import com.google.gson.annotations.SerializedName
 
 data class TextCompletion(

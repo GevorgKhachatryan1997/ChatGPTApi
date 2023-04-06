@@ -5,7 +5,7 @@ import com.chatgpt.letaithink.data.AiMessage
 import com.chatgpt.letaithink.data.ConversationItem
 import com.chatgpt.letaithink.data.UserMessage
 import com.chatgpt.letaithink.model.remoteModelts.ImageModel
-import com.chatgpt.letaithink.model.TextCompletion
+import com.chatgpt.letaithink.model.remoteModelts.TextCompletion
 import com.chatgpt.letaithink.model.databaseModels.MessageEntity
 import com.chatgpt.letaithink.model.databaseModels.MessageType
 import com.google.gson.JsonSyntaxException

@@ -4,7 +4,7 @@ import com.chatgpt.letaithink.data.ChatGPTApi.Companion.BASE_URL
 import com.chatgpt.letaithink.domain.AuthorizationInterceptor
 import com.chatgpt.letaithink.exception.ApiError
 import com.chatgpt.letaithink.exception.NoConnectionException
-import com.chatgpt.letaithink.model.TextCompletion
+import com.chatgpt.letaithink.model.remoteModelts.TextCompletion
 import com.chatgpt.letaithink.model.remoteModelts.CompletionRequest
 import com.chatgpt.letaithink.model.remoteModelts.ErrorBody
 import com.chatgpt.letaithink.model.remoteModelts.ImageGenerationRequest
