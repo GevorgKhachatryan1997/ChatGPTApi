@@ -6,6 +6,14 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('C:\\Users\\artav\\AndroidStudioProjects\\ChatGPTApi\\let_ai_think.jks')
+            storePassword 'ChatGPTDavici'
+            keyPassword 'ChatGPTDavici'
+            keyAlias 'LetAiThinkChatGPTDavici'
+        }
+    }
     namespace 'com.chatgpt.letaithink'
     compileSdk 33
 
@@ -21,8 +29,23 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            buildConfigField 'Boolean', 'TAMPER_DETECTION_ENABLED', 'true'
+
+            signingConfig signingConfigs.release
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        rcRelease {
+            buildConfigField 'Boolean', 'TAMPER_DETECTION_ENABLED', 'false'
+
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug {
+            buildConfigField 'Boolean', 'TAMPER_DETECTION_ENABLED', 'false'
         }
     }
     compileOptions {

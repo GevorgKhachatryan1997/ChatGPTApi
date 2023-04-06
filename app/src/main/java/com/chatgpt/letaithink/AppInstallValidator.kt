@@ -9,11 +9,10 @@ import java.util.*
 
 object AppInstallValidator {
     private const val PLAY_STORE_APP_ID = "com.android.vending"
-    // TODO update signature
-    private const val ORIGINAL_SIGNATURE = "y8zaVsKXzl9xZHfYVf6SB8IcqIRmAxALo/5sCbijlmmAaz7mOoxiuijGGn+iltmq2UnDNy+/yZdzjM3ArXeMEw=="
+    private const val ORIGINAL_SIGNATURE = "kr3YfJFqgxoDU8tENN7Jp6pogFiuRtoLyV7pIO8H/7k1NhzcaR2SWujXfebvKxk2rn/dWD3wRol85lRZVBzbvw=="
 
     fun validateAppInstallation(context: Context) {
-        if (!BuildConfig.DEBUG) {
+        if (BuildConfig.TAMPER_DETECTION_ENABLED) {
             val installer = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                 context.packageManager.getInstallSourceInfo(context.packageName).installingPackageName
             } else {
