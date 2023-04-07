@@ -24,7 +24,7 @@ class LogoutDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(requireContext())
             .setTitle(R.string.logout)
-            .setMessage(getString(R.string.logut_message))
+            .setMessage(getString(R.string.logout_message))
             .setPositiveButton(R.string.logout) { _, _ -> listener?.onDialogLogout() }
             .setNegativeButton(android.R.string.cancel) { dialog, _ ->
                 dialog.cancel()

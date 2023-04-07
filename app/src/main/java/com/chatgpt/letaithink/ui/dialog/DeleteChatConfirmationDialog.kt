@@ -33,7 +33,7 @@ class DeleteChatConfirmationDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return AlertDialog.Builder(requireContext())
             .setTitle(getString(R.string.delete_chat))
-            .setMessage(getString(R.string.chate_delete_confirmation_dialog_message))
+            .setMessage(getString(R.string.chat_delete_confirmation_dialog_message))
             .setPositiveButton(R.string.delete) { _, _ ->
                 requireArguments().getString(ARG_SESSION_ID)?.let {
                     listener?.onDialogChatDelete(it)
