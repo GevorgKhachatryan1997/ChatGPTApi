@@ -42,7 +42,6 @@ class ChatModsAdapter : RecyclerView.Adapter<ChatModsAdapter.ChatModeViewHolder>
         private var chatMode: ChatMode? = null
 
         private val ivChatMode: ImageView = view.findViewById(R.id.ivChatMode)
-        private val tvModeTitle: TextView = view.findViewById(R.id.tvModeTitle)
         private val clModeContainer: ConstraintLayout = view.findViewById(R.id.clModeContainer)
 
         init {
@@ -56,8 +55,6 @@ class ChatModsAdapter : RecyclerView.Adapter<ChatModsAdapter.ChatModeViewHolder>
 
             with(mode) {
                 ivChatMode.setImageResource(image)
-                tvModeTitle.setText(title)
-
                 val backgroundColor = if (selected) R.color.icon_pressed_color else android.R.color.white
 
                 val imageTint = if (selected) R.color.white else R.color.blue_800

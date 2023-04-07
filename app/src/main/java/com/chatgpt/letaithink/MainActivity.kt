@@ -104,6 +104,7 @@ class MainActivity : AppCompatActivity(),
                 showSettingFragment()
             }
             is MainViewModel.ApiKeyScreen -> {
+                clearStack()
                 showApiKeyFragment()
             }
         }

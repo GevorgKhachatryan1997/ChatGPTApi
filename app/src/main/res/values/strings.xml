@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Let AI Think</string>
 
-    <string name="info">info</string>
+    <string name="info">Info</string>
     <string name="name">name</string>
     <string name="name_is_empty">Name is empty</string>
     <string name="google">Google</string>
@@ -40,5 +40,8 @@
     <string name="delete">Delete</string>
     <string name="chat_delete_confirmation_dialog_message">Are you sure you want to delete this chat? \nThis will permanently remove the chat history and cannot be undone.</string>
     <string name="delete_chat">Delete Chat</string>
-
+    <string name="apikey">Api Key</string>
+    <string name="image_generation_description">Create unique and original images.</string>
+    <string name="code_generation_description">Streamline your workflow by generating code snippets for various programming languages.</string>
+    <string name="text_completion_description">Quickly generate high-quality text for a variety of purposes.</string>
 </resources>
