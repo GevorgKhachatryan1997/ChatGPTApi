@@ -19,10 +19,13 @@ import com.chatgpt.letaithink.MainViewModel
 import com.chatgpt.letaithink.R
 import com.chatgpt.letaithink.model.databaseModels.SessionEntity
 import com.chatgpt.letaithink.ui.adapter.ChatsHistoryListAdapter
+import com.chatgpt.letaithink.ui.dialog.DeleteChatConfirmationDialog
 import com.chatgpt.letaithink.ui.viewModel.ChatsHistoryViewModel
 import kotlinx.coroutines.launch
 
-class ChatsHistoryFragment : ScreenFragment(R.layout.chats_history_fragment), MenuProvider {
+class ChatsHistoryFragment : ScreenFragment(R.layout.chats_history_fragment),
+    MenuProvider,
+    DeleteChatConfirmationDialog.Listener {
 
     private val chatsHistoryAdapter = ChatsHistoryListAdapter().apply {
         itemClickListener = object : ChatsHistoryListAdapter.OnSessionClickListener {
@@ -31,8 +34,7 @@ class ChatsHistoryFragment : ScreenFragment(R.layout.chats_history_fragment), Me
             }
 
             override fun onSessionDeleteClick(session: SessionEntity) {
-                // TODO show confirmation dialog before removing  session
-                chatsHistoryViewModel.onSessionDeleteClick(session)
+                DeleteChatConfirmationDialog.newInstance(session.sessionId).show(childFragmentManager, )
             }
 
             override fun updateSessionName(session: SessionEntity, name: String) {
@@ -99,5 +101,9 @@ class ChatsHistoryFragment : ScreenFragment(R.layout.chats_history_fragment), Me
         }
 
         return handled
+    }
+
+    override fun onDialogChatDelete(sessionId: String) {
+        chatsHistoryViewModel.onSessionDeleteClick(sessionId)
     }
 }

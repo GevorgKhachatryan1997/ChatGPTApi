@@ -21,9 +21,11 @@ class ChatsHistoryViewModel : ViewModel() {
         }
     }
 
-    fun onSessionDeleteClick(session: SessionEntity) {
+    fun onSessionDeleteClick(sessionId: String) {
         viewModelScope.launch {
-            ChatRepository.deleteSession(session)
+            chatsHistoryStateFlow.value.find { it.sessionId == sessionId }?.let {
+                ChatRepository.deleteSession(it)
+            }
         }
     }
 
