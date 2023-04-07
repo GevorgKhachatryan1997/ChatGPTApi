@@ -2,6 +2,7 @@ package com.chatgpt.letaithink.domain
 
 import com.chatgpt.letaithink.data.ApiKeyRepository
 import com.chatgpt.letaithink.data.ChatRepository
+import com.chatgpt.letaithink.data.PurchaseRepository
 import com.chatgpt.letaithink.data.UserRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -17,6 +18,7 @@ object ApplicationManager {
             UserRepository.deleteUserData()
             ApiKeyRepository.deleteApiKey()
             ChatRepository.deleteAllData()
+            PurchaseRepository.deletePurchase()
         }
     }
 }

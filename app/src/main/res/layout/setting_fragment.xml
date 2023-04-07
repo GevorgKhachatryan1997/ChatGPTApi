@@ -27,7 +27,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:text="Launch app in a floating view" />
+                android:text="@string/launch_app_in_a_floating_view" />
 
         </androidx.cardview.widget.CardView>
 
@@ -253,7 +253,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/chatInfoCardView">
+            app:layout_constraintTop_toBottomOf="@+id/chatInfoCardView"
+            app:layout_constraintBottom_toBottomOf="parent">
 
             <Button
                 android:id="@+id/btn_logout"

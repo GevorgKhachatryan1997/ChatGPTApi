@@ -111,6 +111,9 @@ class MainActivity : AppCompatActivity(),
                 clearStack()
                 showApiKeyFragment()
             }
+            is MainViewModel.PaymentScreen -> {
+                showPaymentScreen()
+            }
         }
     }
 
@@ -154,6 +157,14 @@ class MainActivity : AppCompatActivity(),
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             replace(R.id.fragment_container_view, ApiKeyFragment())
+        }
+    }
+
+    private fun showPaymentScreen() {
+        if (currentFragment is PaymentFragment) return
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            replace(R.id.fragment_container_view, PaymentFragment())
         }
     }
 

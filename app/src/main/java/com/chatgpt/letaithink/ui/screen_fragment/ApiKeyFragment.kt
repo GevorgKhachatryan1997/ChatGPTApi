@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.chatgpt.letaithink.MainViewModel
 import com.chatgpt.letaithink.R
+import com.chatgpt.letaithink.data.PurchaseRepository
 import com.chatgpt.letaithink.ui.viewModel.ApiKeyViewModel
 import com.chatgpt.letaithink.utils.OpenAIUtils
 import kotlinx.coroutines.launch
@@ -46,7 +47,14 @@ class ApiKeyFragment : Fragment(R.layout.api_key_fragment) {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
                 apiKeyViewModel.apiKeyValidationSharedFlow.collect { valid ->
                     if (valid) {
-                        mainViewModel.showScreen(MainViewModel.ChatsHistory)
+                        lifecycleScope.launch {
+                            val screen = if (PurchaseRepository.purchaseInvalid()) {
+                                MainViewModel.ChatsHistory
+                            } else {
+                                MainViewModel.PaymentScreen
+                            }
+                            mainViewModel.showScreen(screen)
+                        }
                     } else {
                         etApiKey?.error = getString(R.string.api_key_is_invalid)
                     }

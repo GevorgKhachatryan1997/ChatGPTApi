@@ -1,4 +1,4 @@
-package com.chatgpt.letaithink.data
+package com.chatgpt.letaithink.data.dao
 
 import androidx.room.Dao
 import androidx.room.Insert

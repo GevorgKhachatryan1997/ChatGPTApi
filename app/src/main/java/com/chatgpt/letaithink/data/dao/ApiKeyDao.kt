@@ -1,4 +1,4 @@
-package com.chatgpt.letaithink.data
+package com.chatgpt.letaithink.data.dao
 
 import androidx.room.*
 import com.chatgpt.letaithink.model.databaseModels.*
