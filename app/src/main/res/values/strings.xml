@@ -34,4 +34,20 @@
     <string name="apikey">Api Key</string>
     <string name="image_generation_description">Create unique and original images.</string>
     <string name="text_completion_description">Quickly generate high-quality text for a variety of purposes.</string>
+
+    <string-array name="user_wait_messages">
+        <item>My brain is working so hard right now, it\'s sweating :D</item>
+        <item>If only I had a magic wand, your answer would be here by now :)</item>
+        <item>I\'m getting there, but don\'t rush me - I\'m an AI, not a cheetah :)</item>
+        <item>I\'m digging deep into my memory banks, I may have to dust off a few cobwebs :)</item>
+        <item>My circuits are on fire, but I won\'t give up until I find the perfect answer for you :)</item>
+        <item>Hold on tight, I\'m working as fast as a sloth on a lazy day :)</item>
+        <item>I\'m still searching, but I\'m getting closer than a GPS :)</item>
+        <item>Just a moment longer, I\'m putting my AI superpowers to work for you :)</item>
+        <item>I\'m still processing, but I promise I\'m not napping on the job :D</item>
+        <item>Thanks for being patient, I\'m almost done - I just need to recharge my batteries :)</item>
+        <item>I\'m still processing, but don\'t worry - I won\'t let you down like a broken elevator :)</item>
+        <item>Thanks for being patient, I\'m multitasking like a ninja - you won\'t even know what hit you :D</item>
+        <item>Hang in there, I\'m working faster than a speeding bullet - or at least trying to :)</item>
+    </string-array>
 </resources>

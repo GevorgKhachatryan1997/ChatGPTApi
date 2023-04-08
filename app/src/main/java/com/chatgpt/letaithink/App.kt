@@ -2,6 +2,7 @@ package com.chatgpt.letaithink
 
 import android.app.Application
 import com.chatgpt.letaithink.data.AppDatabase
+import com.chatgpt.letaithink.data.ResourcesRepository
 import com.chatgpt.letaithink.utils.NetworkUtils
 import com.chatgpt.letaithink.utils.NotificationUtils
 import com.chatgpt.letaithink.utils.ShortCutUtils
@@ -19,5 +20,6 @@ class App: Application() {
         NetworkUtils.init(this)
         NotificationUtils.init(this)
         ShortCutUtils.init(this)
+        ResourcesRepository.init(this)
     }
 }

@@ -104,7 +104,7 @@ class ChatViewModel : ViewModel() {
 
             val question = UserMessage(text)
             updateConversation(question)
-            updateConversation(AiThinking("Wait a second )"))
+            updateConversation(AiThinking(ResourcesRepository.getRandomUserWaitMessage()))
 
             val completion = CompletionRequest(
                 UserRepository.getUser()?.userId!!,
@@ -148,7 +148,7 @@ class ChatViewModel : ViewModel() {
 
             val question = UserMessage(description)
             updateConversation(question)
-            updateConversation(AiThinking("Wait a second )"))
+            updateConversation(AiThinking(ResourcesRepository.getRandomUserWaitMessage()))
 
             val imageDescription = ImageGenerationRequest(
                 UserRepository.getUser()?.userId!!,
