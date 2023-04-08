@@ -13,7 +13,6 @@
     <string name="click_this_link_to_get_token_key">click this link to get token key</string>
 
     <string name="text">Text</string>
-    <string name="code">Code</string>
     <string name="image">Image</string>
     <string name="ask_your_question">Ask your question</string>
     <string name="copied">Copied</string>
@@ -42,6 +41,5 @@
     <string name="delete_chat">Delete Chat</string>
     <string name="apikey">Api Key</string>
     <string name="image_generation_description">Create unique and original images.</string>
-    <string name="code_generation_description">Streamline your workflow by generating code snippets for various programming languages.</string>
     <string name="text_completion_description">Quickly generate high-quality text for a variety of purposes.</string>
 </resources>

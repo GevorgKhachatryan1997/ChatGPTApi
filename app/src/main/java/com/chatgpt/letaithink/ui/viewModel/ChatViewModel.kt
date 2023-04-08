@@ -8,7 +8,6 @@ import androidx.lifecycle.viewModelScope
 import com.chatgpt.letaithink.R
 import com.chatgpt.letaithink.data.*
 import com.chatgpt.letaithink.data.RemoteDataSource.Companion.MAX_TOKEN_COUNT
-import com.chatgpt.letaithink.model.CHAT_MODE_CODE_COMPLETION
 import com.chatgpt.letaithink.model.CHAT_MODE_IMAGE_GENERATION
 import com.chatgpt.letaithink.model.CHAT_MODE_TEXT_COMPLETION
 import com.chatgpt.letaithink.model.ChatMode
@@ -81,8 +80,7 @@ class ChatViewModel : ViewModel() {
             }
             val selectedMode = getSelectedChatMode()
             when (selectedMode.mode) {
-                CHAT_MODE_TEXT_COMPLETION,
-                CHAT_MODE_CODE_COMPLETION -> {
+                CHAT_MODE_TEXT_COMPLETION -> {
                     onTextGeneration(text, selectedMode)
                 }
                 CHAT_MODE_IMAGE_GENERATION -> {

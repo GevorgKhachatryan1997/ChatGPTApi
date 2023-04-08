@@ -16,14 +16,12 @@ class LocalDataSource {
     companion object {
         // TODO use latest version
         const val TEXT_DAVINCI_MODEL = "text-davinci-003"
-        const val CODE_DAVINCI_MODEL = "code-davinci-002"
     }
 
     private val appDb = AppDatabase.getInstance()
 
     val chatModes = listOf(
         ChatMode(CHAT_MODE_TEXT_COMPLETION, R.string.text, R.drawable.icon_chat, TEXT_DAVINCI_MODEL),
-        ChatMode(CHAT_MODE_CODE_COMPLETION, R.string.code, R.drawable.icon_code, CODE_DAVINCI_MODEL),
         ChatMode(CHAT_MODE_IMAGE_GENERATION, R.string.image, R.drawable.icon_image, "image generation")
     )
 
