@@ -7,7 +7,6 @@ import com.chatgpt.letaithink.utils.NotificationUtils
 import com.chatgpt.letaithink.utils.ShortCutUtils
 import com.google.firebase.FirebaseApp
 
-// TODO Change package name
 class App: Application() {
 
     override fun onCreate() {

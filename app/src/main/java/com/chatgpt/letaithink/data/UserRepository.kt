@@ -2,7 +2,6 @@ package com.chatgpt.letaithink.data
 
 import com.chatgpt.letaithink.model.databaseModels.UserEntity
 
-// TODO use with context and set Dispatchers.IO for suspend methods
 object UserRepository {
     private val localDataSource = LocalDataSource()
 

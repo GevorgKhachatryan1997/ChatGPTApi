@@ -71,7 +71,6 @@ class ChatFragment : ScreenFragment(R.layout.chat_fragment) {
         etChatInput = view.findViewById(R.id.etChatInput)
         ivSend = view.findViewById<ImageView?>(R.id.ivSend).apply {
             setOnClickListener {
-                // TODO check network
                 val text = etChatInput.text.toString()
                 if (text.isNotBlank()) {
                     etChatInput.setText("")

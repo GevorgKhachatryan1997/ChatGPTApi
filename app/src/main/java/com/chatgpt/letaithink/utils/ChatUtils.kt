@@ -11,7 +11,6 @@ import com.chatgpt.letaithink.model.databaseModels.MessageType
 import com.google.gson.JsonSyntaxException
 import java.util.*
 
-// TODO Fix exception cases in usages
 @Throws(IllegalStateException::class)
 fun ConversationItem.toMessageEntity(sessionId: String): MessageEntity {
     val currentTime = Calendar.getInstance().timeInMillis

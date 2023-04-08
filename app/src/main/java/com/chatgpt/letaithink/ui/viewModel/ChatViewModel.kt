@@ -29,7 +29,6 @@ import kotlinx.coroutines.withContext
 import java.io.IOException
 
 // TODO Handle nonull calls
-// TODO don't allow mutable questions at same time
 class ChatViewModel : ViewModel() {
 
     private val _conversationItems = MutableStateFlow<List<ConversationItem>>(emptyList())
@@ -188,7 +187,7 @@ class ChatViewModel : ViewModel() {
 
     private fun getSelectedChatMode() = chatModes.value.first { it.selected }
 
-    // TODO uses only first choice
+    // TODO uses all choices
     private fun generateTextPrompts(prompt: String): String {
 
         fun StringBuilder.newLine(): StringBuilder {

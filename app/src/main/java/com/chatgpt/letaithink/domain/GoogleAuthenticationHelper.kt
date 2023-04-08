@@ -52,7 +52,6 @@ class GoogleAuthenticationHelper {
 
     fun onAuthenticationResult(activity: Activity, data: Intent?) {
         try {
-            // TODO use add also user account picture
             val credential: SignInCredential = Identity.getSignInClient(activity).getSignInCredentialFromIntent(data)
             val user = UserEntity(generateUserId(), credential.displayName, credential.familyName, credential.id)
             onAuthenticationListener?.onLoginSuccess(user)

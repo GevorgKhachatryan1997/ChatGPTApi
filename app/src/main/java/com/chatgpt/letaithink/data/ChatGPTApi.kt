@@ -8,7 +8,6 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-// TODO Implement general exception handler
 // TODO replace Call with Result
 interface ChatGPTApi {
 

@@ -2,15 +2,9 @@
     <string name="app_name">Let AI Think</string>
 
     <string name="info">Info</string>
-    <string name="name">name</string>
     <string name="name_is_empty">Name is empty</string>
-    <string name="google">Google</string>
-    <string name="authorization">Authorization</string>
     <string name="logout">Logout</string>
     <string name="settings">Settings</string>
-    <string name="accept">Accept</string>
-    <string name="https_platform_openai_com_account_api_keys">https://platform.openai.com/account/api-keys</string>
-    <string name="click_this_link_to_get_token_key">click this link to get token key</string>
 
     <string name="text">Text</string>
     <string name="image">Image</string>
@@ -20,14 +14,12 @@
     <string name="image_saved">Image saved</string>
     <string name="authentication_fail">authentication fail</string>
     <string name="api_key_is_invalid">Api key is invalid</string>
-    <string name="bubble_view">bubble view</string>
     <string name="enable_bubble_chat">Enable bubble chat</string>
     <string name="bubble_notification_message">Click on notification bubble icon</string>
     <string name="bubble_notification_settings_description">also you can enable bubbling from app notification settings.</string>
     <string name="error">Error</string>
     <string name="no_internet_connection">No internet connection</string>
     <string name="chats">Chats</string>
-    <string name="new_chat">New chat</string>
     <string name="update">Update</string>
     <string name="your_api_key_is_invalid">Your API key is invalid</string>
     <string name="quota_exceeded">Quota Exceeded</string>

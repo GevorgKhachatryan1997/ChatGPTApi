@@ -20,7 +20,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-// TODO add error handling for api error codes
 class RemoteDataSource {
 
     companion object {

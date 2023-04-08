@@ -102,7 +102,6 @@ class ChatListAdapter : ListAdapter<ConversationItem, ChatListAdapter.Conversati
         }
     }
 
-    // TODO create new view for this
     class AiThinkingViewHolder(view: View) : ConversationViewHolder<AiThinking>(view) {
 
         private val tvText: TextView = view.findViewById(R.id.tvText)

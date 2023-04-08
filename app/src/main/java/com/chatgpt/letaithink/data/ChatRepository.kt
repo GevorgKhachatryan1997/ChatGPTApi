@@ -16,7 +16,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import java.util.*
 
-// TODO add suspend keyword for methods which should run on IO thread
 object ChatRepository {
 
     private val remoteDataSource = RemoteDataSource()
