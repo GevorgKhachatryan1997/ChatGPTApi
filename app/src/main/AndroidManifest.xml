@@ -30,8 +30,7 @@
             android:name=".MainActivity"
             android:allowEmbedded="true"
             android:exported="true"
-            android:resizeableActivity="true"
-            android:screenOrientation="portrait">
+            android:resizeableActivity="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
