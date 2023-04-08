@@ -29,9 +29,7 @@ class ApiKeyViewModel : ViewModel() {
             _validationInProcess.emit(true)
             val valid = ApiKeyRepository.validateApiKey(apiKey)
             if (valid) {
-                viewModelScope.launch {
-                    ApiKeyRepository.insertApiKey(apiKey)
-                }
+                ApiKeyRepository.updateApiKey(apiKey)
             }
             _apiKeyValidationSharedFlow.emit(valid)
             _validationInProcess.emit(false)

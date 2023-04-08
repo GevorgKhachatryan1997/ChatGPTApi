@@ -6,8 +6,11 @@ object ApiKeyRepository {
     private val localDataSource = LocalDataSource()
     private val remoteDataSource = RemoteDataSource()
 
-    suspend fun insertApiKey(apiKey: String) {
-        localDataSource.insertApiKey(apiKey)
+    suspend fun updateApiKey(apiKey: String) {
+        with(localDataSource) {
+            deleteApiKey()
+            insertApiKey(apiKey)
+        }
     }
 
     suspend fun deleteApiKey() {
