@@ -19,8 +19,10 @@ object AppInstallValidator {
                 context.packageManager.getInstallerPackageName(context.packageName)
             }
 
+            if (installer == null) return
+
             // Validate the installer
-            if (installer?.startsWith(PLAY_STORE_APP_ID) == true) {
+            if (installer.startsWith(PLAY_STORE_APP_ID)) {
                 // Validate app signature
                 context.getAppSignature()?.encrypt()?.let {
                     if (ORIGINAL_SIGNATURE == it) return@validateAppInstallation
