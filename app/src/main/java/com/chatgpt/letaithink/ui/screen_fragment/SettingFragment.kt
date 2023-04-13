@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -21,7 +22,7 @@ import com.chatgpt.letaithink.utils.NotificationUtils
 import com.chatgpt.letaithink.utils.PermissionUtils
 import com.chatgpt.letaithink.utils.addToClipboard
 
-class SettingFragment : ScreenFragment(R.layout.setting_fragment), LogoutDialog.Listener {
+class SettingFragment : Fragment(R.layout.setting_fragment), LogoutDialog.Listener {
 
     private var btnLogOut: Button? = null
     private var btnBubbleView: Button? = null
@@ -33,9 +34,6 @@ class SettingFragment : ScreenFragment(R.layout.setting_fragment), LogoutDialog.
 
     private val mainViewModel: MainViewModel by activityViewModels()
     private val settingViewModel: SettingViewModel by viewModels()
-
-    override val screen: MainViewModel.Screen
-        get() = MainViewModel.SettingScreen
 
     private val notificationPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {

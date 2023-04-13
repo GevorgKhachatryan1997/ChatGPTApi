@@ -4,14 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chatgpt.letaithink.data.ApiKeyRepository
 import com.chatgpt.letaithink.data.UserRepository
+import com.chatgpt.letaithink.utils.emit
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import com.chatgpt.letaithink.utils.emit
 
 class MainViewModel : ViewModel() {
-
-    var currentScreen: Screen? = null
 
     private val _screenNavigationFlow = MutableSharedFlow<Screen>()
     val screenNavigationFlow = _screenNavigationFlow.asSharedFlow()
@@ -19,8 +17,8 @@ class MainViewModel : ViewModel() {
     private val _exceptionMutableSharedFlow = MutableSharedFlow<Throwable>()
     val exceptionSharedFlow = _exceptionMutableSharedFlow.asSharedFlow()
 
-    fun onActivityStart() {
-        if (currentScreen == null) {
+    fun onActivityStart(firstRun: Boolean) {
+        if (firstRun) {
             viewModelScope.launch {
                 if (!UserRepository.isUserAuthenticated()) {
                     showScreen(LoginScreen)
@@ -34,7 +32,6 @@ class MainViewModel : ViewModel() {
     }
 
     fun showScreen(screen: Screen) {
-        currentScreen = screen
         _screenNavigationFlow.emit(screen, viewModelScope)
     }
 

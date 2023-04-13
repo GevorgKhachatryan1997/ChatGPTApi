@@ -3,6 +3,7 @@ package com.chatgpt.letaithink
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.commit
 import androidx.lifecycle.Lifecycle
@@ -24,6 +25,9 @@ class MainActivity : AppCompatActivity(),
     ExceededYourQuota.Listener {
 
     private val viewModel: MainViewModel by viewModels()
+
+    private val currentFragment: Fragment?
+        get() = supportFragmentManager.findFragmentById(R.id.fragment_container_view)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,7 +73,7 @@ class MainActivity : AppCompatActivity(),
     override fun onStart() {
         super.onStart()
 
-        viewModel.onActivityStart()
+        viewModel.onActivityStart(currentFragment == null)
     }
 
     override fun onUpdateApiKey() {
@@ -110,8 +114,8 @@ class MainActivity : AppCompatActivity(),
         }
     }
 
+    // TODO fix code duplication
     private fun showChatsHistory() {
-        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view)
         if (currentFragment is ChatsHistoryFragment) return
         supportFragmentManager.commit {
             setReorderingAllowed(true)
@@ -120,7 +124,6 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun showAiChatFragment(sessionId: String?) {
-        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view)
         if (currentFragment is ChatFragment) return
         supportFragmentManager.commit {
             setReorderingAllowed(true)
@@ -130,7 +133,6 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun showLoginFragment() {
-        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view)
         if (currentFragment is LoginFragment) return
         supportFragmentManager.commit {
             setReorderingAllowed(true)
@@ -139,7 +141,6 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun showSettingFragment() {
-        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view)
         if (currentFragment is SettingFragment) return
         supportFragmentManager.commit {
             setReorderingAllowed(true)
@@ -149,7 +150,6 @@ class MainActivity : AppCompatActivity(),
     }
 
     private fun showApiKeyFragment() {
-        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view)
         if (currentFragment is ApiKeyFragment) return
         supportFragmentManager.commit {
             setReorderingAllowed(true)

@@ -7,6 +7,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
 import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -23,7 +24,7 @@ import com.chatgpt.letaithink.ui.viewModel.ChatViewModel
 import com.chatgpt.letaithink.utils.hideKeyboard
 import kotlinx.coroutines.launch
 
-class ChatFragment : ScreenFragment(R.layout.chat_fragment) {
+class ChatFragment : Fragment(R.layout.chat_fragment) {
 
     companion object {
         private const val ARG_CHAT_SESSION = "arg.chat_session"
@@ -59,9 +60,6 @@ class ChatFragment : ScreenFragment(R.layout.chat_fragment) {
             chatViewModel.onChatModeSelected(it)
         }
     }
-
-    override val screen: MainViewModel.Screen
-        get() = MainViewModel.AiChatScreen(chatViewModel.session?.sessionId)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -13,8 +14,7 @@ import com.chatgpt.letaithink.R
 import com.chatgpt.letaithink.ui.dialog.ErrorDialog
 import com.chatgpt.letaithink.ui.viewModel.LoginViewModel
 
-class LoginFragment :
-    ScreenFragment(R.layout.login_fragment) {
+class LoginFragment : Fragment(R.layout.login_fragment) {
 
     companion object {
         fun newInstance() = LoginFragment()
@@ -27,9 +27,6 @@ class LoginFragment :
         registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result: ActivityResult? ->
             loginViewModel.onAuthenticationResult(requireActivity(), result?.data)
         }
-
-    override val screen: MainViewModel.Screen
-        get() = MainViewModel.LoginScreen
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

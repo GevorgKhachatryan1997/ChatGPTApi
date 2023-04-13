@@ -8,6 +8,7 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.cardview.widget.CardView
 import androidx.core.view.MenuProvider
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -23,7 +24,7 @@ import com.chatgpt.letaithink.ui.dialog.DeleteChatConfirmationDialog
 import com.chatgpt.letaithink.ui.viewModel.ChatsHistoryViewModel
 import kotlinx.coroutines.launch
 
-class ChatsHistoryFragment : ScreenFragment(R.layout.chats_history_fragment),
+class ChatsHistoryFragment : Fragment(R.layout.chats_history_fragment),
     MenuProvider,
     DeleteChatConfirmationDialog.Listener {
 
@@ -34,7 +35,7 @@ class ChatsHistoryFragment : ScreenFragment(R.layout.chats_history_fragment),
             }
 
             override fun onSessionDeleteClick(session: SessionEntity) {
-                DeleteChatConfirmationDialog.newInstance(session.sessionId).show(childFragmentManager, )
+                DeleteChatConfirmationDialog.newInstance(session.sessionId).show(childFragmentManager)
             }
 
             override fun updateSessionName(session: SessionEntity, name: String) {
@@ -44,9 +45,6 @@ class ChatsHistoryFragment : ScreenFragment(R.layout.chats_history_fragment),
     }
     private val chatsHistoryViewModel: ChatsHistoryViewModel by viewModels()
     private val mainViewModel: MainViewModel by activityViewModels()
-
-    override val screen: MainViewModel.Screen
-        get() = MainViewModel.ChatsHistory
 
     private var btnCreateNewChat: CardView? = null
     private var rvChatsHistory: RecyclerView? = null
