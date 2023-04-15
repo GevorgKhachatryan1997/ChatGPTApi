@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Generate API Key"
+            android:text="@string/generate_api_key"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -29,7 +29,7 @@
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="24dp"
             android:gravity="start|fill"
-            android:text="Our app uses OpenAI's powerful algorithms to provide you with advanced features and functionality. To use these features, we need to use an API key that allows our app to communicate with OpenAI's servers and access their powerful algorithms. To generate your API key, please follow these steps:"
+            android:text="@string/api_key_generation_description"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_title" />
@@ -40,7 +40,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="1. Click on the 'Generate API Key' button."
+            android:text="@string/api_generation_1_step"
             app:layout_constraintEnd_toEndOf="@+id/tv_info"
             app:layout_constraintStart_toStartOf="@+id/tv_info"
             app:layout_constraintTop_toBottomOf="@+id/tv_info" />
@@ -51,7 +51,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="2. You will be redirected to OpenAI's website where you will be prompted to log in or create an account."
+            android:text="@string/api_generation_2_step"
             app:layout_constraintEnd_toEndOf="@+id/textView3"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/textView3"
@@ -63,7 +63,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="3. Once you are logged in, you will be asked to generate an API key."
+            android:text="@string/api_key_generation_3_step"
             app:layout_constraintEnd_toEndOf="@+id/textView5"
             app:layout_constraintStart_toStartOf="@+id/textView3"
             app:layout_constraintTop_toBottomOf="@+id/textView5" />
@@ -74,7 +74,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="4. Copy the API key and return to our app."
+            android:text="@string/api_key_generation_4_step"
             app:layout_constraintEnd_toEndOf="@+id/textView6"
             app:layout_constraintStart_toStartOf="@+id/textView3"
             app:layout_constraintTop_toBottomOf="@+id/textView6" />
@@ -85,7 +85,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="5. Paste the API key into the input field bellow."
+            android:text="@string/api_key_generation_5_step"
             app:layout_constraintEnd_toEndOf="@+id/textView7"
             app:layout_constraintStart_toStartOf="@+id/textView3"
             app:layout_constraintTop_toBottomOf="@+id/textView7" />
@@ -96,7 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
-            android:text="Generate API Key"
+            android:text="@string/generate_api_key"
             app:layout_constraintStart_toStartOf="@+id/textView8"
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
@@ -107,7 +107,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="48dp"
             android:layout_marginEnd="8dp"
-            android:hint="Put your API key here."
+            android:hint="@string/put_your_api_key_here"
             app:layout_constrainedHeight="true"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/btnAcceptApiKey"
@@ -119,7 +119,7 @@
             style="@style/Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Verify"
+            android:text="@string/verify"
             app:layout_constraintBottom_toBottomOf="@+id/etApiKey"
             app:layout_constraintEnd_toEndOf="@+id/textView8" />
 

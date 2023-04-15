@@ -34,6 +34,20 @@
     <string name="apikey">Api Key</string>
     <string name="image_generation_description">Create unique and original images.</string>
     <string name="text_completion_description">Quickly generate high-quality text for a variety of purposes.</string>
+    <string name="launch_app_in_a_floating_view">Launch app in a floating view</string>
+    <string name="subscription_description">Thanks for choosing our AI-powered chat!\nTo unlock all the exciting features and ensure a seamless experience, we need your support.\nDon\'t worry, we\'re not asking for your first-born or a kidney 😊 - just a small subscription fee \nSubscribe now and get ready to chat with an innovative AI.</string>
+    <string name="monthly_subscription_text">Join for %s monthly</string>
+    <string name="subscription">Subscription</string>
+    <string name="payment_error_message">Connection failed. Please try again later.</string>
+    <string name="generate_api_key">Generate API Key</string>
+    <string name="api_key_generation_description">Our app uses OpenAI\'s powerful algorithms to provide you with advanced features and functionality. To use these features, we need to use an API key that allows our app to communicate with OpenAI\'s servers and access their powerful algorithms. To generate your API key, please follow these steps:</string>
+    <string name="api_generation_1_step">1. Click on the \'Generate API Key\' button.</string>
+    <string name="api_generation_2_step">2. You will be redirected to OpenAI\'s website where you will be prompted to log in or create an account.</string>
+    <string name="api_key_generation_3_step">3. Once you are logged in, you will be asked to generate an API key.</string>
+    <string name="api_key_generation_4_step">4. Copy the API key and return to our app.</string>
+    <string name="api_key_generation_5_step">5. Paste the API key into the input field bellow.</string>
+    <string name="put_your_api_key_here">Put your API key here.</string>
+    <string name="verify">Verify</string>
 
     <string-array name="user_wait_messages">
         <item>My brain is working so hard right now, it\'s sweating :D</item>
