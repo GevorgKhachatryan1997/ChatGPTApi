@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.annotation.LayoutRes
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -140,13 +141,14 @@ class ChatListAdapter : ListAdapter<ConversationItem, ChatListAdapter.Conversati
     inner class AiImageViewHolder(view: View) : ConversationViewHolder<AiImage>(view) {
 
         private val ivImage: ImageView = view.findViewById(R.id.ivImage)
+        private val ivError: ImageView = view.findViewById(R.id.iv_error)
         private val pbLoading: ProgressBar = view.findViewById(R.id.pbLoading)
-        private val ivDownload: ImageView = view.findViewById(R.id.ivDownload)
+        private val cvDownload: CardView = view.findViewById(R.id.cvDownload)
 
         private var aiImage: AiImage? = null
 
         init {
-            ivDownload.setOnClickListener {
+            cvDownload.setOnClickListener {
                 val bitmap = (ivImage.drawable as BitmapDrawable).bitmap
                 onChatListener?.onDownloadClick(bitmap)
             }
@@ -156,19 +158,33 @@ class ChatListAdapter : ListAdapter<ConversationItem, ChatListAdapter.Conversati
             aiImage = message
 
             pbLoading.visibility = View.VISIBLE
-            ivDownload.visibility = View.GONE
+            cvDownload.visibility = View.GONE
             val imageUri = message.image.data?.first()
-            // TODO Handle null case
-            Picasso.get().load(Uri.parse(imageUri?.url)).into(ivImage, object : Callback {
-                override fun onSuccess() {
-                    pbLoading.visibility = View.GONE
-                    ivDownload.visibility = View.VISIBLE
-                }
+            if (imageUri == null) {
+                onImageLoadFail()
+            } else {
+                Picasso.get().load(Uri.parse(imageUri.url)).into(ivImage, object : Callback {
+                    override fun onSuccess() {
+                        onSuccessImageLoad()
+                    }
 
-                override fun onError(e: Exception?) {
-                    pbLoading.visibility = View.GONE
-                }
-            })
+                    override fun onError(e: Exception?) {
+                        onImageLoadFail()
+                    }
+                })
+            }
+        }
+
+        private fun onSuccessImageLoad() {
+            pbLoading.visibility = View.GONE
+            cvDownload.visibility = View.VISIBLE
+            ivError.visibility = View.GONE
+        }
+
+        private fun onImageLoadFail() {
+            pbLoading.visibility = View.GONE
+            cvDownload.visibility = View.GONE
+            ivError.visibility = View.VISIBLE
         }
     }
 

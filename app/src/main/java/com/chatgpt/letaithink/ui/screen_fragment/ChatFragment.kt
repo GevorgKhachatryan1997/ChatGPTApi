@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -74,7 +75,9 @@ class ChatFragment : Fragment(R.layout.chat_fragment) {
                     etChatInput.setText("")
                     chatViewModel.onSendClick(text)
                     etChatInput.hideKeyboard()
-                } // TODO handle blank case
+                } else {
+                    Toast.makeText(requireContext(), R.string.text_is_empty, Toast.LENGTH_SHORT).show()
+                }
             }
         }
 

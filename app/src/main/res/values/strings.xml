@@ -48,6 +48,7 @@
     <string name="api_key_generation_5_step">5. Paste the API key into the input field bellow.</string>
     <string name="put_your_api_key_here">Put your API key here.</string>
     <string name="verify">Verify</string>
+    <string name="text_is_empty">Text is empty</string>
 
     <string-array name="user_wait_messages">
         <item>My brain is working so hard right now, it\'s sweating :D</item>

@@ -187,7 +187,7 @@ class ChatViewModel : ViewModel() {
 
     private fun getSelectedChatMode() = chatModes.value.first { it.selected }
 
-    // TODO uses all choices
+    // TODO maybe we need to use all choices
     private fun generateTextPrompts(prompt: String): String {
 
         fun StringBuilder.newLine(): StringBuilder {
