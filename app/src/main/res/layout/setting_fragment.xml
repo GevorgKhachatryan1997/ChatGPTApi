@@ -208,7 +208,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintStart_toEndOf="@+id/cardViewChat"
-                    app:layout_constraintTop_toBottomOf="@+id/tvChatTitle" />
+                    app:layout_constraintTop_toTopOf="@+id/cardViewChat"
+                    app:layout_constraintBottom_toBottomOf="@id/cardViewChat"/>
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardViewImage"
@@ -218,7 +219,7 @@
                     app:cardCornerRadius="100dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tvChatInfo">
+                    app:layout_constraintTop_toBottomOf="@+id/cardViewChat">
 
                     <ImageView
                         android:id="@+id/ivImageMode"
@@ -239,7 +240,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintStart_toEndOf="@+id/cardViewImage"
-                    app:layout_constraintTop_toTopOf="@+id/cardViewImage" />
+                    app:layout_constraintTop_toTopOf="@+id/cardViewImage"
+                    app:layout_constraintBottom_toBottomOf="@id/cardViewImage"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.cardview.widget.CardView>
