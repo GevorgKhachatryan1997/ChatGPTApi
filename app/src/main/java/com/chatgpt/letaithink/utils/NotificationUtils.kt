@@ -48,6 +48,7 @@ object NotificationUtils {
             bubbleIntent,
             Icon.createWithResource(context, R.mipmap.ic_launcher)
         )
+            .setDesiredHeight(700)
             .setAutoExpandBubble(true)
             .setSuppressNotification(true)
             .build()
