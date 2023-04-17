@@ -83,7 +83,9 @@ class ChatFragment : Fragment(R.layout.chat_fragment) {
 
         rvChat = view.findViewById<RecyclerView>(R.id.rvChat).apply {
             layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false).apply {
+                    stackFromEnd = true
+                }
             adapter = chatAdapter
         }
 
