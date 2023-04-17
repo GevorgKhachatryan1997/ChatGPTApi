@@ -17,13 +17,13 @@
         app:srcCompat="@drawable/logo_image" />
 
     <TextView
-        style="@style/TextTitle"
         android:id="@+id/login_title"
+        style="@style/TextTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        android:gravity="center"
         android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="@string/app_name"
         app:layout_constraintEnd_toEndOf="@+id/imageView"
         app:layout_constraintStart_toStartOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Sign in with Google"
-            android:textColor="@android:color/white"
+            android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
     </FrameLayout>

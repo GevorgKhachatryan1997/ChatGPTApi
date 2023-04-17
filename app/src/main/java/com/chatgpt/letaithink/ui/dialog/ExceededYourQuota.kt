@@ -37,7 +37,7 @@ class ExceededYourQuota : DialogFragment() {
         return AlertDialog.Builder(requireContext())
             .setTitle(R.string.quota_exceeded)
             .setMessage(requireArguments().getString(ARG_MESSAGE))
-            .setPositiveButton(android.R.string.ok) { _, _ ->
+            .setPositiveButton(R.string.ok) { _, _ ->
                 dismiss()
             }
             .setNegativeButton(R.string.check) { _, _ ->

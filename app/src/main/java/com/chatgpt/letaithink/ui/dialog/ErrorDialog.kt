@@ -29,7 +29,7 @@ class ErrorDialog : DialogFragment() {
         return AlertDialog.Builder(requireContext())
             .setTitle(R.string.error)
             .setMessage(message)
-            .setPositiveButton(android.R.string.ok) { _, _ -> dismiss() }
+            .setPositiveButton(R.string.ok) { _, _ -> dismiss() }
             .create()
     }
 

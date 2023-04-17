@@ -26,7 +26,7 @@ class LogoutDialog : DialogFragment() {
             .setTitle(R.string.logout)
             .setMessage(getString(R.string.logout_message))
             .setPositiveButton(R.string.logout) { _, _ -> listener?.onDialogLogout() }
-            .setNegativeButton(android.R.string.cancel) { dialog, _ ->
+            .setNegativeButton(R.string.cancel) { dialog, _ ->
                 dialog.cancel()
             }.create()
     }

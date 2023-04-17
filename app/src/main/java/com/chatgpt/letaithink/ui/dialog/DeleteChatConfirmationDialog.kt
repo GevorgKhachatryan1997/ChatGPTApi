@@ -39,7 +39,7 @@ class DeleteChatConfirmationDialog : DialogFragment() {
                     listener?.onDialogChatDelete(it)
                 }
             }
-            .setNegativeButton(android.R.string.cancel) { dialog, _ ->
+            .setNegativeButton(R.string.cancel) { dialog, _ ->
                 dialog.cancel()
             }.create()
     }
