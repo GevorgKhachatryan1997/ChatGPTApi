@@ -51,6 +51,7 @@
     <string name="text_is_empty">Text is empty</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
+    <string name="email_application_not_found">Email application not found</string>
 
     <string-array name="user_wait_messages">
         <item>My brain is working so hard right now, it\'s sweating :D</item>
