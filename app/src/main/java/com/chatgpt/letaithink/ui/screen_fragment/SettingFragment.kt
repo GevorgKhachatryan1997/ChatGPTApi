@@ -8,6 +8,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -25,6 +26,7 @@ import com.chatgpt.letaithink.utils.addToClipboard
 class SettingFragment : Fragment(R.layout.setting_fragment), LogoutDialog.Listener {
 
     private var btnLogOut: Button? = null
+    private var cvBubble: CardView? = null
     private var btnBubbleView: Button? = null
     private var btnSupport: Button? = null
     private var btnUpdateApiKey: Button? = null
@@ -47,6 +49,11 @@ class SettingFragment : Fragment(R.layout.setting_fragment), LogoutDialog.Listen
             setOnClickListener {
                 LogoutDialog().show(childFragmentManager, LogoutDialog.TAG)
             }
+        }
+
+        cvBubble = view.findViewById(R.id.cvBubble)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
+            cvBubble?.visibility = View.GONE
         }
 
         btnBubbleView = view.findViewById<Button>(R.id.btn_bubble_view).apply {

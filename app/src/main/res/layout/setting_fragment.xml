@@ -11,7 +11,7 @@
         android:background="@color/white">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/bubbleCardView"
+            android:id="@+id/cvBubble"
             style="@style/SettingCardView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -40,7 +40,7 @@
             android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/bubbleCardView">
+            app:layout_constraintTop_toBottomOf="@id/cvBubble">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
