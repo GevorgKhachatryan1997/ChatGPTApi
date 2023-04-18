@@ -52,6 +52,7 @@
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
     <string name="email_application_not_found">Email application not found</string>
+    <string name="api_key_generation_warning_message">Please note that there may be associated costs for using OpenAI\'s services. We recommend reviewing OpenAI\'s pricing and policies before generating an API key and using their services.</string>
 
     <string-array name="user_wait_messages">
         <item>My brain is working so hard right now, it\'s sweating :D</item>

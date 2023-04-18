@@ -42,6 +42,12 @@
         <item name="android:paddingBottom">8dp</item>
     </style>
 
+    <style name="TextWarning" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/warning_text</item>
+        <item name="android:background">@color/warning_background</item>
+    </style>
+
     <style name="Button" parent="Widget.MaterialComponents.Button">
         <item name="backgroundTint">@color/blue_700</item>
         <item name="android:textColor">@color/white</item>

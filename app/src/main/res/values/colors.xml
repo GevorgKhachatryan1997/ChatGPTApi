@@ -13,6 +13,8 @@
     <color name="blue_900">#0D47A1</color>
 
     <color name="red">#A81818</color>
+    <color name="warning_background">#fff8c5</color>
+    <color name="warning_text">#333333</color>
 
     <color name="icon_pressed_color">@color/blue_500</color>
     <color name="icon_color">@color/blue_300</color>
