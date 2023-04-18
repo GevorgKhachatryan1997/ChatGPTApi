@@ -16,7 +16,8 @@ class MessageEntity(
     val sessionId: String,
     val type: MessageType,
     val content: String,
-    val time: Long
+    val time: Long,
+    val usage: Int
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0

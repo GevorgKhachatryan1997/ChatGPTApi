@@ -15,9 +15,11 @@ import java.util.*
 fun ConversationItem.toMessageEntity(sessionId: String): MessageEntity {
     val currentTime = Calendar.getInstance().timeInMillis
     return when (this) {
-        is UserMessage -> MessageEntity(sessionId, MessageType.USER_INPUT, message, currentTime)
-        is AiMessage -> MessageEntity(sessionId, MessageType.AI_COMPLETION, JsonUtil.toJson(textCompletion), currentTime)
-        is AiImage -> MessageEntity(sessionId, MessageType.AI_IMAGE_GENERATION, JsonUtil.toJson(image), currentTime)
+        is UserMessage -> MessageEntity(sessionId, MessageType.USER_INPUT, message, currentTime, -1)
+        is AiMessage -> MessageEntity(
+            sessionId, MessageType.AI_COMPLETION, JsonUtil.toJson(textCompletion), currentTime, textCompletion.usage?.total_tokens ?: -1
+        )
+        is AiImage -> MessageEntity(sessionId, MessageType.AI_IMAGE_GENERATION, JsonUtil.toJson(image), currentTime, -1)
         else -> throw IllegalStateException("Unknown conversation item: ${javaClass.simpleName}")
     }
 }
