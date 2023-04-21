@@ -16,7 +16,12 @@ import com.chatgpt.letaithink.exception.NoConnectionException
 import com.chatgpt.letaithink.ui.dialog.ErrorDialog
 import com.chatgpt.letaithink.ui.dialog.ExceededYourQuota
 import com.chatgpt.letaithink.ui.dialog.InvalidApiKeyDialog
-import com.chatgpt.letaithink.ui.screen_fragment.*
+import com.chatgpt.letaithink.ui.screen_fragment.ApiKeyFragment
+import com.chatgpt.letaithink.ui.screen_fragment.ChatFragment
+import com.chatgpt.letaithink.ui.screen_fragment.ChatsHistoryFragment
+import com.chatgpt.letaithink.ui.screen_fragment.LoginFragment
+import com.chatgpt.letaithink.ui.screen_fragment.PaymentFragment
+import com.chatgpt.letaithink.ui.screen_fragment.SettingFragment
 import com.chatgpt.letaithink.utils.OpenAIUtils
 import kotlinx.coroutines.launch
 
@@ -31,6 +36,7 @@ class MainActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContentView(R.layout.activity_main)
 
         setSupportActionBar(findViewById(R.id.toolbar))
