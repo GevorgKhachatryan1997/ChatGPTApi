@@ -1,4 +1,4 @@
-package com.chatgpt.letaithink.model.remoteModelts
+    package com.chatgpt.letaithink.model.remoteModels
 
 @JvmInline
 value class ImageSize(val size: String)

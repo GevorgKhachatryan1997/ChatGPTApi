@@ -22,7 +22,7 @@ class MainViewModel : ViewModel() {
         if (firstRun) {
             viewModelScope.launch {
                 if (!UserRepository.isUserAuthenticated()) {
-                    showScreen(LoginScreen)
+                    showScreen(ChatsHistory)
                 } else if (!ApiKeyRepository.hasApiKey()) {
                     showScreen(ApiKeyScreen)
                 } else if (PurchaseRepository.purchaseInvalid()) {

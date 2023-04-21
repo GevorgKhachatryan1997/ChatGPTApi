@@ -1,4 +1,4 @@
-package com.chatgpt.letaithink.model.remoteModelts
+package com.chatgpt.letaithink.model.remoteModels
 
 import com.google.gson.annotations.SerializedName
 

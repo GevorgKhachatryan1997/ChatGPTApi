@@ -6,15 +6,24 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chatgpt.letaithink.R
-import com.chatgpt.letaithink.data.*
-import com.chatgpt.letaithink.data.RemoteDataSource.Companion.MAX_TOKEN_COUNT
+import com.chatgpt.letaithink.data.AiChatMessage
+import com.chatgpt.letaithink.data.AiImage
+import com.chatgpt.letaithink.data.AiMessage
+import com.chatgpt.letaithink.data.AiThinking
+import com.chatgpt.letaithink.data.ChatRepository
+import com.chatgpt.letaithink.data.ConversationItem
+import com.chatgpt.letaithink.data.ResourcesRepository
+import com.chatgpt.letaithink.data.UserMessage
+import com.chatgpt.letaithink.data.UserRepository
+import com.chatgpt.letaithink.model.CHAT_MODE_CHAT_COMPLETION
 import com.chatgpt.letaithink.model.CHAT_MODE_IMAGE_GENERATION
 import com.chatgpt.letaithink.model.CHAT_MODE_TEXT_COMPLETION
 import com.chatgpt.letaithink.model.ChatMode
 import com.chatgpt.letaithink.model.databaseModels.SessionEntity
-import com.chatgpt.letaithink.model.remoteModelts.CompletionRequest
-import com.chatgpt.letaithink.model.remoteModelts.IMAGE_SIZE_1024
-import com.chatgpt.letaithink.model.remoteModelts.ImageGenerationRequest
+import com.chatgpt.letaithink.model.remoteModels.ChatCompletionRequest
+import com.chatgpt.letaithink.model.remoteModels.CompletionRequest
+import com.chatgpt.letaithink.model.remoteModels.IMAGE_SIZE_1024
+import com.chatgpt.letaithink.model.remoteModels.ImageGenerationRequest
 import com.chatgpt.letaithink.utils.ImageUtils
 import com.chatgpt.letaithink.utils.emit
 import com.chatgpt.letaithink.utils.toConversationItem
@@ -30,6 +39,11 @@ import java.io.IOException
 
 // TODO Handle nonull calls
 class ChatViewModel : ViewModel() {
+
+    companion object {
+        private const val USER = "user"
+        private const val ASSISTANT = "assistant"
+    }
 
     private val _conversationItems = MutableStateFlow<List<ConversationItem>>(emptyList())
     val conversationItems = _conversationItems.asStateFlow()
@@ -82,6 +96,11 @@ class ChatViewModel : ViewModel() {
                 CHAT_MODE_TEXT_COMPLETION -> {
                     onTextGeneration(text, selectedMode)
                 }
+
+                CHAT_MODE_CHAT_COMPLETION -> {
+                    onChatMessage(text, selectedMode)
+                }
+
                 CHAT_MODE_IMAGE_GENERATION -> {
                     onImageGenerate(text)
                 }
@@ -110,11 +129,40 @@ class ChatViewModel : ViewModel() {
                 UserRepository.getUser()?.userId!!,
                 mode.model,
                 generateTextPrompts(text),
-                MAX_TOKEN_COUNT,
-                0.3F
+                mode.maxTokens,
+                mode.temperature
             )
+
             val result = ChatRepository.askQuestion(completion)
             val answer = AiMessage(result)
+
+            replaceLastConversationItem(answer)
+            ChatRepository.saveConversationItem(session!!, question, answer)
+
+            _progressLoading.emit(value = false)
+        }
+    }
+
+    private fun onChatMessage(text: String, mode: ChatMode) {
+        session ?: return
+
+        viewModelScope.launch(exceptionHandler) {
+            _progressLoading.emit(value = true)
+
+            val question = UserMessage(text)
+            updateConversation(question)
+            updateConversation(AiThinking(ResourcesRepository.getRandomUserWaitMessage()))
+
+            val chatCompletion = ChatCompletionRequest(
+                mode.model,
+                generateChatPrompts(),
+                mode.temperature,
+                mode.maxTokens,
+                UserRepository.getUser()?.userId!!
+            )
+
+            val result = ChatRepository.askChatQuestion(chatCompletion)
+            val answer = AiChatMessage(result)
 
             replaceLastConversationItem(answer)
             ChatRepository.saveConversationItem(session!!, question, answer)
@@ -187,9 +235,7 @@ class ChatViewModel : ViewModel() {
 
     private fun getSelectedChatMode() = chatModes.value.first { it.selected }
 
-    // TODO maybe we need to use all choices
     private fun generateTextPrompts(prompt: String): String {
-
         fun StringBuilder.newLine(): StringBuilder {
             append("\n")
             return this
@@ -206,6 +252,7 @@ class ChatViewModel : ViewModel() {
             when (it) {
                 is UserMessage -> result.appendMessage(it.message)
                 is AiMessage -> result.appendMessage(it.textCompletion.choices?.first()?.text)
+                is AiChatMessage -> result.appendMessage(it.chatCompletion.choices?.first()?.message?.content)
                 is AiImage -> result.append(it.image.data)
                 else -> {}
             }
@@ -214,5 +261,22 @@ class ChatViewModel : ViewModel() {
         result.appendMessage(prompt)
 
         return result.toString()
+    }
+
+    private fun generateChatPrompts(): List<ChatCompletionRequest.ChatMessage> {
+        return buildList {
+            conversationItems.value.forEach {
+                val model: ChatCompletionRequest.ChatMessage? = when (it) {
+                    is UserMessage -> ChatCompletionRequest.ChatMessage(USER, it.message)
+                    is AiMessage -> ChatCompletionRequest.ChatMessage(ASSISTANT, it.textCompletion.choices?.first()?.text)
+                    is AiChatMessage -> ChatCompletionRequest.ChatMessage(ASSISTANT, it.chatCompletion.choices?.first()?.message?.content)
+                    is AiImage -> ChatCompletionRequest.ChatMessage(ASSISTANT, it.image.data.toString())
+                    is AiThinking -> null
+                }
+                if (model != null) {
+                    add(model)
+                }
+            }
+        }
     }
 }

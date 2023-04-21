@@ -1,14 +1,10 @@
 package com.chatgpt.letaithink.data
 
-import com.chatgpt.letaithink.model.remoteModelts.TextCompletion
-import com.chatgpt.letaithink.model.remoteModelts.CompletionRequest
-import com.chatgpt.letaithink.model.remoteModelts.ImageGenerationRequest
-import com.chatgpt.letaithink.model.remoteModelts.ImageModel
+import com.chatgpt.letaithink.model.remoteModels.*
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-// TODO replace Call with Result
 interface ChatGPTApi {
 
     companion object {
@@ -17,6 +13,9 @@ interface ChatGPTApi {
 
     @POST("completions")
     fun requestCompletion(@Body competition: CompletionRequest): Call<TextCompletion>
+
+    @POST("chat/completions")
+    fun requestChatCompletions(@Body chatCompletion: ChatCompletionRequest): Call<ChatCompletion>
 
     @POST("images/generations")
     fun requestImageGeneration(@Body body: ImageGenerationRequest): Call<ImageModel>

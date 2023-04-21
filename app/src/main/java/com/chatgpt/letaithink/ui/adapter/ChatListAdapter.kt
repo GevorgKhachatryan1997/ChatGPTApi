@@ -27,7 +27,8 @@ class ChatListAdapter : ListAdapter<ConversationItem, ChatListAdapter.Conversati
         private const val VIEW_TYPE_USER = 1000
         private const val VIEW_TYPE_AI_THINKING = 1001
         private const val VIEW_TYPE_AI_TEXT = 1002
-        private const val VIEW_TYPE_AI_IMAGE = 1003
+        private const val VIEW_TYPE_AI_CHAT_TEXT = 1003
+        private const val VIEW_TYPE_AI_IMAGE = 1004
     }
 
     var onChatListener: ChatListListener? = null
@@ -46,6 +47,7 @@ class ChatListAdapter : ListAdapter<ConversationItem, ChatListAdapter.Conversati
             is UserMessage -> VIEW_TYPE_USER
             is AiThinking -> VIEW_TYPE_AI_THINKING
             is AiMessage -> VIEW_TYPE_AI_TEXT
+            is AiChatMessage -> VIEW_TYPE_AI_CHAT_TEXT
             is AiImage -> VIEW_TYPE_AI_IMAGE
         }
     }
@@ -55,7 +57,7 @@ class ChatListAdapter : ListAdapter<ConversationItem, ChatListAdapter.Conversati
     private fun getItemLayout(viewType: Int): Int = when (viewType) {
         VIEW_TYPE_USER -> R.layout.user_question_item
         VIEW_TYPE_AI_THINKING -> R.layout.ai_answer_item
-        VIEW_TYPE_AI_TEXT -> R.layout.ai_answer_item
+        VIEW_TYPE_AI_TEXT, VIEW_TYPE_AI_CHAT_TEXT -> R.layout.ai_answer_item
         VIEW_TYPE_AI_IMAGE -> R.layout.ai_image_item
         else -> throw IllegalArgumentException("View type not supported: $viewType")
     }
@@ -65,6 +67,7 @@ class ChatListAdapter : ListAdapter<ConversationItem, ChatListAdapter.Conversati
             VIEW_TYPE_USER -> UserMessageViewHolder(view)
             VIEW_TYPE_AI_THINKING -> AiThinkingViewHolder(view)
             VIEW_TYPE_AI_TEXT -> AiMessageViewHolder(view)
+            VIEW_TYPE_AI_CHAT_TEXT -> AiChatMessageViewHolder(view)
             VIEW_TYPE_AI_IMAGE -> AiImageViewHolder(view)
             else -> throw IllegalArgumentException("Unknown view type: $viewType")
         }
@@ -132,6 +135,27 @@ class ChatListAdapter : ListAdapter<ConversationItem, ChatListAdapter.Conversati
             val text = StringBuilder()
             message.textCompletion.choices?.forEach {
                 text.append(it.text)
+            }
+
+            tvText.text = text
+        }
+    }
+
+    inner class AiChatMessageViewHolder(view: View) : ConversationViewHolder<AiChatMessage>(view) {
+
+        private val tvText: TextView = view.findViewById(R.id.tvText)
+        private val icCopy: ImageView = view.findViewById(R.id.ivCopyMessage)
+
+        init {
+            icCopy.setOnClickListener {
+                view.context.addToClipboard(tvText.text.toString())
+            }
+        }
+
+        override fun bind(message: AiChatMessage) {
+            val text = StringBuilder()
+            message.chatCompletion.choices?.first()?.message?.let {
+                text.append(it.content)
             }
 
             tvText.text = text

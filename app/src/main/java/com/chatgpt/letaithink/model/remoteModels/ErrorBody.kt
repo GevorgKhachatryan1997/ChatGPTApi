@@ -1,4 +1,4 @@
-package com.chatgpt.letaithink.model.remoteModelts
+package com.chatgpt.letaithink.model.remoteModels
 
 class ErrorBody(val error: Error? = null)
 

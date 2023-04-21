@@ -1,16 +1,14 @@
 package com.chatgpt.letaithink.data
 
+import android.util.Log
 import com.chatgpt.letaithink.data.ChatGPTApi.Companion.BASE_URL
 import com.chatgpt.letaithink.domain.AuthorizationInterceptor
 import com.chatgpt.letaithink.exception.ApiError
 import com.chatgpt.letaithink.exception.NoConnectionException
-import com.chatgpt.letaithink.model.remoteModelts.TextCompletion
-import com.chatgpt.letaithink.model.remoteModelts.CompletionRequest
-import com.chatgpt.letaithink.model.remoteModelts.ErrorBody
-import com.chatgpt.letaithink.model.remoteModelts.ImageGenerationRequest
-import com.chatgpt.letaithink.model.remoteModelts.ImageModel
+import com.chatgpt.letaithink.model.remoteModels.*
 import com.chatgpt.letaithink.utils.JsonUtil
 import com.chatgpt.letaithink.utils.NetworkUtils
+import com.google.gson.JsonSyntaxException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.Interceptor
@@ -38,6 +36,18 @@ class RemoteDataSource {
         NetworkUtils.ensureNetworkConnection()
 
         val response = chatGPTService.requestCompletion(completion).execute()
+        if (response.isSuccessful) {
+            return response.body()!!
+        }
+
+        throwAPIError(response)
+    }
+
+    @Throws(NoConnectionException::class, ApiError::class)
+    fun getChatCompletion(chatCompletion: ChatCompletionRequest): ChatCompletion {
+        NetworkUtils.ensureNetworkConnection()
+
+        val response = chatGPTService.requestChatCompletions(chatCompletion).execute()
         if (response.isSuccessful) {
             return response.body()!!
         }
@@ -100,8 +110,18 @@ class RemoteDataSource {
     @Throws(ApiError::class)
     private fun throwAPIError(response: Response<*>): Nothing {
         val errorBody = response.errorBody()?.string() ?: ""
-        // TODO handle json parse exception
-        val error = JsonUtil.fromJson(errorBody, ErrorBody::class.java)
-        throw ApiError(response.code(), error.error?.message ?: "")
+        val message = try {
+            val error = JsonUtil.fromJson(errorBody, ErrorBody::class.java)
+            error.error?.message ?: run {
+                Log.d(RemoteDataSource::class.simpleName, "Error body is empty")
+                ""
+            }
+        } catch (e: JsonSyntaxException) {
+            val message = "Could not parse error body: $errorBody"
+            Log.d(RemoteDataSource::class.simpleName, message)
+            message
+        }
+
+        throw ApiError(response.code(), message)
     }
 }

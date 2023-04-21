@@ -17,7 +17,6 @@ object NotificationUtils {
 
     private const val BUBBLE_VIEW_CHANNEL_ID = "bubble_channel_id"
     private const val BUBBLE_VIEW_CHANNEL_NAME = "Bubble view"
-
     private val notificationManager: NotificationManager by lazy { context.getSystemService(NotificationManager::class.java) }
 
     fun init(context: Context) {
