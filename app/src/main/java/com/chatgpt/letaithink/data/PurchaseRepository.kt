@@ -11,7 +11,7 @@ object PurchaseRepository {
     }
 
     suspend fun purchaseInvalid(): Boolean {
-        val purchase = localDataSource.getPurchase() ?: return false
+        val purchase = localDataSource.getPurchase() ?: return true
         return PaymentManager.purchaseExpired(purchase.purchaseTime ?: 0)
     }
 

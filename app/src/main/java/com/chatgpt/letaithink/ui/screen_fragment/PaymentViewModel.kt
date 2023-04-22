@@ -87,7 +87,7 @@ class PaymentViewModel : ViewModel() {
     }
 
     fun onLaunchBillingFlow(activity: Activity, billingParams: BillingFlowParams) {
-        val billingResult = billingClient.launchBillingFlow(activity, billingParams)
+        billingClient.launchBillingFlow(activity, billingParams)
     }
 
     suspend fun requestSubscriptions() {
