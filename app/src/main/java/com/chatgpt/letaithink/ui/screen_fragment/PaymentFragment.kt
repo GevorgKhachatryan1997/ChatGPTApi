@@ -67,7 +67,7 @@ class PaymentFragment : Fragment(R.layout.payment_fragment) {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
                 paymentViewModel.paymentSuccessFlow.collect {
-                    mainViewModel.showScreen(MainViewModel.ChatsHistory)
+                    mainViewModel.onPaymentSuccess()
                 }
             }
         }

@@ -9,35 +9,32 @@ import com.chatgpt.letaithink.data.UserRepository
 import com.chatgpt.letaithink.domain.GoogleAuthenticationHelper
 import com.chatgpt.letaithink.domain.Listener
 import com.chatgpt.letaithink.model.databaseModels.UserEntity
+import com.chatgpt.letaithink.utils.generateUserId
+import com.google.android.gms.auth.api.identity.SignInCredential
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
 
-    private val _authenticationMutableSharedFlow = MutableSharedFlow<Authentication>()
+    private val _authenticationMutableSharedFlow = MutableSharedFlow<Boolean>()
     val authenticationSharedFlow = _authenticationMutableSharedFlow.asSharedFlow()
 
     private val googleAuthenticationHelper = GoogleAuthenticationHelper().apply {
         onAuthenticationListener = object : Listener {
-            override fun onLoginSuccess(user: UserEntity) {
+            override fun onLoginSuccess(credential: SignInCredential) {
                 viewModelScope.launch {
-                    _authenticationMutableSharedFlow.emit(AuthenticationSuccess)
-                    insertUser(user)
+                    val user = UserEntity(generateUserId(), credential.displayName, credential.familyName, credential.id)
+                    UserRepository.insertUser(user)
+                    _authenticationMutableSharedFlow.emit(true)
                 }
             }
 
             override fun onLoginFailure() {
                 viewModelScope.launch {
-                    _authenticationMutableSharedFlow.emit(AuthenticationFailed)
+                    _authenticationMutableSharedFlow.emit(false)
                 }
             }
-        }
-    }
-
-    fun insertUser(userEntity: UserEntity) {
-        viewModelScope.launch {
-            UserRepository.insertUser(userEntity)
         }
     }
 
@@ -48,9 +45,4 @@ class LoginViewModel : ViewModel() {
     fun signInRequest(activity: Activity, googleSignInRequest: (IntentSenderRequest) -> Unit) {
         googleAuthenticationHelper.signInRequest(activity, googleSignInRequest)
     }
-
-    sealed class Authentication
-
-    object AuthenticationSuccess : Authentication()
-    object AuthenticationFailed : Authentication()
 }

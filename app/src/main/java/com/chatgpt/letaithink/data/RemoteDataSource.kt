@@ -1,6 +1,7 @@
 package com.chatgpt.letaithink.data
 
 import android.util.Log
+import com.chatgpt.letaithink.BuildConfig
 import com.chatgpt.letaithink.data.OpenAIApi.Companion.BASE_URL
 import com.chatgpt.letaithink.domain.AuthorizationInterceptor
 import com.chatgpt.letaithink.exception.ApiError

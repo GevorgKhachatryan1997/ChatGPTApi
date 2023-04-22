@@ -25,6 +25,9 @@ android {
         versionCode 11
         versionName "1.0"
 
+        buildConfigField("String", "OPENAI_API_KEY", "\"${getProperty('OPENAI_API_KEY')}\"")
+        buildConfigField 'Boolean', 'TAMPER_DETECTION_ENABLED', 'false'
+
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -38,15 +41,9 @@ android {
         }
 
         rcRelease {
-            buildConfigField 'Boolean', 'TAMPER_DETECTION_ENABLED', 'false'
-
             signingConfig signingConfigs.release
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-
-        debug {
-            buildConfigField 'Boolean', 'TAMPER_DETECTION_ENABLED', 'false'
         }
     }
     compileOptions {

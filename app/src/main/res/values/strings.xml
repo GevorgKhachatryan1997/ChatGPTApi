@@ -33,7 +33,7 @@
     <string name="delete_chat">Delete Chat</string>
     <string name="apikey">Api Key</string>
     <string name="image_generation_description">Create unique and original images.</string>
-    <string name="text_completion_description">Quickly generate high-quality text for a variety of purposes.</string>
+    <string name="text_completion_description">Interact with an incredible AI and discover the solutions you seek through conversation.</string>
     <string name="launch_app_in_a_floating_view">Launch app in a floating view</string>
     <string name="subscription_description">Thanks for choosing our AI-powered chat!\nTo unlock all the exciting features and ensure a seamless experience, we need your support.\nDon\'t worry, we\'re not asking for your first-born or a kidney 😊 - just a small subscription fee \nSubscribe now and get ready to chat with an innovative AI.</string>
     <string name="monthly_subscription_text">Join for %s monthly</string>

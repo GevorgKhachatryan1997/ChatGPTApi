@@ -70,8 +70,7 @@ class SettingFragment : Fragment(R.layout.setting_fragment), LogoutDialog.Listen
 
         btnUpdateApiKey = view.findViewById<Button?>(R.id.btnUpdateApiKey).apply {
             setOnClickListener {
-                mainViewModel.showScreen(MainViewModel.ApiKeyScreen)
-
+                mainViewModel.onUpdateApiKey()
             }
         }
 
@@ -92,11 +91,7 @@ class SettingFragment : Fragment(R.layout.setting_fragment), LogoutDialog.Listen
 
     override fun onDialogLogout() {
         settingViewModel.onLogoutClick(requireContext())
-        showLoginScreen()
-    }
-
-    private fun showLoginScreen() {
-        mainViewModel.showScreen(MainViewModel.LoginScreen)
+        mainViewModel.onLogout()
     }
 
     private fun makeAppBubbleView() {

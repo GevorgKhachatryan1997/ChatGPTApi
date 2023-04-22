@@ -1,5 +1,6 @@
 package com.chatgpt.letaithink.domain
 
+import com.chatgpt.letaithink.BuildConfig
 import com.chatgpt.letaithink.data.ApiKeyRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
@@ -15,7 +16,7 @@ class AuthorizationInterceptor : Interceptor {
             request = withContext(Dispatchers.IO) {
                 request
                     .newBuilder()
-                    .addHeader("Authorization", "Bearer ${ApiKeyRepository.getApiKey()}")
+                    .addHeader("Authorization", "Bearer ${BuildConfig.OPENAI_API_KEY}")
                     .build()
             }
         }

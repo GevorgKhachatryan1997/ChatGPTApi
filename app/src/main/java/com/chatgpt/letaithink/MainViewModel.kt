@@ -2,7 +2,6 @@ package com.chatgpt.letaithink
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.chatgpt.letaithink.data.ApiKeyRepository
 import com.chatgpt.letaithink.data.PurchaseRepository
 import com.chatgpt.letaithink.data.UserRepository
 import com.chatgpt.letaithink.utils.emit
@@ -21,20 +20,54 @@ class MainViewModel : ViewModel() {
     fun onActivityStart(firstRun: Boolean) {
         if (firstRun) {
             viewModelScope.launch {
-                if (!UserRepository.isUserAuthenticated()) {
-                    showScreen(ChatsHistory)
-                } else if (!ApiKeyRepository.hasApiKey()) {
-                    showScreen(ApiKeyScreen)
-                } else if (PurchaseRepository.purchaseInvalid()) {
-                    showScreen(PaymentScreen)
-                } else {
-                    showScreen(ChatsHistory)
-                }
+                showCorrespondingScreen()
             }
         }
     }
 
-    fun showScreen(screen: Screen) {
+    fun onAuthorizationSuccess() {
+        viewModelScope.launch {
+            showCorrespondingScreen()
+        }
+    }
+
+    fun onApiKeySet() {
+        viewModelScope.launch {
+            showCorrespondingScreen()
+        }
+    }
+
+    fun onSessionClick(sessionId: String? = null) {
+        showScreen(AiChatScreen(sessionId))
+    }
+
+    fun onSettingClick() {
+        showScreen(SettingScreen)
+    }
+
+    fun onPaymentSuccess() {
+        showScreen(ChatsHistory)
+    }
+
+    fun onUpdateApiKey() {
+        showScreen(ApiKeyScreen)
+    }
+
+    fun onLogout() {
+        showScreen(LoginScreen)
+    }
+
+    private suspend fun showCorrespondingScreen() {
+        if (!UserRepository.isUserAuthenticated()) {
+            showScreen(LoginScreen)
+        } else if (PurchaseRepository.purchaseInvalid()) {
+            showScreen(PaymentScreen)
+        } else {
+            showScreen(ChatsHistory)
+        }
+    }
+
+    private fun showScreen(screen: Screen) {
         _screenNavigationFlow.emit(screen, viewModelScope)
     }
 

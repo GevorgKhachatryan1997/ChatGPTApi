@@ -31,7 +31,7 @@ class ChatsHistoryFragment : Fragment(R.layout.chats_history_fragment),
     private val chatsHistoryAdapter = ChatsHistoryListAdapter().apply {
         itemClickListener = object : ChatsHistoryListAdapter.OnSessionClickListener {
             override fun onSessionClick(session: SessionEntity) {
-                mainViewModel.showScreen(MainViewModel.AiChatScreen(session.sessionId))
+                mainViewModel.onSessionClick(session.sessionId)
             }
 
             override fun onSessionDeleteClick(session: SessionEntity) {
@@ -56,7 +56,7 @@ class ChatsHistoryFragment : Fragment(R.layout.chats_history_fragment),
 
         btnCreateNewChat = view.findViewById<CardView>(R.id.cv_new_chat).also {
             it.setOnClickListener {
-                mainViewModel.showScreen(MainViewModel.AiChatScreen())
+                mainViewModel.onSessionClick()
             }
         }
         rvChatsHistory = view.findViewById<RecyclerView>(R.id.rv_chats_history).also {
@@ -92,7 +92,7 @@ class ChatsHistoryFragment : Fragment(R.layout.chats_history_fragment),
     override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
         val handled = when (menuItem.itemId) {
             R.id.menu_settings -> {
-                mainViewModel.showScreen(MainViewModel.SettingScreen)
+                mainViewModel.onSettingClick()
                 true
             }
             else -> false

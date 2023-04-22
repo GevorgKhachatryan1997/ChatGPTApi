@@ -48,12 +48,7 @@ class ApiKeyFragment : Fragment(R.layout.api_key_fragment) {
                 apiKeyViewModel.apiKeyValidationSharedFlow.collect { valid ->
                     if (valid) {
                         lifecycleScope.launch {
-                            val screen = if (PurchaseRepository.purchaseInvalid()) {
-                                MainViewModel.ChatsHistory
-                            } else {
-                                MainViewModel.PaymentScreen
-                            }
-                            mainViewModel.showScreen(screen)
+                            mainViewModel.onApiKeySet()
                         }
                     } else {
                         etApiKey?.error = getString(R.string.api_key_is_invalid)

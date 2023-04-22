@@ -28,7 +28,6 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
             loginViewModel.onAuthenticationResult(requireActivity(), result?.data)
         }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -40,22 +39,15 @@ class LoginFragment : Fragment(R.layout.login_fragment) {
         }
 
         lifecycleScope.launchWhenCreated {
-            loginViewModel.authenticationSharedFlow.collect {
-                when (it) {
-                    LoginViewModel.AuthenticationSuccess -> {
-                        showApiKeyScreen()
-                    }
-                    LoginViewModel.AuthenticationFailed -> {
-                        val message = getString(R.string.authentication_fail)
-                        showErrorDialog(message)
-                    }
+            loginViewModel.authenticationSharedFlow.collect { authorizationSuccess ->
+                if (authorizationSuccess) {
+                    mainViewModel.onAuthorizationSuccess()
+                } else {
+                    val message = getString(R.string.authentication_fail)
+                    showErrorDialog(message)
                 }
             }
         }
-    }
-
-    private fun showApiKeyScreen() {
-        mainViewModel.showScreen(MainViewModel.ApiKeyScreen)
     }
 
     private fun showErrorDialog(message: String) {

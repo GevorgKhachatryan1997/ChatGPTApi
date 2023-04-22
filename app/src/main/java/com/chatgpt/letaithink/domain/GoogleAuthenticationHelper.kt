@@ -53,8 +53,7 @@ class GoogleAuthenticationHelper {
     fun onAuthenticationResult(activity: Activity, data: Intent?) {
         try {
             val credential: SignInCredential = Identity.getSignInClient(activity).getSignInCredentialFromIntent(data)
-            val user = UserEntity(generateUserId(), credential.displayName, credential.familyName, credential.id)
-            onAuthenticationListener?.onLoginSuccess(user)
+            onAuthenticationListener?.onLoginSuccess(credential)
         } catch (e: ApiException) {
             onAuthenticationListener?.onLoginFailure()
             when (e.statusCode) {
@@ -73,6 +72,6 @@ class GoogleAuthenticationHelper {
 }
 
 interface Listener {
-    fun onLoginSuccess(user: UserEntity)
+    fun onLoginSuccess(credential: SignInCredential)
     fun onLoginFailure()
 }
