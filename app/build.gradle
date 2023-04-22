@@ -9,7 +9,7 @@ plugins {
 android {
     signingConfigs {
         release {
-            storeFile file('C:\\Users\\artav\\AndroidStudioProjects\\ChatGPTApi\\let_ai_think.jks')
+            storeFile file('C:\\Users\\artav\\AndroidStudioProjects\\LetAiThink\\let_ai_think.jks')
             storePassword 'ChatGPTDavici'
             keyPassword 'ChatGPTDavici'
             keyAlias 'LetAiThinkChatGPTDavici'

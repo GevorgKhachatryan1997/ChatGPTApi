@@ -5,7 +5,7 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-interface ChatGPTApi {
+interface OpenAIApi {
 
     companion object {
         const val BASE_URL = "https://api.openai.com/v1/"

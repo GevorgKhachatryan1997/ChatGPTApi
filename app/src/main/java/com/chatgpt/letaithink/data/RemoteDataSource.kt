@@ -2,6 +2,7 @@ package com.chatgpt.letaithink.data
 
 import android.util.Log
 import com.chatgpt.letaithink.data.ChatGPTApi.Companion.BASE_URL
+import com.chatgpt.letaithink.data.OpenAIApi.Companion.BASE_URL
 import com.chatgpt.letaithink.domain.AuthorizationInterceptor
 import com.chatgpt.letaithink.exception.ApiError
 import com.chatgpt.letaithink.exception.NoConnectionException
@@ -77,14 +78,14 @@ class RemoteDataSource {
         throwAPIError(response)
     }
 
-    private fun createChatApi(): ChatGPTApi {
+    private fun createChatApi(): OpenAIApi {
         return Retrofit
             .Builder()
             .baseUrl(BASE_URL)
             .client(createHttpClient(AuthorizationInterceptor()))
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(ChatGPTApi::class.java)
+            .create(OpenAIApi::class.java)
     }
 
     private fun checkApiKeyApi(): CheckApiKeyApi {
