@@ -9,6 +9,10 @@ interface OpenAIApi {
 
     companion object {
         const val BASE_URL = "https://api.openai.com/v1/"
+
+        const val RESPONSE_CODE_INVALID_API_KEY = 401
+        const val RESPONSE_CODE_RATE_LIMIT_REACHED = 429
+        const val RESPONSE_CODE_SERVER_HAD_ERROR = 500
     }
 
     @POST("completions")

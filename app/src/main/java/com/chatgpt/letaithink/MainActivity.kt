@@ -9,8 +9,7 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.chatgpt.letaithink.data.RemoteDataSource.Companion.RESPONSE_CODE_INVALID_API_KEY
-import com.chatgpt.letaithink.data.RemoteDataSource.Companion.RESPONSE_CODE_RATE_LIMIT_REACHED
+import com.chatgpt.letaithink.data.OpenAIApi
 import com.chatgpt.letaithink.exception.ApiError
 import com.chatgpt.letaithink.exception.NoConnectionException
 import com.chatgpt.letaithink.ui.dialog.ErrorDialog
@@ -58,11 +57,11 @@ class MainActivity : AppCompatActivity(),
                         }
                         is ApiError -> {
                             when (exception.errorCode) {
-                                RESPONSE_CODE_INVALID_API_KEY -> {
+                                OpenAIApi.RESPONSE_CODE_INVALID_API_KEY -> {
                                     InvalidApiKeyDialog.newInstance(exception.message ?: "")
                                         .show(supportFragmentManager)
                                 }
-                                RESPONSE_CODE_RATE_LIMIT_REACHED -> {
+                                OpenAIApi.RESPONSE_CODE_RATE_LIMIT_REACHED -> {
                                     ExceededYourQuota.newInstance(exception.message ?: "")
                                         .show(supportFragmentManager)
                                 }

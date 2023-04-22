@@ -1,7 +1,6 @@
 package com.chatgpt.letaithink.data
 
 import android.util.Log
-import com.chatgpt.letaithink.data.ChatGPTApi.Companion.BASE_URL
 import com.chatgpt.letaithink.data.OpenAIApi.Companion.BASE_URL
 import com.chatgpt.letaithink.domain.AuthorizationInterceptor
 import com.chatgpt.letaithink.exception.ApiError
@@ -22,11 +21,7 @@ import java.util.concurrent.TimeUnit
 class RemoteDataSource {
 
     companion object {
-        const val MAX_TOKEN_COUNT = 1000
         private const val CONNECTION_TIMEOUT = 60L
-        const val RESPONSE_CODE_INVALID_API_KEY = 401
-        const val RESPONSE_CODE_RATE_LIMIT_REACHED = 429
-        const val RESPONSE_CODE_SERVER_HAD_ERROR = 500
     }
 
     private val chatGPTService = createChatApi()
@@ -63,7 +58,7 @@ class RemoteDataSource {
         val header = "Bearer $apiKey"
         val response = apiKeyService.checkApiKey(header).execute()
 
-        response.code() != RESPONSE_CODE_INVALID_API_KEY
+        response.code() != OpenAIApi.RESPONSE_CODE_INVALID_API_KEY
     }
 
     @Throws(NoConnectionException::class, ApiError::class)
