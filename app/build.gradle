@@ -22,8 +22,8 @@ android {
         applicationId "com.chatgpt.letaithink"
         minSdk 26
         targetSdk 33
-        versionCode 12
-        versionName "1.0"
+        versionCode 13
+        versionName "1.0.1"
 
         buildConfigField("String", "OPENAI_API_KEY", "\"${getProperty('OPENAI_API_KEY')}\"")
         buildConfigField 'Boolean', 'TAMPER_DETECTION_ENABLED', 'false'
