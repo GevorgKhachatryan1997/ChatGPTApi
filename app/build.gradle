@@ -22,7 +22,7 @@ android {
         applicationId "com.chatgpt.letaithink"
         minSdk 26
         targetSdk 33
-        versionCode 11
+        versionCode 12
         versionName "1.0"
 
         buildConfigField("String", "OPENAI_API_KEY", "\"${getProperty('OPENAI_API_KEY')}\"")
