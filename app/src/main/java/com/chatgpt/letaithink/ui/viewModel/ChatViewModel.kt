@@ -37,12 +37,11 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.IOException
 
-// TODO Handle nonull calls
 class ChatViewModel : ViewModel() {
 
     companion object {
-        private const val USER = "user"
-        private const val ASSISTANT = "assistant"
+        private const val ROLE_USER = "user"
+        private const val ROLE_ASSISTANT = "assistant"
     }
 
     private val _conversationItems = MutableStateFlow<List<ConversationItem>>(emptyList())
@@ -267,10 +266,10 @@ class ChatViewModel : ViewModel() {
         return buildList {
             conversationItems.value.forEach {
                 val model: ChatCompletionRequest.ChatMessage? = when (it) {
-                    is UserMessage -> ChatCompletionRequest.ChatMessage(USER, it.message)
-                    is AiMessage -> ChatCompletionRequest.ChatMessage(ASSISTANT, it.textCompletion.choices?.first()?.text)
-                    is AiChatMessage -> ChatCompletionRequest.ChatMessage(ASSISTANT, it.chatCompletion.choices?.first()?.message?.content)
-                    is AiImage -> ChatCompletionRequest.ChatMessage(ASSISTANT, it.image.data.toString())
+                    is UserMessage -> ChatCompletionRequest.ChatMessage(ROLE_USER, it.message)
+                    is AiMessage -> ChatCompletionRequest.ChatMessage(ROLE_ASSISTANT, it.textCompletion.choices?.first()?.text)
+                    is AiChatMessage -> ChatCompletionRequest.ChatMessage(ROLE_ASSISTANT, it.chatCompletion.choices?.first()?.message?.content)
+                    is AiImage -> ChatCompletionRequest.ChatMessage(ROLE_ASSISTANT, it.image.data.toString())
                     is AiThinking -> null
                 }
                 if (model != null) {

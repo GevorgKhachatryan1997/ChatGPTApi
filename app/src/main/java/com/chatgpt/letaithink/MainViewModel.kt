@@ -60,8 +60,6 @@ class MainViewModel : ViewModel() {
     private suspend fun showCorrespondingScreen() {
         if (!UserRepository.isUserAuthenticated()) {
             showScreen(LoginScreen)
-        } else if (PurchaseRepository.purchaseInvalid()) {
-            showScreen(PaymentScreen)
         } else {
             showScreen(ChatsHistory)
         }

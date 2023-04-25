@@ -12,9 +12,11 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.chatgpt.letaithink.data.OpenAIApi
 import com.chatgpt.letaithink.exception.ApiError
 import com.chatgpt.letaithink.exception.NoConnectionException
+import com.chatgpt.letaithink.exception.PurchaseNotExists
 import com.chatgpt.letaithink.ui.dialog.ErrorDialog
 import com.chatgpt.letaithink.ui.dialog.ExceededYourQuota
 import com.chatgpt.letaithink.ui.dialog.InvalidApiKeyDialog
+import com.chatgpt.letaithink.ui.dialog.SubscriptionExpiredDialog
 import com.chatgpt.letaithink.ui.screen_fragment.ApiKeyFragment
 import com.chatgpt.letaithink.ui.screen_fragment.ChatFragment
 import com.chatgpt.letaithink.ui.screen_fragment.ChatsHistoryFragment
@@ -26,7 +28,8 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(),
     InvalidApiKeyDialog.Listener,
-    ExceededYourQuota.Listener {
+    ExceededYourQuota.Listener,
+    SubscriptionExpiredDialog.Listener {
 
     private val viewModel: MainViewModel by viewModels()
 
@@ -55,19 +58,27 @@ class MainActivity : AppCompatActivity(),
                         is NoConnectionException -> {
                             showErrorDialog(getString(R.string.no_internet_connection))
                         }
+
                         is ApiError -> {
                             when (exception.errorCode) {
                                 OpenAIApi.RESPONSE_CODE_INVALID_API_KEY -> {
                                     InvalidApiKeyDialog.newInstance(exception.message ?: "")
                                         .show(supportFragmentManager)
                                 }
+
                                 OpenAIApi.RESPONSE_CODE_RATE_LIMIT_REACHED -> {
                                     ExceededYourQuota.newInstance(exception.message ?: "")
                                         .show(supportFragmentManager)
                                 }
+
                                 else -> showErrorDialog(exception.message)
                             }
                         }
+
+                        is PurchaseNotExists -> {
+                            SubscriptionExpiredDialog.newInstance().show(supportFragmentManager)
+                        }
+
                         else -> showErrorDialog(exception.message)
                     }
                 }
@@ -86,6 +97,10 @@ class MainActivity : AppCompatActivity(),
         showApiKeyFragment()
     }
 
+    override fun onDialogSubscribe() {
+        showPaymentScreen()
+    }
+
     override fun onCheckPlans() {
         OpenAIUtils.navigateToUsagePage(this)
     }
@@ -102,20 +117,25 @@ class MainActivity : AppCompatActivity(),
             is MainViewModel.ChatsHistory -> {
                 showChatsHistory()
             }
+
             is MainViewModel.AiChatScreen -> {
                 showAiChatFragment(screen.sessionId)
             }
+
             is MainViewModel.LoginScreen -> {
                 clearStack()
                 showLoginFragment()
             }
+
             is MainViewModel.SettingScreen -> {
                 showSettingFragment()
             }
+
             is MainViewModel.ApiKeyScreen -> {
                 clearStack()
                 showApiKeyFragment()
             }
+
             is MainViewModel.PaymentScreen -> {
                 showPaymentScreen()
             }

@@ -2,6 +2,7 @@ package com.chatgpt.letaithink.data
 
 import com.chatgpt.letaithink.exception.ApiError
 import com.chatgpt.letaithink.exception.NoConnectionException
+import com.chatgpt.letaithink.exception.PurchaseNotExists
 import com.chatgpt.letaithink.model.ChatMode
 import com.chatgpt.letaithink.model.databaseModels.Conversation
 import com.chatgpt.letaithink.model.databaseModels.SessionEntity
@@ -20,19 +21,24 @@ object ChatRepository {
 
     val chatModes: List<ChatMode> = localDataSource.chatModes
 
-    @Throws(NoConnectionException::class, ApiError::class)
+    @Throws(NoConnectionException::class, ApiError::class, PurchaseNotExists::class)
     suspend fun askQuestion(completion: CompletionRequest): TextCompletion = withContext(Dispatchers.IO) {
+        PurchaseRepository.ensurePurchase()
+
         remoteDataSource.getCompletion(completion)
     }
 
-    @Throws(NoConnectionException::class, ApiError::class)
+    @Throws(NoConnectionException::class, ApiError::class, PurchaseNotExists::class)
     suspend fun askChatQuestion(chatCompletion: ChatCompletionRequest): ChatCompletion = withContext(Dispatchers.IO) {
+        PurchaseRepository.ensurePurchase()
+
         remoteDataSource.getChatCompletion(chatCompletion)
     }
 
-    @Throws(NoConnectionException::class, ApiError::class)
+    @Throws(NoConnectionException::class, ApiError::class, PurchaseNotExists::class)
     suspend fun generateImage(imageParams: ImageGenerationRequest): ImageModel = withContext(Dispatchers.IO) {
-        NetworkUtils.ensureNetworkConnection()
+        PurchaseRepository.ensurePurchase()
+
         remoteDataSource.generateImage(imageParams)
     }
 
