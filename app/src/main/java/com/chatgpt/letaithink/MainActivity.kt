@@ -1,6 +1,7 @@
 package com.chatgpt.letaithink
 
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -21,9 +22,9 @@ import com.chatgpt.letaithink.ui.screen_fragment.LoginFragment
 import com.chatgpt.letaithink.ui.screen_fragment.PaymentFragment
 import com.chatgpt.letaithink.ui.screen_fragment.SettingFragment
 import com.chatgpt.letaithink.utils.OpenAIUtils
-import com.openai.api.services.OpenAIApi
 import com.openai.api.exception.ApiError
 import com.openai.api.exception.NoConnectionException
+import com.openai.api.services.OpenAIApi
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(),
@@ -36,12 +37,26 @@ class MainActivity : AppCompatActivity(),
     private val currentFragment: Fragment?
         get() = supportFragmentManager.findFragmentById(R.id.fragment_container_view)
 
+    private val backPressCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            if (supportFragmentManager.backStackEntryCount <= 1) {
+                finish()
+            } else {
+                isEnabled = false
+                onBackPressedDispatcher.onBackPressed()
+                isEnabled = true
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_main)
 
         setSupportActionBar(findViewById(R.id.toolbar))
+
+        onBackPressedDispatcher.addCallback(this, backPressCallback)
 
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.CREATED) {
@@ -115,6 +130,7 @@ class MainActivity : AppCompatActivity(),
     private fun navigateToScreen(screen: MainViewModel.Screen) {
         when (screen) {
             is MainViewModel.ChatsHistory -> {
+                clearStack()
                 showChatsHistory()
             }
 
@@ -132,7 +148,6 @@ class MainActivity : AppCompatActivity(),
             }
 
             is MainViewModel.ApiKeyScreen -> {
-                clearStack()
                 showApiKeyFragment()
             }
 
@@ -148,6 +163,7 @@ class MainActivity : AppCompatActivity(),
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             replace(R.id.fragment_container_view, ChatsHistoryFragment())
+            addToBackStack(null)
         }
     }
 
@@ -165,6 +181,7 @@ class MainActivity : AppCompatActivity(),
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             replace(R.id.fragment_container_view, LoginFragment.newInstance())
+            addToBackStack(null)
         }
     }
 
@@ -182,6 +199,7 @@ class MainActivity : AppCompatActivity(),
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             replace(R.id.fragment_container_view, ApiKeyFragment())
+            addToBackStack(null)
         }
     }
 
@@ -190,6 +208,7 @@ class MainActivity : AppCompatActivity(),
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             replace(R.id.fragment_container_view, PaymentFragment())
+            addToBackStack(null)
         }
     }
 

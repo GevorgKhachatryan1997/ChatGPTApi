@@ -55,6 +55,11 @@
     <string name="api_key_generation_warning_message">Please note that there may be associated costs for using OpenAI\'s services. We recommend reviewing OpenAI\'s pricing and policies before generating an API key and using their services.</string>
     <string name="subscribe">Subscribe</string>
     <string name="subscription_dialog_message">Thank you for using our app! To access all app features, please subscribe. You\'ll have unlimited access to all content and features.</string>
+    <string name="remove">Remove</string>
+    <string name="remove_api_key">Remove Api key</string>
+    <string name="remove_api_key_confirmation_message">Are you sure you want to remove API key.</string>
+    <string name="use_your_api_key_description">Enter Your API Key: Use your own OpenAI API key and access the app\'s features for FREE. Click this button, enter your API key, and get started.</string>
+    <string name="set_api_key">Set API key</string>
 
     <string-array name="user_wait_messages">
         <item>My brain is working so hard right now, it\'s sweating :D</item>

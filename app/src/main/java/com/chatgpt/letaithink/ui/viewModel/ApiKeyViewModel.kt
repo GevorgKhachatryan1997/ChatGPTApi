@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chatgpt.letaithink.data.ApiKeyRepository
 import com.chatgpt.letaithink.utils.emit
+import com.openai.api.OpenAIManager
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -30,6 +31,7 @@ class ApiKeyViewModel : ViewModel() {
             val valid = ApiKeyRepository.validateApiKey(apiKey)
             if (valid) {
                 ApiKeyRepository.updateApiKey(apiKey)
+                OpenAIManager.setAPIKey(apiKey)
             }
             _apiKeyValidationSharedFlow.emit(valid)
             _validationInProcess.emit(false)

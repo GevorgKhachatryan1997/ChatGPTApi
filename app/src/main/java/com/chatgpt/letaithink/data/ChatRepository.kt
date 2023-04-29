@@ -23,21 +23,21 @@ object ChatRepository {
 
     @Throws(NoConnectionException::class, ApiError::class, PurchaseNotExists::class)
     suspend fun askQuestion(completion: CompletionRequest): TextCompletion = withContext(Dispatchers.IO) {
-        PurchaseRepository.ensurePurchase()
+        ensureUserState()
 
         openAIDataSource.getCompletion(completion)
     }
 
     @Throws(NoConnectionException::class, ApiError::class, PurchaseNotExists::class)
     suspend fun askChatQuestion(chatCompletion: ChatCompletionRequest): ChatCompletion = withContext(Dispatchers.IO) {
-        PurchaseRepository.ensurePurchase()
+        ensureUserState()
 
         openAIDataSource.getChatCompletion(chatCompletion)
     }
 
     @Throws(NoConnectionException::class, ApiError::class, PurchaseNotExists::class)
     suspend fun generateImage(imageParams: ImageGenerationRequest): ImageModel = withContext(Dispatchers.IO) {
-        PurchaseRepository.ensurePurchase()
+        ensureUserState()
 
         openAIDataSource.generateImage(imageParams)
     }
@@ -70,5 +70,12 @@ object ChatRepository {
 
     suspend fun deleteAllData() {
         localDataSource.deleteChatData()
+    }
+
+    @Throws(PurchaseNotExists::class)
+    private suspend fun ensureUserState() {
+        if (ApiKeyRepository.getApiKey() == null) {
+            PurchaseRepository.ensurePurchase()
+        }
     }
 }

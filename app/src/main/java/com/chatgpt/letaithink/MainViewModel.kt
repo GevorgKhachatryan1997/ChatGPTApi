@@ -2,6 +2,7 @@ package com.chatgpt.letaithink
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.chatgpt.letaithink.data.ApiKeyRepository
 import com.chatgpt.letaithink.data.UserRepository
 import com.chatgpt.letaithink.utils.emit
 import com.openai.api.OpenAIManager
@@ -19,7 +20,7 @@ class MainViewModel : ViewModel() {
 
     init {
         viewModelScope.launch {
-            val apiKey = BuildConfig.OPENAI_API_KEY
+            val apiKey = ApiKeyRepository.getApiKey() ?: BuildConfig.OPENAI_API_KEY
             OpenAIManager.setAPIKey(apiKey)
         }
     }
@@ -33,15 +34,11 @@ class MainViewModel : ViewModel() {
     }
 
     fun onAuthorizationSuccess() {
-        viewModelScope.launch {
-            showCorrespondingScreen()
-        }
+        showScreen(ChatsHistory)
     }
 
     fun onApiKeySet() {
-        viewModelScope.launch {
-            showCorrespondingScreen()
-        }
+        showScreen(ChatsHistory)
     }
 
     fun onSessionClick(sessionId: String? = null) {
@@ -78,6 +75,16 @@ class MainViewModel : ViewModel() {
 
     fun handleException(exception: Throwable) {
         _exceptionMutableSharedFlow.emit(exception, viewModelScope)
+    }
+
+    fun onRemoveApiKey() {
+        viewModelScope.launch {
+            ApiKeyRepository.deleteApiKey()
+        }
+    }
+
+    fun onPaymentSetApiKey() {
+        showScreen(ApiKeyScreen)
     }
 
     sealed class Screen

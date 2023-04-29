@@ -17,19 +17,25 @@ import com.chatgpt.letaithink.MainViewModel
 import com.chatgpt.letaithink.R
 import com.chatgpt.letaithink.data.ApiKeyRepository
 import com.chatgpt.letaithink.ui.dialog.LogoutDialog
+import com.chatgpt.letaithink.ui.dialog.RemoveApiKeyConfirmationDialog
 import com.chatgpt.letaithink.ui.viewModel.SettingViewModel
 import com.chatgpt.letaithink.utils.EmailUtils
 import com.chatgpt.letaithink.utils.NotificationUtils
 import com.chatgpt.letaithink.utils.PermissionUtils
 import com.chatgpt.letaithink.utils.addToClipboard
+import kotlinx.coroutines.launch
 
-class SettingFragment : Fragment(R.layout.setting_fragment), LogoutDialog.Listener {
+class SettingFragment : Fragment(R.layout.setting_fragment),
+    LogoutDialog.Listener,
+    RemoveApiKeyConfirmationDialog.Listener {
 
     private var btnLogOut: Button? = null
     private var cvBubble: CardView? = null
+    private var cvApiKey: CardView? = null
     private var btnBubbleView: Button? = null
     private var btnSupport: Button? = null
     private var btnUpdateApiKey: Button? = null
+    private var btnRemoveApiKey: Button? = null
     private var tvSupportEmail: TextView? = null
     private var tvApiKey: TextView? = null
     private var ivCopyApiKey: ImageView? = null
@@ -68,9 +74,14 @@ class SettingFragment : Fragment(R.layout.setting_fragment), LogoutDialog.Listen
             }
         }
 
-        btnUpdateApiKey = view.findViewById<Button?>(R.id.btnUpdateApiKey).apply {
+        btnUpdateApiKey = view.findViewById<Button>(R.id.btnUpdateApiKey).apply {
             setOnClickListener {
                 mainViewModel.onUpdateApiKey()
+            }
+        }
+        btnRemoveApiKey = view.findViewById<Button>(R.id.btnRemoveApiKey).apply {
+            setOnClickListener {
+                RemoveApiKeyConfirmationDialog.newInstance().show(childFragmentManager)
             }
         }
 
@@ -78,9 +89,16 @@ class SettingFragment : Fragment(R.layout.setting_fragment), LogoutDialog.Listen
             text = EmailUtils.SUPPORT_EMAIL
         }
 
+        cvApiKey = view.findViewById(R.id.apiKeyCardView)
         tvApiKey = view.findViewById(R.id.tvApiKey)
-        lifecycleScope.launchWhenCreated {
-            tvApiKey?.text = ApiKeyRepository.getApiKey()
+        lifecycleScope.launch {
+            val userApiKey = ApiKeyRepository.getApiKey()
+            if (userApiKey != null) {
+                cvApiKey?.visibility = View.VISIBLE
+                tvApiKey?.text = userApiKey
+            } else {
+                cvApiKey?.visibility = View.GONE
+            }
         }
         ivCopyApiKey = view.findViewById<ImageView?>(R.id.ivCopyApikey).apply {
             setOnClickListener {
@@ -107,5 +125,10 @@ class SettingFragment : Fragment(R.layout.setting_fragment), LogoutDialog.Listen
     private fun showBubbleViewNotification() {
         NotificationUtils.showBubbleViewNotification()
         requireActivity().finish()
+    }
+
+    override fun onRemoveApiKey() {
+        cvApiKey?.visibility = View.GONE
+        mainViewModel.onRemoveApiKey()
     }
 }
