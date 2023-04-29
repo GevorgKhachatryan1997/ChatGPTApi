@@ -4,6 +4,7 @@ import com.openai.api.exception.InvalidJsonExeption
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonSyntaxException
 
+// TODO move this class to common module
 object JsonUtil {
 
     private val gson = GsonBuilder().create()

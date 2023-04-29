@@ -1,0 +1,1 @@
+-keep class com.openai.api.models.** { <fields>; }

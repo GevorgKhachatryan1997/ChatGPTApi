@@ -1,6 +1,6 @@
 package com.openai.api.services
 
-import com.openai.api.remoteModels.AiModels
+import com.openai.api.models.AiModels
 import retrofit2.Call
 import retrofit2.http.GET
 

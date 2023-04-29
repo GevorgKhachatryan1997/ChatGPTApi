@@ -5,13 +5,13 @@ import com.chatgpt.letaithink.data.AiImage
 import com.chatgpt.letaithink.data.AiMessage
 import com.chatgpt.letaithink.data.ConversationItem
 import com.chatgpt.letaithink.data.UserMessage
-import com.openai.api.remoteModels.ImageModel
-import com.openai.api.remoteModels.TextCompletion
+import com.openai.api.models.ImageModel
+import com.openai.api.models.TextCompletion
 import com.chatgpt.letaithink.model.databaseModels.MessageEntity
 import com.chatgpt.letaithink.model.databaseModels.MessageType
 import com.openai.api.exception.InvalidJsonExeption
 import com.openai.api.utils.JsonUtil
-import com.openai.api.remoteModels.ChatCompletion
+import com.openai.api.models.ChatCompletion
 import java.util.*
 
 @Throws(IllegalStateException::class)

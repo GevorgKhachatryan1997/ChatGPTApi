@@ -1,4 +1,4 @@
-package com.openai.api.remoteModels
+package com.openai.api.models
 
 class ImageModel(
     val created: Long?,

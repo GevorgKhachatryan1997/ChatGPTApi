@@ -1,4 +1,4 @@
-package com.openai.api.remoteModels
+package com.openai.api.models
 
 import com.google.gson.annotations.SerializedName
 

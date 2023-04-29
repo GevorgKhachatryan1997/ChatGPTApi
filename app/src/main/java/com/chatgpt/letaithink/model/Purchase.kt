@@ -1,4 +1,4 @@
-package com.chatgpt.letaithink.model.remoteModelts
+package com.chatgpt.letaithink.model
 
 data class Purchase(
     val orderId: String?,

@@ -1,8 +1,8 @@
 package com.chatgpt.letaithink.data
 
-import com.openai.api.remoteModels.ChatCompletion
-import com.openai.api.remoteModels.TextCompletion
-import com.openai.api.remoteModels.ImageModel
+import com.openai.api.models.ChatCompletion
+import com.openai.api.models.TextCompletion
+import com.openai.api.models.ImageModel
 
 sealed interface ConversationItem
 

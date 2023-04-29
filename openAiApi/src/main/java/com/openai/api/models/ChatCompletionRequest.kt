@@ -1,4 +1,4 @@
-package com.openai.api.remoteModels
+package com.openai.api.models
 
 data class ChatCompletionRequest(
     val model: String? = null,

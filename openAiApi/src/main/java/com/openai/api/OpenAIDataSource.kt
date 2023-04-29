@@ -4,7 +4,7 @@ import android.util.Log
 import com.google.gson.JsonSyntaxException
 import com.openai.api.exception.ApiError
 import com.openai.api.exception.NoConnectionException
-import com.openai.api.remoteModels.*
+import com.openai.api.models.*
 import com.openai.api.services.OpenAIApi
 import com.openai.api.utils.JsonUtil
 import com.openai.api.utils.NetworkUtils

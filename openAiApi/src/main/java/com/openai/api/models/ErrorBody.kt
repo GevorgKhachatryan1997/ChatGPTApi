@@ -1,4 +1,4 @@
-package com.openai.api.remoteModels
+package com.openai.api.models
 
 class ErrorBody(val error: Error? = null)
 

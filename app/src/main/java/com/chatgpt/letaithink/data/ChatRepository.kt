@@ -8,7 +8,7 @@ import com.chatgpt.letaithink.utils.toMessageEntity
 import com.openai.api.OpenAIDataSource
 import com.openai.api.exception.ApiError
 import com.openai.api.exception.NoConnectionException
-import com.openai.api.remoteModels.*
+import com.openai.api.models.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
