@@ -5,7 +5,7 @@ import com.chatgpt.letaithink.manager.EncryptionManager
 import com.chatgpt.letaithink.model.*
 import com.chatgpt.letaithink.model.databaseModels.*
 import com.chatgpt.letaithink.model.remoteModelts.Purchase
-import com.chatgpt.letaithink.utils.JsonUtil
+import com.openai.api.utils.JsonUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext

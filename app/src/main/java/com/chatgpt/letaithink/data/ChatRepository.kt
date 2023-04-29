@@ -1,14 +1,14 @@
 package com.chatgpt.letaithink.data
 
-import com.chatgpt.letaithink.exception.ApiError
-import com.chatgpt.letaithink.exception.NoConnectionException
 import com.chatgpt.letaithink.exception.PurchaseNotExists
 import com.chatgpt.letaithink.model.ChatMode
 import com.chatgpt.letaithink.model.databaseModels.Conversation
 import com.chatgpt.letaithink.model.databaseModels.SessionEntity
-import com.chatgpt.letaithink.model.remoteModels.*
-import com.chatgpt.letaithink.utils.NetworkUtils
 import com.chatgpt.letaithink.utils.toMessageEntity
+import com.openai.api.OpenAIDataSource
+import com.openai.api.exception.ApiError
+import com.openai.api.exception.NoConnectionException
+import com.openai.api.remoteModels.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -16,7 +16,7 @@ import java.util.*
 
 object ChatRepository {
 
-    private val remoteDataSource = RemoteDataSource()
+    private val openAIDataSource = OpenAIDataSource()
     private val localDataSource = LocalDataSource()
 
     val chatModes: List<ChatMode> = localDataSource.chatModes
@@ -25,21 +25,21 @@ object ChatRepository {
     suspend fun askQuestion(completion: CompletionRequest): TextCompletion = withContext(Dispatchers.IO) {
         PurchaseRepository.ensurePurchase()
 
-        remoteDataSource.getCompletion(completion)
+        openAIDataSource.getCompletion(completion)
     }
 
     @Throws(NoConnectionException::class, ApiError::class, PurchaseNotExists::class)
     suspend fun askChatQuestion(chatCompletion: ChatCompletionRequest): ChatCompletion = withContext(Dispatchers.IO) {
         PurchaseRepository.ensurePurchase()
 
-        remoteDataSource.getChatCompletion(chatCompletion)
+        openAIDataSource.getChatCompletion(chatCompletion)
     }
 
     @Throws(NoConnectionException::class, ApiError::class, PurchaseNotExists::class)
     suspend fun generateImage(imageParams: ImageGenerationRequest): ImageModel = withContext(Dispatchers.IO) {
         PurchaseRepository.ensurePurchase()
 
-        remoteDataSource.generateImage(imageParams)
+        openAIDataSource.generateImage(imageParams)
     }
 
     suspend fun createSession(name: String): SessionEntity {

@@ -1,3 +1,3 @@
-package com.chatgpt.letaithink.exception
+package com.openai.api.exception
 
 class NoConnectionException : Exception()

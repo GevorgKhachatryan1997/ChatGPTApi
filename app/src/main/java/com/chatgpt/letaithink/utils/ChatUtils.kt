@@ -5,12 +5,13 @@ import com.chatgpt.letaithink.data.AiImage
 import com.chatgpt.letaithink.data.AiMessage
 import com.chatgpt.letaithink.data.ConversationItem
 import com.chatgpt.letaithink.data.UserMessage
-import com.chatgpt.letaithink.model.remoteModels.ImageModel
-import com.chatgpt.letaithink.model.remoteModels.TextCompletion
+import com.openai.api.remoteModels.ImageModel
+import com.openai.api.remoteModels.TextCompletion
 import com.chatgpt.letaithink.model.databaseModels.MessageEntity
 import com.chatgpt.letaithink.model.databaseModels.MessageType
-import com.chatgpt.letaithink.model.remoteModels.ChatCompletion
-import com.google.gson.JsonSyntaxException
+import com.openai.api.exception.InvalidJsonExeption
+import com.openai.api.utils.JsonUtil
+import com.openai.api.remoteModels.ChatCompletion
 import java.util.*
 
 @Throws(IllegalStateException::class)
@@ -46,7 +47,7 @@ fun ConversationItem.toMessageEntity(sessionId: String): MessageEntity {
     }
 }
 
-@Throws(JsonSyntaxException::class)
+@Throws(InvalidJsonExeption::class)
 fun MessageEntity.toConversationItem(): ConversationItem {
     val conversationItem = when (type) {
         MessageType.USER_INPUT -> UserMessage(content)

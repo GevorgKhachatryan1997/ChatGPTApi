@@ -63,9 +63,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation "androidx.fragment:fragment-ktx:1.5.5"
 
-    // retrofit
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     // viewModelScope
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
@@ -96,4 +93,7 @@ dependencies {
     // Google Play Billing Library
     implementation "com.android.billingclient:billing:5.2.0"
     implementation "com.android.billingclient:billing-ktx:5.2.0"
+
+    // openAiApi
+    implementation project(path: ":openAiApi")
 }

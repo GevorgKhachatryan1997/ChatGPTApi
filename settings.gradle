@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "LetAiThink"
-include ':app'
+include ':app', ':openAiApi'

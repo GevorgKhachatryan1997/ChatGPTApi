@@ -1,6 +1,6 @@
-package com.chatgpt.letaithink.data
+package com.openai.api.services
 
-import com.chatgpt.letaithink.model.remoteModels.*
+import com.openai.api.remoteModels.*
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.POST

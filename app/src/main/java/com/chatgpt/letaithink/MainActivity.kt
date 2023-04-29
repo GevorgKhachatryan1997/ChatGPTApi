@@ -9,9 +9,6 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.chatgpt.letaithink.data.OpenAIApi
-import com.chatgpt.letaithink.exception.ApiError
-import com.chatgpt.letaithink.exception.NoConnectionException
 import com.chatgpt.letaithink.exception.PurchaseNotExists
 import com.chatgpt.letaithink.ui.dialog.ErrorDialog
 import com.chatgpt.letaithink.ui.dialog.ExceededYourQuota
@@ -24,6 +21,9 @@ import com.chatgpt.letaithink.ui.screen_fragment.LoginFragment
 import com.chatgpt.letaithink.ui.screen_fragment.PaymentFragment
 import com.chatgpt.letaithink.ui.screen_fragment.SettingFragment
 import com.chatgpt.letaithink.utils.OpenAIUtils
+import com.openai.api.services.OpenAIApi
+import com.openai.api.exception.ApiError
+import com.openai.api.exception.NoConnectionException
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(),

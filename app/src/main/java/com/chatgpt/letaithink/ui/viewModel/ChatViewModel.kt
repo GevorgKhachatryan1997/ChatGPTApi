@@ -20,10 +20,10 @@ import com.chatgpt.letaithink.model.CHAT_MODE_IMAGE_GENERATION
 import com.chatgpt.letaithink.model.CHAT_MODE_TEXT_COMPLETION
 import com.chatgpt.letaithink.model.ChatMode
 import com.chatgpt.letaithink.model.databaseModels.SessionEntity
-import com.chatgpt.letaithink.model.remoteModels.ChatCompletionRequest
-import com.chatgpt.letaithink.model.remoteModels.CompletionRequest
-import com.chatgpt.letaithink.model.remoteModels.IMAGE_SIZE_1024
-import com.chatgpt.letaithink.model.remoteModels.ImageGenerationRequest
+import com.openai.api.remoteModels.ChatCompletionRequest
+import com.openai.api.remoteModels.CompletionRequest
+import com.openai.api.remoteModels.IMAGE_SIZE_1024
+import com.openai.api.remoteModels.ImageGenerationRequest
 import com.chatgpt.letaithink.utils.ImageUtils
 import com.chatgpt.letaithink.utils.emit
 import com.chatgpt.letaithink.utils.toConversationItem

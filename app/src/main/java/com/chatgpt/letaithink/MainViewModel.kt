@@ -2,9 +2,9 @@ package com.chatgpt.letaithink
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.chatgpt.letaithink.data.PurchaseRepository
 import com.chatgpt.letaithink.data.UserRepository
 import com.chatgpt.letaithink.utils.emit
+import com.openai.api.OpenAIManager
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
@@ -16,6 +16,13 @@ class MainViewModel : ViewModel() {
 
     private val _exceptionMutableSharedFlow = MutableSharedFlow<Throwable>()
     val exceptionSharedFlow = _exceptionMutableSharedFlow.asSharedFlow()
+
+    init {
+        viewModelScope.launch {
+            val apiKey = BuildConfig.OPENAI_API_KEY
+            OpenAIManager.setAPIKey(apiKey)
+        }
+    }
 
     fun onActivityStart(firstRun: Boolean) {
         if (firstRun) {

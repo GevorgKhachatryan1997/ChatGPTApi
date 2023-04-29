@@ -1,10 +1,10 @@
-package com.chatgpt.letaithink.utils
+package com.openai.api.utils
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import com.chatgpt.letaithink.exception.NoConnectionException
+import com.openai.api.exception.NoConnectionException
 
 @SuppressLint("StaticFieldLeak")
 object NetworkUtils {
@@ -12,7 +12,7 @@ object NetworkUtils {
     private lateinit var context: Context
 
     fun init(context: Context) {
-        this.context = context
+        NetworkUtils.context = context
     }
 
     @Throws(NoConnectionException::class)
