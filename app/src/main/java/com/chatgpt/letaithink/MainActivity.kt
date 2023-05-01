@@ -22,9 +22,10 @@ import com.chatgpt.letaithink.ui.screen_fragment.LoginFragment
 import com.chatgpt.letaithink.ui.screen_fragment.PaymentFragment
 import com.chatgpt.letaithink.ui.screen_fragment.SettingFragment
 import com.chatgpt.letaithink.utils.OpenAIUtils
+import com.openai.api.OpenAIManager.RESPONSE_CODE_INVALID_API_KEY
+import com.openai.api.OpenAIManager.RESPONSE_CODE_RATE_LIMIT_REACHED
 import com.openai.api.exception.ApiError
 import com.openai.api.exception.NoConnectionException
-import com.openai.api.services.OpenAIApi
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(),
@@ -76,12 +77,12 @@ class MainActivity : AppCompatActivity(),
 
                         is ApiError -> {
                             when (exception.errorCode) {
-                                OpenAIApi.RESPONSE_CODE_INVALID_API_KEY -> {
+                                RESPONSE_CODE_INVALID_API_KEY -> {
                                     InvalidApiKeyDialog.newInstance(exception.message ?: "")
                                         .show(supportFragmentManager)
                                 }
 
-                                OpenAIApi.RESPONSE_CODE_RATE_LIMIT_REACHED -> {
+                                RESPONSE_CODE_RATE_LIMIT_REACHED -> {
                                     ExceededYourQuota.newInstance(exception.message ?: "")
                                         .show(supportFragmentManager)
                                 }

@@ -1,40 +1,50 @@
 package com.openai.api
 
 import android.util.Log
-import com.google.gson.JsonSyntaxException
+import com.openai.api.OpenAIManager.RESPONSE_CODE_INVALID_API_KEY
 import com.openai.api.exception.ApiError
 import com.openai.api.exception.NoConnectionException
 import com.openai.api.models.*
-import com.openai.api.services.OpenAIApi
-import com.openai.api.utils.JsonUtil
 import com.openai.api.utils.NetworkUtils
+import io.ktor.client.*
+import io.ktor.client.call.*
+import io.ktor.client.engine.android.*
+import io.ktor.client.request.*
+import io.ktor.client.statement.*
+import io.ktor.http.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import retrofit2.Response
 
 class OpenAIDataSource {
 
     @Throws(NoConnectionException::class, ApiError::class)
-    fun getCompletion(completion: CompletionRequest): TextCompletion {
-        NetworkUtils.ensureNetworkConnection()
+    suspend fun getCompletion(completion: CompletionRequest): TextCompletion {
+        val response = OpenAIManager.getCompletion(completion)
 
-        val response = OpenAIManager.openAIClient.chatGPTService.requestCompletion(completion).execute()
-        if (response.isSuccessful) {
-            return response.body()!!
+        if (response.isSucceed) {
+            return response.body()
         }
-
         throwAPIError(response)
     }
 
     @Throws(NoConnectionException::class, ApiError::class)
-    fun getChatCompletion(chatCompletion: ChatCompletionRequest): ChatCompletion {
+    suspend fun getChatCompletion(chatCompletion: ChatCompletionRequest): ChatCompletion {
         NetworkUtils.ensureNetworkConnection()
+        val response = OpenAIManager.getChatCompletion(chatCompletion)
 
-        val response = OpenAIManager.openAIClient.chatGPTService.requestChatCompletions(chatCompletion).execute()
-        if (response.isSuccessful) {
-            return response.body()!!
+        if (response.isSucceed) {
+            return response.body()
         }
+        throwAPIError(response)
+    }
 
+    @Throws(NoConnectionException::class, ApiError::class)
+    suspend fun generateImage(requestModel: ImageGenerationRequest): ImageModel {
+        val response = OpenAIManager.generateImage(requestModel)
+
+        if (response.isSucceed) {
+            return response.body()
+        }
         throwAPIError(response)
     }
 
@@ -42,37 +52,28 @@ class OpenAIDataSource {
     suspend fun validateApiKey(apiKey: String): Boolean = withContext(Dispatchers.IO) {
         NetworkUtils.ensureNetworkConnection()
 
-        val response = OpenAIClient(apiKey).apiKeyService.checkApiKey().execute()
-        response.code() != OpenAIApi.RESPONSE_CODE_INVALID_API_KEY
-    }
-
-    @Throws(NoConnectionException::class, ApiError::class)
-    fun generateImage(requestModel: ImageGenerationRequest): ImageModel {
-        NetworkUtils.ensureNetworkConnection()
-
-        val response = OpenAIManager.openAIClient.chatGPTService.requestImageGeneration(requestModel).execute()
-        if (response.isSuccessful) {
-            return response.body()!!
-        }
-
-        throwAPIError(response)
+        val response = OpenAIManager.validateApiKey(apiKey)
+        val status = response.status.value
+        status != RESPONSE_CODE_INVALID_API_KEY
     }
 
     @Throws(ApiError::class)
-    private fun throwAPIError(response: Response<*>): Nothing {
-        val errorBody = response.errorBody()?.string() ?: ""
+    private suspend fun throwAPIError(response: HttpResponse): Nothing {
+        val statusCode = response.status.value
         val message = try {
-            val error = JsonUtil.fromJson(errorBody, ErrorBody::class.java)
-            error.error?.message ?: run {
+            val errorBody = response.body<ErrorBody>()
+            errorBody.error?.message ?: run {
                 Log.d(OpenAIDataSource::class.simpleName, "Error body is empty")
                 ""
             }
-        } catch (e: JsonSyntaxException) {
-            val message = "Could not parse error body: $errorBody"
+        } catch (e: NoTransformationFoundException) {
+            val message = "Could not parse error body: ${response.bodyAsText()}"
             Log.d(OpenAIDataSource::class.simpleName, message)
             message
         }
-
-        throw ApiError(response.code(), message)
+        throw ApiError(statusCode, message)
     }
+
+    private val HttpResponse.isSucceed: Boolean
+        get() = status.value in 200..299
 }
