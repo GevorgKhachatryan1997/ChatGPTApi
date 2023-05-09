@@ -11,11 +11,11 @@ import io.ktor.http.*
 
 object OpenAIManager {
 
-    private const val BASE_URL = "https://api.openai.com/v1/"
-    private const val REQUEST_MODELS_URL = "$BASE_URL/models"
-    private const val REQUEST_COMPLETIONS_URL = "$BASE_URL/completions"
-    private const val REQUEST_CHAT_COMPLETION_URL = "$BASE_URL/chat/completions"
-    private const val REQUEST_IMAGES_GENERATION_URL = "$BASE_URL/images/generations"
+    const val BASE_URL = "https://api.openai.com"
+    private const val REQUEST_MODELS_URL = "v1/models"
+    private const val REQUEST_COMPLETIONS_URL = "v1/completions"
+    private const val REQUEST_CHAT_COMPLETION_URL = "v1/chat/completions"
+    private const val REQUEST_IMAGES_GENERATION_URL = "v1/images/generations"
 
     const val RESPONSE_CODE_INVALID_API_KEY = 401
     const val RESPONSE_CODE_RATE_LIMIT_REACHED = 429
