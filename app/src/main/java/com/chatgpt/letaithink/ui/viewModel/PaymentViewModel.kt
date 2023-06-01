@@ -1,4 +1,4 @@
-package com.chatgpt.letaithink.ui.screen_fragment
+package com.chatgpt.letaithink.ui.viewModel
 
 import android.app.Activity
 import androidx.lifecycle.ViewModel

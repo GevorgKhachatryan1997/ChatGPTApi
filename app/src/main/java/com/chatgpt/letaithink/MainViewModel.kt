@@ -61,6 +61,10 @@ class MainViewModel : ViewModel() {
         showScreen(LoginScreen)
     }
 
+    fun showTextEditFragment(){
+        showScreen(TextEditScreen)
+    }
+
     private suspend fun showCorrespondingScreen() {
         if (!UserRepository.isUserAuthenticated()) {
             showScreen(LoginScreen)
@@ -93,6 +97,7 @@ class MainViewModel : ViewModel() {
     object ApiKeyScreen : Screen()
     object PaymentScreen : Screen()
     object ChatsHistory : Screen()
+    object TextEditScreen: Screen()
     class AiChatScreen(val sessionId: String? = null) : Screen()
     object SettingScreen : Screen()
 }

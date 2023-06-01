@@ -15,12 +15,7 @@ import com.chatgpt.letaithink.ui.dialog.ErrorDialog
 import com.chatgpt.letaithink.ui.dialog.ExceededYourQuota
 import com.chatgpt.letaithink.ui.dialog.InvalidApiKeyDialog
 import com.chatgpt.letaithink.ui.dialog.SubscriptionExpiredDialog
-import com.chatgpt.letaithink.ui.screen_fragment.ApiKeyFragment
-import com.chatgpt.letaithink.ui.screen_fragment.ChatFragment
-import com.chatgpt.letaithink.ui.screen_fragment.ChatsHistoryFragment
-import com.chatgpt.letaithink.ui.screen_fragment.LoginFragment
-import com.chatgpt.letaithink.ui.screen_fragment.PaymentFragment
-import com.chatgpt.letaithink.ui.screen_fragment.SettingFragment
+import com.chatgpt.letaithink.ui.screen_fragment.*
 import com.chatgpt.letaithink.utils.OpenAIUtils
 import com.openai.api.OpenAIManager.RESPONSE_CODE_INVALID_API_KEY
 import com.openai.api.OpenAIManager.RESPONSE_CODE_RATE_LIMIT_REACHED
@@ -155,6 +150,10 @@ class MainActivity : AppCompatActivity(),
             is MainViewModel.PaymentScreen -> {
                 showPaymentScreen()
             }
+
+            is MainViewModel.TextEditScreen -> {
+                showTextEditScreen()
+            }
         }
     }
 
@@ -209,6 +208,15 @@ class MainActivity : AppCompatActivity(),
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             replace(R.id.fragment_container_view, PaymentFragment())
+            addToBackStack(null)
+        }
+    }
+
+    private fun showTextEditScreen() {
+        if (currentFragment is TextEditFragment) return
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            replace(R.id.fragment_container_view, TextEditFragment())
             addToBackStack(null)
         }
     }

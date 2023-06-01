@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
-import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -16,6 +15,7 @@ import com.android.billingclient.api.BillingFlowParams
 import com.chatgpt.letaithink.MainViewModel
 import com.chatgpt.letaithink.R
 import com.chatgpt.letaithink.ui.adapter.SubscriptionsAdapter
+import com.chatgpt.letaithink.ui.viewModel.PaymentViewModel
 import kotlinx.coroutines.launch
 
 class PaymentFragment : Fragment(R.layout.payment_fragment) {

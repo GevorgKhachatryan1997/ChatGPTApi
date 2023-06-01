@@ -47,6 +47,7 @@ class ChatsHistoryFragment : Fragment(R.layout.chats_history_fragment),
     private val mainViewModel: MainViewModel by activityViewModels()
 
     private var btnCreateNewChat: CardView? = null
+    private var btnCreateTextCompilation: CardView? = null
     private var rvChatsHistory: RecyclerView? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -59,6 +60,13 @@ class ChatsHistoryFragment : Fragment(R.layout.chats_history_fragment),
                 mainViewModel.onSessionClick()
             }
         }
+
+        btnCreateTextCompilation = view.findViewById<CardView>(R.id.cv_text_edit).also {
+            it.setOnClickListener {
+                mainViewModel.showTextEditFragment()
+            }
+        }
+
         rvChatsHistory = view.findViewById<RecyclerView>(R.id.rv_chats_history).also {
             it.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
             it.adapter = chatsHistoryAdapter
