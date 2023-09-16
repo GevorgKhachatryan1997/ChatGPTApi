@@ -25,7 +25,7 @@ object PaymentManager {
         get() = purchaseState == PurchaseState.PURCHASED
 
     fun init(context: Context) {
-        PaymentManager.context = context
+        // PaymentManager.context = context
     }
 
     fun createBillingClient(purchasesUpdatedListener: PurchasesUpdatedListener): BillingClient {

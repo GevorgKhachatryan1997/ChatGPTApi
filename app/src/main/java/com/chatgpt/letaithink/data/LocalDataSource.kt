@@ -21,7 +21,7 @@ class LocalDataSource {
     private val appDb = AppDatabase.getInstance()
 
     val chatModes = listOf(
-        //ChatMode(CHAT_MODE_TEXT_COMPLETION, R.string.text, R.drawable.icon_chat, TEXT_DAVINCI_MODEL, 0.3F, 500),
+        // ChatMode(CHAT_MODE_TEXT_COMPLETION, R.string.text, R.drawable.icon_chat, TEXT_DAVINCI_MODEL, 0.3F, 500),
         ChatMode(CHAT_MODE_CHAT_COMPLETION, R.string.text, R.drawable.icon_chat, GPT_TURBO_MODEL, 0.3F, 100),
         ChatMode(CHAT_MODE_IMAGE_GENERATION, R.string.image, R.drawable.icon_image, "image generation", 0F),
     )

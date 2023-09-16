@@ -75,7 +75,7 @@ object ChatRepository {
     @Throws(PurchaseNotExists::class)
     private suspend fun ensureUserState() {
         if (ApiKeyRepository.getApiKey() == null) {
-            PurchaseRepository.ensurePurchase()
+            // PurchaseRepository.ensurePurchase()
         }
     }
 }

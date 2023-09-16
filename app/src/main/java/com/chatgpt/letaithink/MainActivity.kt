@@ -92,7 +92,8 @@ class MainActivity : AppCompatActivity(),
                         }
 
                         is PurchaseNotExists -> {
-                            SubscriptionExpiredDialog.newInstance().show(supportFragmentManager)
+                            //SubscriptionExpiredDialog.newInstance().show(supportFragmentManager)
+                            showPaymentScreen()
                         }
 
                         else -> showErrorDialog(exception.message)

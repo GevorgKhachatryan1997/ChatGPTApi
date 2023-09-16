@@ -83,7 +83,7 @@ class PaymentViewModel : ViewModel() {
     }
 
     init {
-        billingClient.startConnection(billingClientListener)
+        // billingClient.startConnection(billingClientListener)
     }
 
     fun onLaunchBillingFlow(activity: Activity, billingParams: BillingFlowParams) {
