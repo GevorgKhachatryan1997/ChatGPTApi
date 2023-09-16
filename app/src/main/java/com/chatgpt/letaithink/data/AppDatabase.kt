@@ -7,7 +7,6 @@ import androidx.room.RoomDatabase
 import com.chatgpt.letaithink.data.dao.ApiKeyDao
 import com.chatgpt.letaithink.data.dao.ConversationDao
 import com.chatgpt.letaithink.data.dao.PurchaseDao
-import com.chatgpt.letaithink.data.dao.UserDao
 import com.chatgpt.letaithink.model.databaseModels.*
 
 @Database(

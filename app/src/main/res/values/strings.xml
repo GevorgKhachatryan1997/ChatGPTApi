@@ -38,7 +38,6 @@
     <string name="subscription_description">Thanks for choosing our AI-powered chat!\nTo unlock all the exciting features and ensure a seamless experience, we need your support.\nDon\'t worry, we\'re not asking for your first-born or a kidney 😊 - just a small subscription fee \nSubscribe now and get ready to chat with an innovative AI.</string>
     <string name="monthly_subscription_text">Join for %s monthly</string>
     <string name="subscription">Subscription</string>
-    <string name="payment_error_message">Connection failed. Please try again later.</string>
     <string name="generate_api_key">Generate API Key</string>
     <string name="api_key_generation_description">Our app uses OpenAI\'s powerful algorithms to provide you with advanced features and functionality. To use these features, we need to use an API key that allows our app to communicate with OpenAI\'s servers and access their powerful algorithms. To generate your API key, please follow these steps:</string>
     <string name="api_generation_1_step">1. Click on the \'Generate API Key\' button.</string>

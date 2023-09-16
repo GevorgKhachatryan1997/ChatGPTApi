@@ -1,6 +1,5 @@
 package com.chatgpt.letaithink.data
 
-import com.chatgpt.letaithink.exception.PurchaseNotExists
 import com.chatgpt.letaithink.model.ChatMode
 import com.chatgpt.letaithink.model.databaseModels.Conversation
 import com.chatgpt.letaithink.model.databaseModels.SessionEntity
@@ -21,21 +20,21 @@ object ChatRepository {
 
     val chatModes: List<ChatMode> = localDataSource.chatModes
 
-    @Throws(NoConnectionException::class, ApiError::class, PurchaseNotExists::class)
+    @Throws(NoConnectionException::class, ApiError::class)
     suspend fun askQuestion(completion: CompletionRequest): TextCompletion = withContext(Dispatchers.IO) {
         ensureUserState()
 
         openAIDataSource.getCompletion(completion)
     }
 
-    @Throws(NoConnectionException::class, ApiError::class, PurchaseNotExists::class)
+    @Throws(NoConnectionException::class, ApiError::class)
     suspend fun askChatQuestion(chatCompletion: ChatCompletionRequest): ChatCompletion = withContext(Dispatchers.IO) {
         ensureUserState()
 
         openAIDataSource.getChatCompletion(chatCompletion)
     }
 
-    @Throws(NoConnectionException::class, ApiError::class, PurchaseNotExists::class)
+    @Throws(NoConnectionException::class, ApiError::class)
     suspend fun generateImage(imageParams: ImageGenerationRequest): ImageModel = withContext(Dispatchers.IO) {
         ensureUserState()
 
@@ -72,10 +71,9 @@ object ChatRepository {
         localDataSource.deleteChatData()
     }
 
-    @Throws(PurchaseNotExists::class)
     private suspend fun ensureUserState() {
         if (ApiKeyRepository.getApiKey() == null) {
-            PurchaseRepository.ensurePurchase()
+            // PurchaseRepository.ensurePurchase()
         }
     }
 }

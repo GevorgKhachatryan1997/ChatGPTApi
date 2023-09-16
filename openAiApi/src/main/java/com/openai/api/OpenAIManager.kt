@@ -3,8 +3,6 @@ package com.openai.api
 import com.openai.api.models.ChatCompletionRequest
 import com.openai.api.models.CompletionRequest
 import com.openai.api.models.ImageGenerationRequest
-import io.ktor.client.*
-import io.ktor.client.engine.android.*
 import io.ktor.client.request.*
 import io.ktor.client.statement.*
 import io.ktor.http.*
@@ -42,10 +40,12 @@ object OpenAIManager {
             }
     }
 
-    suspend fun validateApiKey(apiKey: String): HttpResponse {
-        return HttpClient(Android).get(REQUEST_MODELS_URL) {
-            header("Authorization", "Bearer $apiKey")
-        }
+    suspend fun validateApiKey(apiKey: String, chatCompletion: ChatCompletionRequest): HttpResponse {
+        return OpenAIClient(apiKey).openAIService
+            .post(REQUEST_CHAT_COMPLETION_URL) {
+                contentType(ContentType.Application.Json)
+                setBody(chatCompletion)
+            }
     }
 
     suspend fun getCompletion(completion: CompletionRequest): HttpResponse {

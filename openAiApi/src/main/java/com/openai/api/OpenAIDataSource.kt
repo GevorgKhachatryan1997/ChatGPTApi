@@ -52,7 +52,15 @@ class OpenAIDataSource {
     suspend fun validateApiKey(apiKey: String): Boolean = withContext(Dispatchers.IO) {
         NetworkUtils.ensureNetworkConnection()
 
-        val response = OpenAIManager.validateApiKey(apiKey)
+        val chatCompletion = ChatCompletionRequest(
+            "chat_mode_chat_completion",
+            buildList { add(ChatCompletionRequest.ChatMessage("user", "hi")) },
+            0.2f,
+            1,
+            "verification",
+        )
+
+        val response = OpenAIManager.validateApiKey(apiKey, chatCompletion)
         val status = response.status.value
         status != RESPONSE_CODE_INVALID_API_KEY
     }

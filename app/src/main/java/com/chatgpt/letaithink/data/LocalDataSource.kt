@@ -1,11 +1,8 @@
 package com.chatgpt.letaithink.data
 
 import com.chatgpt.letaithink.R
-import com.chatgpt.letaithink.manager.EncryptionManager
 import com.chatgpt.letaithink.model.*
 import com.chatgpt.letaithink.model.databaseModels.*
-import com.chatgpt.letaithink.model.Purchase
-import com.openai.api.utils.JsonUtil
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -21,7 +18,7 @@ class LocalDataSource {
     private val appDb = AppDatabase.getInstance()
 
     val chatModes = listOf(
-        //ChatMode(CHAT_MODE_TEXT_COMPLETION, R.string.text, R.drawable.icon_chat, TEXT_DAVINCI_MODEL, 0.3F, 500),
+        // ChatMode(CHAT_MODE_TEXT_COMPLETION, R.string.text, R.drawable.icon_chat, TEXT_DAVINCI_MODEL, 0.3F, 500),
         ChatMode(CHAT_MODE_CHAT_COMPLETION, R.string.text, R.drawable.icon_chat, GPT_TURBO_MODEL, 0.3F, 100),
         ChatMode(CHAT_MODE_IMAGE_GENERATION, R.string.image, R.drawable.icon_image, "image generation", 0F),
     )
@@ -95,26 +92,6 @@ class LocalDataSource {
     suspend fun deleteChatData() {
         withContext(Dispatchers.IO) {
             appDb.conversationDao().deleteAllSessions()
-        }
-    }
-
-    suspend fun getPurchase(): Purchase? = withContext(Dispatchers.IO) {
-        val purchaseEntity = appDb.purchaseDao().getPurchase() ?: return@withContext null
-        val decryptedJson = EncryptionManager.decrypt(purchaseEntity.purchaseJson)
-        return@withContext JsonUtil.fromJson(decryptedJson, Purchase::class.java)
-    }
-
-    suspend fun deletePuchase() {
-        withContext(Dispatchers.IO) {
-            appDb.purchaseDao().deletePurchase()
-        }
-    }
-
-    suspend fun insertPurchase(purchaseJson: String) {
-        val encryptedJson = EncryptionManager.encrypt(purchaseJson)
-        val purchaseEntity = PurchaseEntity(encryptedJson)
-        withContext(Dispatchers.IO) {
-            appDb.purchaseDao().insert(purchaseEntity)
         }
     }
 }

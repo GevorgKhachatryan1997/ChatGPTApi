@@ -49,10 +49,6 @@ class MainViewModel : ViewModel() {
         showScreen(SettingScreen)
     }
 
-    fun onPaymentSuccess() {
-        showScreen(ChatsHistory)
-    }
-
     fun onUpdateApiKey() {
         showScreen(ApiKeyScreen)
     }
@@ -83,15 +79,10 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun onPaymentSetApiKey() {
-        showScreen(ApiKeyScreen)
-    }
-
     sealed class Screen
 
     object LoginScreen : Screen()
     object ApiKeyScreen : Screen()
-    object PaymentScreen : Screen()
     object ChatsHistory : Screen()
     class AiChatScreen(val sessionId: String? = null) : Screen()
     object SettingScreen : Screen()

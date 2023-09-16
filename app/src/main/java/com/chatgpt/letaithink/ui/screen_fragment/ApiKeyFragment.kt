@@ -12,7 +12,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.chatgpt.letaithink.MainViewModel
 import com.chatgpt.letaithink.R
-import com.chatgpt.letaithink.data.PurchaseRepository
 import com.chatgpt.letaithink.ui.viewModel.ApiKeyViewModel
 import com.chatgpt.letaithink.utils.OpenAIUtils
 import kotlinx.coroutines.launch

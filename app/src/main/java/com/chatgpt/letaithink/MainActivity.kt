@@ -10,16 +10,13 @@ import androidx.fragment.app.commit
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.chatgpt.letaithink.exception.PurchaseNotExists
 import com.chatgpt.letaithink.ui.dialog.ErrorDialog
 import com.chatgpt.letaithink.ui.dialog.ExceededYourQuota
 import com.chatgpt.letaithink.ui.dialog.InvalidApiKeyDialog
-import com.chatgpt.letaithink.ui.dialog.SubscriptionExpiredDialog
 import com.chatgpt.letaithink.ui.screen_fragment.ApiKeyFragment
 import com.chatgpt.letaithink.ui.screen_fragment.ChatFragment
 import com.chatgpt.letaithink.ui.screen_fragment.ChatsHistoryFragment
 import com.chatgpt.letaithink.ui.screen_fragment.LoginFragment
-import com.chatgpt.letaithink.ui.screen_fragment.PaymentFragment
 import com.chatgpt.letaithink.ui.screen_fragment.SettingFragment
 import com.chatgpt.letaithink.utils.OpenAIUtils
 import com.openai.api.OpenAIManager.RESPONSE_CODE_INVALID_API_KEY
@@ -30,8 +27,7 @@ import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(),
     InvalidApiKeyDialog.Listener,
-    ExceededYourQuota.Listener,
-    SubscriptionExpiredDialog.Listener {
+    ExceededYourQuota.Listener {
 
     private val viewModel: MainViewModel by viewModels()
 
@@ -91,10 +87,6 @@ class MainActivity : AppCompatActivity(),
                             }
                         }
 
-                        is PurchaseNotExists -> {
-                            SubscriptionExpiredDialog.newInstance().show(supportFragmentManager)
-                        }
-
                         else -> showErrorDialog(exception.message)
                     }
                 }
@@ -111,10 +103,6 @@ class MainActivity : AppCompatActivity(),
     override fun onUpdateApiKey() {
         clearStack()
         showApiKeyFragment()
-    }
-
-    override fun onDialogSubscribe() {
-        showPaymentScreen()
     }
 
     override fun onCheckPlans() {
@@ -150,10 +138,6 @@ class MainActivity : AppCompatActivity(),
 
             is MainViewModel.ApiKeyScreen -> {
                 showApiKeyFragment()
-            }
-
-            is MainViewModel.PaymentScreen -> {
-                showPaymentScreen()
             }
         }
     }
@@ -200,15 +184,6 @@ class MainActivity : AppCompatActivity(),
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             replace(R.id.fragment_container_view, ApiKeyFragment())
-            addToBackStack(null)
-        }
-    }
-
-    private fun showPaymentScreen() {
-        if (currentFragment is PaymentFragment) return
-        supportFragmentManager.commit {
-            setReorderingAllowed(true)
-            replace(R.id.fragment_container_view, PaymentFragment())
             addToBackStack(null)
         }
     }
