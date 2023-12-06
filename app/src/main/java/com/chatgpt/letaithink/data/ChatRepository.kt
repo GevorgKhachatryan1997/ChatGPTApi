@@ -42,7 +42,7 @@ object ChatRepository {
     }
 
     suspend fun createSession(name: String): SessionEntity {
-        val session = SessionEntity(UUID.randomUUID().toString(), name, UserRepository.getUser()?.userId!!)
+        val session = SessionEntity(UUID.randomUUID().toString(), name, "777")
         localDataSource.insertSession(session)
         return session
     }

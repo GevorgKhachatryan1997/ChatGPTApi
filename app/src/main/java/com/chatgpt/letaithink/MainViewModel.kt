@@ -3,7 +3,6 @@ package com.chatgpt.letaithink
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.chatgpt.letaithink.data.ApiKeyRepository
-import com.chatgpt.letaithink.data.UserRepository
 import com.chatgpt.letaithink.utils.emit
 import com.openai.api.OpenAIManager
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -33,10 +32,6 @@ class MainViewModel : ViewModel() {
         }
     }
 
-    fun onAuthorizationSuccess() {
-        showScreen(ChatsHistory)
-    }
-
     fun onApiKeySet() {
         showScreen(ChatsHistory)
     }
@@ -53,16 +48,8 @@ class MainViewModel : ViewModel() {
         showScreen(ApiKeyScreen)
     }
 
-    fun onLogout() {
-        showScreen(LoginScreen)
-    }
-
-    private suspend fun showCorrespondingScreen() {
-        if (!UserRepository.isUserAuthenticated()) {
-            showScreen(LoginScreen)
-        } else {
-            showScreen(ChatsHistory)
-        }
+    private fun showCorrespondingScreen() {
+        showScreen(ChatsHistory)
     }
 
     private fun showScreen(screen: Screen) {
@@ -81,7 +68,6 @@ class MainViewModel : ViewModel() {
 
     sealed class Screen
 
-    object LoginScreen : Screen()
     object ApiKeyScreen : Screen()
     object ChatsHistory : Screen()
     class AiChatScreen(val sessionId: String? = null) : Screen()

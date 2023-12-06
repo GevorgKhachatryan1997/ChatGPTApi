@@ -19,7 +19,6 @@ import com.chatgpt.letaithink.model.databaseModels.*
     version = 1
 )
 abstract class AppDatabase : RoomDatabase() {
-    abstract fun userDao(): UserDao
     abstract fun conversationDao(): ConversationDao
     abstract fun apiKeyDao(): ApiKeyDao
     abstract fun purchaseDao(): PurchaseDao

@@ -52,26 +52,6 @@ class LocalDataSource {
         appDb.conversationDao().updateSession(session.copy(sessionName = name))
     }
 
-    suspend fun isUserAuthenticated(): Boolean = withContext(Dispatchers.IO) {
-        return@withContext appDb.userDao().isExists()
-    }
-
-    suspend fun insertUser(userEntity: UserEntity) {
-        withContext(Dispatchers.IO) {
-            appDb.userDao().insertUser(userEntity)
-        }
-    }
-
-    suspend fun deleteUserData() {
-        withContext(Dispatchers.IO) {
-            appDb.userDao().deleteUserData()
-        }
-    }
-
-    suspend fun getUser(): UserEntity? {
-        return appDb.userDao().getUser()
-    }
-
     suspend fun insertApiKey(apiKey: String) {
         withContext(Dispatchers.IO) {
             val apiKeyEntity = ApiKeyEntity(apiKey)

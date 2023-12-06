@@ -11,14 +11,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.chatgpt.letaithink.MainViewModel
 import com.chatgpt.letaithink.R
 import com.chatgpt.letaithink.data.ApiKeyRepository
-import com.chatgpt.letaithink.ui.dialog.LogoutDialog
 import com.chatgpt.letaithink.ui.dialog.RemoveApiKeyConfirmationDialog
-import com.chatgpt.letaithink.ui.viewModel.SettingViewModel
 import com.chatgpt.letaithink.utils.EmailUtils
 import com.chatgpt.letaithink.utils.NotificationUtils
 import com.chatgpt.letaithink.utils.PermissionUtils
@@ -26,10 +23,8 @@ import com.chatgpt.letaithink.utils.addToClipboard
 import kotlinx.coroutines.launch
 
 class SettingFragment : Fragment(R.layout.setting_fragment),
-    LogoutDialog.Listener,
     RemoveApiKeyConfirmationDialog.Listener {
 
-    private var btnLogOut: Button? = null
     private var cvBubble: CardView? = null
     private var cvApiKey: CardView? = null
     private var btnBubbleView: Button? = null
@@ -41,7 +36,6 @@ class SettingFragment : Fragment(R.layout.setting_fragment),
     private var ivCopyApiKey: ImageView? = null
 
     private val mainViewModel: MainViewModel by activityViewModels()
-    private val settingViewModel: SettingViewModel by viewModels()
 
     private val notificationPermission =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) {
@@ -50,12 +44,6 @@ class SettingFragment : Fragment(R.layout.setting_fragment),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        btnLogOut = view.findViewById<Button>(R.id.btn_logout).apply {
-            setOnClickListener {
-                LogoutDialog().show(childFragmentManager, LogoutDialog.TAG)
-            }
-        }
 
         cvBubble = view.findViewById(R.id.cvBubble)
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
@@ -105,11 +93,6 @@ class SettingFragment : Fragment(R.layout.setting_fragment),
                 view.context.addToClipboard(tvApiKey?.text.toString())
             }
         }
-    }
-
-    override fun onDialogLogout() {
-        settingViewModel.onLogoutClick(requireContext())
-        mainViewModel.onLogout()
     }
 
     private fun makeAppBubbleView() {

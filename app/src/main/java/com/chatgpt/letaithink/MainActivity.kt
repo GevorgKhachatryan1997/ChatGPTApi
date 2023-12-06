@@ -16,7 +16,6 @@ import com.chatgpt.letaithink.ui.dialog.InvalidApiKeyDialog
 import com.chatgpt.letaithink.ui.screen_fragment.ApiKeyFragment
 import com.chatgpt.letaithink.ui.screen_fragment.ChatFragment
 import com.chatgpt.letaithink.ui.screen_fragment.ChatsHistoryFragment
-import com.chatgpt.letaithink.ui.screen_fragment.LoginFragment
 import com.chatgpt.letaithink.ui.screen_fragment.SettingFragment
 import com.chatgpt.letaithink.utils.OpenAIUtils
 import com.openai.api.OpenAIManager.RESPONSE_CODE_INVALID_API_KEY
@@ -127,11 +126,6 @@ class MainActivity : AppCompatActivity(),
                 showAiChatFragment(screen.sessionId)
             }
 
-            is MainViewModel.LoginScreen -> {
-                clearStack()
-                showLoginFragment()
-            }
-
             is MainViewModel.SettingScreen -> {
                 showSettingFragment()
             }
@@ -157,15 +151,6 @@ class MainActivity : AppCompatActivity(),
         supportFragmentManager.commit {
             setReorderingAllowed(true)
             replace(R.id.fragment_container_view, ChatFragment.newInstance(sessionId))
-            addToBackStack(null)
-        }
-    }
-
-    private fun showLoginFragment() {
-        if (currentFragment is LoginFragment) return
-        supportFragmentManager.commit {
-            setReorderingAllowed(true)
-            replace(R.id.fragment_container_view, LoginFragment.newInstance())
             addToBackStack(null)
         }
     }
